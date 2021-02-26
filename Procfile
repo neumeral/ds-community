@@ -1,0 +1,1 @@
+web: gunicorn dshunt.wsgi:application --log-file - --log-level debug

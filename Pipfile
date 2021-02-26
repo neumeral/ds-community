@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 django = "*"
 django-allauth = "*"
+gunicorn = "==20.0.4"
+whitenoise = "==5.2.0"
+psycopg2-binary = "*"
+dj-database-url = "==0.5.0"
 
 [dev-packages]
 
