@@ -4,6 +4,9 @@ from django.contrib.auth import get_user_model
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -14,3 +17,6 @@ class Post(models.Model):
     link = models.URLField()
     date_published = models.DateTimeField(auto_now=True)
     submitted_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{}-{}".format(self.post_type, self.title)
