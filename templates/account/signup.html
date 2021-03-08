@@ -1,7 +1,16 @@
-<h2>hello</h2>
+{% extends '_base.html' %}
+
+
+{% block main %}
+
+<h2 class="display-1">Signup</h2>
 
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit">Sign Up</button>
+    <button class="btn btn-outline-primary" type="submit">Sign Up</button>
 </form>
+<br>
+<a class="text-white" href="{% url 'account_login' %}">Are you already a member? Login here</a>
+
+{% endblock main %}
