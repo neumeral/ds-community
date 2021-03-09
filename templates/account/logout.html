@@ -1,6 +1,14 @@
+{% extends '_base.html' %}
+
+{% block main %}
+
+<div class="my-5">
 Are you sure want to logout?
 
 <form method="POST" action="{% url 'account_logout' %}">
     {% csrf_token %}
-    <button type="submit">Logout</button>
+    <button class="btn btn-danger w-50" type="submit">Logout</button>
 </form>
+</div>
+
+{% endblock %}

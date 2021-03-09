@@ -1,16 +1,19 @@
 {% extends '_base.html' %}
-
+{% load socialaccount%}
 
 {% block main %}
 
 <h2 class="display-1">Signup</h2>
-
+<div class="my-5">
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
-    <button class="btn btn-outline-primary" type="submit">Sign Up</button>
+    <button class="btn btn-outline-primary w-25" type="submit">Sign Up</button><br>
+    <a class="text-light" href="{% url 'account_login' %}">Are you already a member? Login here</a>
 </form>
-<br>
-<a class="text-white" href="{% url 'account_login' %}">Are you already a member? Login here</a>
+<a class="btn btn-light mt-4 w-50" href="{% provider_login_url 'google' %}">
+    <i class="fab fa-google text-success"></i>Signup with google
+</a>
+</div>
 
 {% endblock main %}
