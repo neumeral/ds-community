@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
+    'crispy_forms',
+
     # user
     'accounts.apps.AccountsConfig',
     'listing.apps.ListingConfig',
@@ -158,3 +160,5 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
