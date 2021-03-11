@@ -1,0 +1,24 @@
+[
+    {
+        "model":"listing.Category",
+        "pk":1,
+        "fields":{
+            "name":"cience"
+        }
+    },
+    {
+        "model":"listing.Category",
+        "pk":2,
+        "fields":{
+            "name":"pytho"
+        }
+    },
+    {
+        "model":"listing.Category",
+        "pk":3,
+        "fields":{
+            "name":"pytho"
+        }
+    }
+    
+]
