@@ -4,7 +4,7 @@ Find videos, tutorials related to DataScience.
 
 ### Setup
 
-Run the following:
+Run the following commands:
 
 ```
 pipenv shell
