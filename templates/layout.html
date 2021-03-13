@@ -212,14 +212,32 @@
                         <div class="col-lg-8 grid-margin">
                             <div class="row">
                                 <div class="col-lg-12">
+
+                                    {% for i,j in post.items %}
                                     <div class='post-date mx-1 mt-2 mb-3'>
-                                        <span class='text-uppercase text-muted'>TODAY - 12 FEB, 2021</span>
+                                        <span class='text-uppercase text-muted'>{{i}}</span>
                                     </div>
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p>No posts found.</p>
-                                        </div>
-                                    </div>
+                                            {% if j %}
+                                                {% for k in j %}
+                                                    <div class="card mb-1">
+                                                        <div class="card-body">
+                                                            <h3>{{k.post_type}}</h3>
+                                                            <p>{{k.description}}</p>
+                                                            <div class="badge badge-warning">Category : {{k.category}}</div>
+                                                            <p class="text-muted">author: {{k.submitted_user}}</p>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p>Not found</p>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <hr>                               
+                                    {% endfor%}
+
                                 </div>
                             </div>
                         </div>

@@ -15,8 +15,8 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     link = models.URLField()
-    date_published = models.DateTimeField(auto_now=True)
+    date_published = models.DateField(auto_now=True)
     submitted_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{}-{}".format(self.post_type, self.title)
+        return "{}".format(self.title)
