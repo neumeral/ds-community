@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+
+{% block main %}
+
+<div class="container my-lg-5 col-8 text-center bg-bluebell py-5">
+    <div class="py-5 text-light">
+        <p>Are you sure want to logout?</p>
+        <form method="POST" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-danger w-25 btn-lg" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

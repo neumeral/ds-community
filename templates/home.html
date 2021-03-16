@@ -1,0 +1,12 @@
+<h1>Home</h1>
+
+{% load socialaccount %}
+
+{% if user.is_authenticated %}
+<h2>Hi {{user.email}}</h2>
+<a href="{% url 'account_logout' %}">Logout</a>
+{% else %}
+<a href="{% url 'account_login' %}">Login</a>
+<a href="{% provider_login_url 'google' %}">google</a>
+<a href="{% url 'account_signup' %}">signup</a>
+{% endif %}

@@ -1,0 +1,301 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>DataScience Hunt | The pulse of the DataScience Community</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/materialdesignicons.css">
+    <link rel="stylesheet" href="assets/css/vendor_002.css">
+    <link rel="stylesheet" href="assets/css/vendor.css">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <style type="text/css">
+    /* Chart.js */
+    @-webkit-keyframes chartjs-render-animation {
+        from {
+            opacity: 0.99
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes chartjs-render-animation {
+        from {
+            opacity: 0.99
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    .chartjs-render-monitor {
+        -webkit-animation: chartjs-render-animation 0.001s;
+        animation: chartjs-render-animation 0.001s;
+    }
+    </style>
+    <style type="text/css">
+    span.im-caret {
+        -webkit-animation: 1s blink step-end infinite;
+        animation: 1s blink step-end infinite;
+    }
+
+    @keyframes blink {
+
+        from,
+        to {
+            border-right-color: black;
+        }
+
+        50% {
+            border-right-color: transparent;
+        }
+    }
+
+    @-webkit-keyframes blink {
+
+        from,
+        to {
+            border-right-color: black;
+        }
+
+        50% {
+            border-right-color: transparent;
+        }
+    }
+
+    span.im-static {
+        color: grey;
+    }
+
+    div.im-colormask {
+        display: inline-block;
+        border-style: inset;
+        border-width: 2px;
+        -webkit-appearance: textfield;
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
+    div.im-colormask>input {
+        position: absolute;
+        display: inline-block;
+        background-color: transparent;
+        color: transparent;
+        -webkit-appearance: caret;
+        -moz-appearance: caret;
+        appearance: caret;
+        border-style: none;
+        left: 0;
+        /*calculated*/
+    }
+
+    div.im-colormask>input:focus {
+        outline: none;
+    }
+
+    div.im-colormask>input::-moz-selection {
+        background: none;
+    }
+
+    div.im-colormask>input::selection {
+        background: none;
+    }
+
+    div.im-colormask>input::-moz-selection {
+        background: none;
+    }
+
+    div.im-colormask>div {
+        color: black;
+        display: inline-block;
+        width: 100px;
+        /*calculated*/
+    }
+    </style>
+    <style type="text/css">
+    .jqstooltip {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        visibility: hidden;
+        background: rgb(0, 0, 0) transparent;
+        background-color: rgba(0, 0, 0, 0.6);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+        color: white;
+        font: 10px arial, san serif;
+        text-align: left;
+        white-space: nowrap;
+        padding: 5px;
+        border: 1px solid white;
+        box-sizing: content-box;
+        z-index: 10000;
+    }
+
+    .jqsfield {
+        color: white;
+        font: 10px arial, san serif;
+        text-align: left;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container-scroller">
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="#">DataScience Hunt</a></div>
+            <div class="navbar-menu-wrapper d-flex align-items-left">
+                <ul class="navbar-nav navbar-nav-left header-links d-none d-md-none d-lg-flex">
+                    <li class="nav-item">
+                        <a href='#' class='nav-link text-lg'>Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href='#' class='nav-link'>Collections</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href='#' class='nav-link'>Staff Picks</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href='#' class='nav-link'>About</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav navbar-nav-right header-links">
+                    <li class="nav-item">
+                        <a href='#' class='nav-link btn btn-info'><i class='far fa-paper-plane'></i> Submit</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class='fas fa-user-check text-warning' style="font-size: 20px;"></i>{{user}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href='{% url "account_logout" %}' class='nav-link'>Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href='{% url "account_login" %}' class='nav-link'>Login / Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-right" type="button" data-toggle="offcanvas"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </nav>
+        <div class="container-fluid page-body-wrapper">
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+
+                    <li class="nav-item"><a class="nav-link" href="#/news"><i class="menu-icon fas fa-bullhorn text-warning"></i><span class="menu-title">Today</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#/topics/affiliates"><i class="menu-icon text-pinterest fas fa-video"></i><span class="menu-title">Videos</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#/topics/affiliates"><i class="menu-icon text-twitter fas fa-book"></i><span class="menu-title">Books</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#/topics/affiliates"><i class="menu-icon text-success fas fa-file"></i><span class="menu-title">Tutorials</span></a></li>
+                </ul>
+                <hr>
+                <div class="today mt-3">
+                    <p>Wed Feb 24 2021</p>
+                    <p><b>Quote of the Day</b></p>
+                    <p>Lighten up, just enjoy life, smile more, laugh more, and don't get so worked up about things.<br><small>Kenneth Branagh</small></p>
+                </div>
+            </nav>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row content-padding">
+                        <div class="col-lg-8 grid-margin">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- <div class='post-date mx-1 mt-2 mb-3'>
+                                        <span class='text-uppercase text-muted'>TODAY - 12 FEB, 2021</span>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p>No posts found.</p>
+                                        </div>
+                                    </div> -->
+                                    {% block main %}
+                                    {% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 grid-margin">
+                            <div class="section">
+                                <div class="p-3 bg-secondary rounded-top">
+                                    <h4 class="mb-0 text-github"><b>Subscribe to DataScience Hunt</b></h4>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="wrapper"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section mt-3">
+                                <div class="p-3 bg-secondary rounded-top">
+                                    <h4 class="mb-0 text-github"><b>Trending Topics</b></h4>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="wrapper">
+                                            <div>
+                                                <h3><a href="#"><span class="badge badge-primary badge-pill text-large">Affiliates</span></a></h3>
+                                            </div>
+                                            <div>
+                                                <h3><a href="#"><span class="badge badge-primary badge-pill text-large">Reseller Tips</span></a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section mt-3">
+                                <div class="p-3 bg-secondary rounded-top">
+                                    <h4 class="mb-0 text-github"><b>Have a question?</b></h4>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="wrapper">
+                                            <p>Found a bug or have a question regarding the content?</p>
+                                            <p>This site is maintained by me and you can reach me at <a href="#">awin@example.com</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section mt-3">
+                                <div class="p-3 bg-secondary rounded-top">
+                                    <h4 class="mb-0 text-github"><b>Follow Us</b></h4>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="wrapper"><a href="https://twitter.com/_flock_community"><i class="fab fa-twitter"></i>@_flock_community</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer">
+                    <div class="container-fluid clearfix"><span class="text-muted d-block text-center text-sm-left d-sm-inline-block">
+                            <copyright>© 2021 All rights reserved.</copyright>
+                        </span><span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Made with <i class="fas fa-heart text-danger"></i> by <a href="https://twitter.com/awinabi"> @NeumeralHQ</a></span></div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/vendor.js"></script>
+    <script src="assets/js/vendor_002.js"></script>
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/misc.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+
+    {% block content %}
+    {% endblock%}
+</body>
+
+</html>
