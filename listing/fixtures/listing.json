@@ -159,8 +159,7 @@
         "pk":2,
         "fields":{
             "email":"hello@h.com",
-            "username":"hello",
-            "password":"hello"
+            "username":"hello"
         }
     }
 ]
