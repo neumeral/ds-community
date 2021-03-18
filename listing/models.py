@@ -17,6 +17,7 @@ class Post(models.Model):
     link = models.URLField()
     date_published = models.DateField(auto_now=True)
     submitted_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{}".format(self.title)
+        return "{}-{}".format(self.title,self.approved)
