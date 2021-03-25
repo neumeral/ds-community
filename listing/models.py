@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -21,3 +21,6 @@ class Post(models.Model):
 
     def __str__(self):
         return "{}-{}".format(self.title,self.approved)
+
+    def get_absolure_url(self):
+        return reverse('post-create', args=[str(self.id)])

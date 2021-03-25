@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 from .models import Post,Category
 from accounts.models import AppUser
 from django.views.generic import CreateView
+from django.views import View
+from django.http import HttpResponse
+
+from listing.forms import CreatePostForm
 import datetime
 
 def postList(request):
@@ -23,23 +27,18 @@ def postList(request):
     return render(request, 'layout.html', {'post':di})
 
 
-def postSubmit(request,id):
-    if request.method == "POST":
-        user = AppUser.objects.get(id=id)
-        post_type = request.POST.get('post-type')
-        category = request.POST.get('category')
-        category = Category.objects.get(name=category)
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        link = request.POST.get('link')
+class PostCreateView(View):
+    form_class = CreatePostForm
+    template_name = 'listing/post_submit.html'
 
-        post = Post(
-            post_type=post_type, category=category, title=title, description=description, link=link,
-            submitted_user=user
-            )
-        post.save()
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        form = form.save(commit=False)
+        user = AppUser.objects.get(id=request.user.id)
+        form.submitted_user = user
+        form.save()
         return redirect(postList)
-    else:
-        category = Category.objects.all()
-        context = {'category' : category}
-        return render(request, 'listing/post_submit.html', context)
