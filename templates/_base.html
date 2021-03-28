@@ -171,20 +171,23 @@
 
                 </ul>
                 <ul class="navbar-nav navbar-nav-right header-links">
-                    <li class="nav-item">
-                        <a href='#' class='nav-link btn btn-info'><i class='far fa-paper-plane'></i> Submit</a>
-                    </li>
                     {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"><i class='fas fa-user-check text-warning' style="font-size: 20px;"></i>{{user}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href='{% url "account_logout" %}' class='nav-link'>Logout</a>
-                    </li>
+                        <li class="nav-item">
+                            <a href="{% url 'post-create' %}" class='nav-link btn btn-info'><i class='far fa-paper-plane'></i> Submit</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"><i class='fas fa-user-check text-warning' style="font-size: 20px;"></i>{{user}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='{% url "account_logout" %}' class='nav-link'>Logout</a>
+                        </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a href='{% url "account_login" %}' class='nav-link'>Login / Register</a>
-                    </li>
+                        <li class="nav-item">
+                            <a href='{% url "account_login" %}' class='nav-link btn btn-info'><i class='far fa-paper-plane'></i> Submit</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='{% url "account_login" %}' class='nav-link'>Login / Register</a>
+                        </li>
                     {% endif %}
                 </ul>
                 <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-right" type="button" data-toggle="offcanvas"><i class="fas fa-ellipsis-v"></i></button>
