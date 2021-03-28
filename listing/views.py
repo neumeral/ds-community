@@ -21,7 +21,11 @@ def postList(request):
     
     return render(request, 'layout.html', {'post':di})
 
+
+
+# CATEGORY
+
 def category(request):
     cat = Category.objects.all()
     context = {'category':cat}
-    return render(request, 'category.html', context)
+    return render(request, 'listing/category.html', context)

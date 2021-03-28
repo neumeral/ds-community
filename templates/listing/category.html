@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+
+{% block main %}
+
+<div class="row ml-3">
+    {% for i in category %}
+    <a href="#" class="col-md-5 my-2 mx-2 bg-primary text-light" style="min-height: 100px;">
+    <div>
+        <h2>{{i.name}}</h2>
+        <p>{{i.description}}</p>
+    </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}
