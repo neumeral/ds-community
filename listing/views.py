@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Post
+from .models import Post, Category
 import datetime
 
 def postList(request):
@@ -20,3 +20,8 @@ def postList(request):
     print(di)
     
     return render(request, 'layout.html', {'post':di})
+
+def category(request):
+    cat = Category.objects.all()
+    context = {'category':cat}
+    return render(request, 'category.html', context)
