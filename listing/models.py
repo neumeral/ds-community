@@ -24,3 +24,8 @@ class Post(models.Model):
 
     def get_absolure_url(self):
         return reverse('post-create', args=[str(self.id)])
+
+
+class PostVote(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    vote = models.IntegerField(default=0)

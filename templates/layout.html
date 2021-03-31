@@ -151,7 +151,7 @@
 <body>
     <div class="container-scroller">
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="#">DataScience Hunt</a></div>
+            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="{% url 'post-list' %}">DataScience Hunt</a></div>
             <div class="navbar-menu-wrapper d-flex align-items-left">
                 <ul class="navbar-nav navbar-nav-left header-links d-none d-md-none d-lg-flex">
                     <li class="nav-item">
@@ -228,6 +228,14 @@
                                                             <p>{{k.description}}</p>
                                                             <div class="badge badge-warning">Category : {{k.category}}</div>
                                                             <p class="text-muted">author: {{k.submitted_user}}</p>
+                                                            <button btn btn-light><a class="vote text-dark text-github" href="{% url 'postvote' k.id %}">vote
+                                                                <div class="">
+                                                                {% for v in postvote %}
+                                                                {% if k == v.post %}
+                                                                <p>{{v.vote}}</p>
+                                                                {% endif %}
+                                                                {% endfor %}</div></a>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 {% endfor %}

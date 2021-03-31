@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Post,Category
+from .models import Post,Category, PostVote
 from accounts.models import AppUser
 from django.views.generic import CreateView
 from django.views import View
@@ -11,6 +11,7 @@ import datetime
 def postList(request):
     di = {}
     d = datetime.date.today()
+    postvote = PostVote.objects.all()
     post = Post.objects.all()
     di[f"Today - {datetime.date.today()}"] = Post.objects.filter(date_published=d, approved=True)
     di[f"Yesterday - {d-datetime.timedelta(days=1)}"] = Post.objects.filter(date_published=d-datetime.timedelta(days=1), approved=True)
@@ -24,7 +25,8 @@ def postList(request):
     # di[d-datetime.timedelta(days=5)] = Post.objects.filter(date_published=d-datetime.timedelta(days=5))
     # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
     
-    return render(request, 'layout.html', {'post':di})
+    context = {'post':di, 'postvote':postvote}
+    return render(request, 'layout.html', context)
 
 
 class PostCreateView(View):
@@ -42,3 +44,19 @@ class PostCreateView(View):
         form.submitted_user = user
         form.save()
         return redirect(postList)
+
+
+def postVote(request,id):
+    post = Post.objects.get(id=id)
+    postvote = PostVote.objects.filter(post=post)
+    if postvote.exists():
+        for i in postvote:
+            i.vote = i.vote + 1
+            i.save()
+    else:
+        print("hii",postvote)
+        postvote = PostVote(
+            post=post, vote=1
+        )
+        postvote.save()
+    return redirect(postList)
