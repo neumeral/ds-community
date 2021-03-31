@@ -1,12 +1,13 @@
+
+import datetime
 from django.shortcuts import render,redirect
-from .models import Post,Category
-from accounts.models import AppUser
 from django.views.generic import CreateView
 from django.views import View
 from django.http import HttpResponse
 
 from listing.forms import CreatePostForm
-import datetime
+from accounts.models import AppUser
+from .models import Post,Category
 
 def postList(request):
     di = {}
@@ -42,3 +43,10 @@ class PostCreateView(View):
         form.submitted_user = user
         form.save()
         return redirect(postList)
+
+# CATEGORY
+def category(request):
+    cat = Category.objects.all()
+    context = {'category':cat}
+    return render(request, 'listing/category.html', context)
+
