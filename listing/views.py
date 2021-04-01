@@ -46,6 +46,8 @@ class PostCreateView(View):
         return redirect(postList)
 
 
+# Voting to Post
+
 def postVote(request,id):
     post = Post.objects.get(id=id)
     postvote = PostVote.objects.filter(post=post)
