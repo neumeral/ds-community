@@ -7,5 +7,5 @@ urlpatterns = [
     path('post/', views.PostCreateView.as_view(), name='post-create'),
 
     #vote
-    path('postvote/<id>', views.postVote, name="postvote")
+    path('postvote/<id>', views.postVote, name="postvote"),
 ]

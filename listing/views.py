@@ -62,3 +62,14 @@ def postVote(request,id):
         )
         postvote.save()
     return redirect(postList)
+
+
+    # LIST OF POST IN ONE CATEGORY
+
+def categoryList(request, id):
+    cat = Category.objects.get(id=1)
+    post = Post.objects.filter(category=cat)
+    print(post)
+    postvote = PostVote.objects.filter(post__exact=post)
+    print(postvote) 
+        

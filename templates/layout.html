@@ -161,9 +161,8 @@
         background-color: rgb(209, 217, 226, 0.6);
         cursor: cell;
     }
-    .vote span{
-        font-size: 13px;
-        font-family: cursive;
+    .vote i{
+        font-size: 30px;
     }
     </style>
 </head>
@@ -254,21 +253,24 @@
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     {% if user.is_authenticated %}
-                                                                    <a class="text-dark votea" href="{% url 'postvote' k.id %}"><button class="vote float-right p-3">
-                                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
+                                                                        <a class="text-dark votea" href="{% url 'postvote' k.id %}"><button class="vote float-right p-3 mt-4">
+                                                                            
                                                                             <div class="">
                                                                             {% for v in postvote %}
                                                                             {% if k == v.post %}
-                                                                            {{v.vote}}
+                                                                            {{v.vote}}<br>
+                                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
                                                                             {% endif %}
                                                                             {% endfor %}</div>
                                                                         </button></a>
                                                                     {% else %}
-                                                                    <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3">
+                                                                        <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
+                                                                            
                                                                             <div class="">
                                                                             {% for v in postvote %}
                                                                             {% if k == v.post %}
-                                                                            <p>{{v.vote}}</p>
+                                                                            {{v.vote}}<br>
+                                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
                                                                             {% endif %}
                                                                             {% endfor %}</div>
                                                                         </button></a>
