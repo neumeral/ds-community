@@ -62,4 +62,3 @@ def postVote(request,id):
         )
         postvote.save()
     return redirect(postList)
-
