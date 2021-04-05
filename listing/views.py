@@ -45,7 +45,7 @@ class PostCreateView(View):
             form.submitted_user = user
             form.save()
         else:
-            return HttpResponse("Something Typed Wrong")
+            return render(request, self.template_name, {'form': form})
         return redirect(postList)
 
 
