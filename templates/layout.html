@@ -246,8 +246,9 @@
 
                                                             <div class="row">
                                                                 <div class="col-md-8">
-                                                                    <h3>{{k.post_type}}</h3>
+                                                                    <h3>{{k.title}}</h3>
                                                                     <p>{{k.description}}</p>
+                                                                    <span class="text-muted">{{k.post_type}}</span><br>
                                                                     <div class="badge badge-warning">Category : {{k.category}}</div>
                                                                     <p class="text-muted">author: {{k.submitted_user}}</p>
                                                                 </div>
@@ -259,7 +260,7 @@
                                                                             {% for v in postvote %}
                                                                             {% if k == v.post %}
                                                                             {{v.vote}}<br>
-                                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
+                                                                            <i class="fas fa-hand-point-up text-bluebell mt-1"></i>
                                                                             {% endif %}
                                                                             {% endfor %}</div>
                                                                         </button></a>

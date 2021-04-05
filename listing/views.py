@@ -39,26 +39,30 @@ class PostCreateView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        form = form.save(commit=False)
-        user = AppUser.objects.get(id=request.user.id)
-        form.submitted_user = user
-        form.save()
+        if form.is_valid():
+            form = form.save(commit=False)
+            user = AppUser.objects.get(id=request.user.id)
+            form.submitted_user = user
+            form.save()
+        else:
+            return HttpResponse("Something Typed Wrong")
         return redirect(postList)
 
 
 # Voting to Post
 
-def postVote(request,id):
-    post = Post.objects.get(id=id)
-    postvote = PostVote.objects.filter(post=post)
-    if postvote.exists():
-        for i in postvote:
-            i.vote = i.vote + 1
-            i.save()
-    else:
-        print("hii",postvote)
-        postvote = PostVote(
-            post=post, vote=1
-        )
-        postvote.save()
-    return redirect(postList)
+class Vote(View):
+
+    def get(self, request, id):
+        post = Post.objects.get(id=id)
+        postvote = PostVote.objects.filter(post=post)
+        if postvote.exists():
+            for i in postvote:
+                i.vote = i.vote + 1
+                i.save()
+        else:
+            postvote = PostVote(
+                post=post, vote=1
+            )
+            postvote.save()
+        return redirect(postList)
