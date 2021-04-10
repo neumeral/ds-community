@@ -13,11 +13,11 @@ def postList(request):
     d = datetime.date.today()
     postvote = PostVote.objects.all()
     post = Post.objects.all()
-    di[f"Today - {datetime.date.today()}"] = Post.objects.filter(date_published=d, approved=True)
-    di[f"Yesterday - {d-datetime.timedelta(days=1)}"] = Post.objects.filter(date_published=d-datetime.timedelta(days=1), approved=True)
 
-    for i in range(2,7):
-        di[d-datetime.timedelta(days=i)] = Post.objects.filter(date_published=d-datetime.timedelta(days=i),approved=True)
+    for i in range(7):
+        idate = d-datetime.timedelta(days=i)
+        post = PostVote.objects.filter(post__date_published = idate, post__approved=True).order_by('-vote')[:5]
+        di[idate] = [(x.post, x.vote) for x in post]
     
     # di[d-datetime.timedelta(days=2)] = Post.objects.filter(date_published=d-datetime.timedelta(days=2))
     # di[d-datetime.timedelta(days=3)] = Post.objects.filter(date_published=d-datetime.timedelta(days=3))
@@ -25,7 +25,7 @@ def postList(request):
     # di[d-datetime.timedelta(days=5)] = Post.objects.filter(date_published=d-datetime.timedelta(days=5))
     # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
     
-    context = {'post':di, 'postvote':postvote}
+    context = {'post':di, 'd':d-datetime.timedelta(days=1)}
     return render(request, 'layout.html', context)
 
 
@@ -41,9 +41,12 @@ class PostCreateView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form = form.save(commit=False)
-            user = AppUser.objects.get(id=request.user.id)
-            form.submitted_user = user
+            form.submitted_user = request.user
             form.save()
+
+            # save to PostVote
+            p = PostVote(post = form)
+            p.save()
         else:
             return render(request, self.template_name, {'form': form})
         return redirect(postList)
@@ -53,7 +56,7 @@ class PostCreateView(View):
 
 class Vote(View):
 
-    def get(self, request, id):
+    def post(self, request, id):
         post = Post.objects.get(id=id)
         postvote = PostVote.objects.filter(post=post)
         if postvote.exists():

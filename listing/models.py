@@ -29,3 +29,6 @@ class Post(models.Model):
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     vote = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.post
