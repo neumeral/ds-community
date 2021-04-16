@@ -145,13 +145,32 @@
         font: 10px arial, san serif;
         text-align: left;
     }
+    .fa-hand-point-up{
+        font-size: 20px;
+    }
+    .vote{
+        background-color: rgb(209, 217, 226);
+        width: 80px;
+        border-radius: 5px;
+        border: none;
+    }
+    .votea{
+        text-decoration: none;
+    }
+    .votea:hover .vote{
+        background-color: rgb(209, 217, 226, 0.6);
+        cursor: cell;
+    }
+    .vote i{
+        font-size: 30px;
+    }
     </style>
 </head>
 
 <body>
     <div class="container-scroller">
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="#">DataScience Hunt</a></div>
+            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="{% url 'post-list' %}">DataScience Hunt</a></div>
             <div class="navbar-menu-wrapper d-flex align-items-left">
                 <ul class="navbar-nav navbar-nav-left header-links d-none d-md-none d-lg-flex">
                     <li class="nav-item">
@@ -218,16 +237,51 @@
 
                                     {% for i,j in post.items %}
                                     <div class='post-date mx-1 mt-2 mb-3'>
-                                        <span class='text-uppercase text-muted'>{{i}}</span>
+                                        {% now "Y m d" as n %}
+                                        {% if n == i|date:"Y m d" %}
+                                            <span class='text-uppercase text-muted'>Today</span>
+                                        {% elif i == d %}
+                                            <span class='text-uppercase text-muted'>Yesterday</span>
+                                        {% else %}
+                                            <span class='text-uppercase text-muted'>{{i}}</span>
+                                       {% endif %}
                                     </div>
                                             {% if j %}
-                                                {% for k in j %}
+                                                {% for x,y in j %}
                                                     <div class="card mb-1">
                                                         <div class="card-body">
-                                                            <h3>{{k.post_type}}</h3>
-                                                            <p>{{k.description}}</p>
-                                                            <div class="badge badge-warning">Category : {{k.category}}</div>
-                                                            <p class="text-muted">author: {{k.submitted_user}}</p>
+
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <h3>{{x.title}}</h3>
+                                                                    <p>{{x.description}}</p>
+                                                                    <span class="text-muted">{{x.post_type}}</span><br>
+                                                                    <div class="badge badge-warning">Category : {{x.category}}</div>
+                                                                    <p class="text-muted">author: {{x.submitted_user}}</p>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    {% if user.is_authenticated %}
+
+                                                                        <form class="text-dark votea" action="" id="addvote{{x.id}}" method="POST">
+                                                                            {%  csrf_token %}
+                                                                            <button type="submit" class="vote float-right p-3 mt-4" onclick="addvote({{x.id}},'{{x.title}}')">
+                                                                                <div class="">
+                                                                                {{y}}<br>
+                                                                                <i class="fas fa-hand-point-up text-bluebell mt-1"></i>
+                                                                                </div>
+                                                                            </button>
+                                                                        </form>
+                                                                    {% else %}
+
+                                                                        <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
+                                                                            <div class="">
+                                                                            {{y}}<br>
+                                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
+                                                                            </div>
+                                                                        </button></a>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 {% endfor %}
@@ -311,6 +365,13 @@
     <script src="assets/js/off-canvas.js"></script>
     <script src="assets/js/misc.js"></script>
     <script src="assets/js/dashboard.js"></script>
+
+    <script>
+        function addvote(id, title){
+            alert("You voted to the post "+title +"!")
+            id = document.getElementById("addvote"+id).action="post/"+id+"/vote"
+        }
+    </script>
 
     {% block content %}
     {% endblock%}
