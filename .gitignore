@@ -150,12 +150,10 @@ dmypy.json
 .pytype/
 
 # operating system-related files
-*.DS_Store #file properties cache/storage on macOS
-Thumbs.db #thumbnail cache on Windows
+.DS_Store
+Thumbs.db
 
 # profiling data
 .prof
 
 .vim/
-
-# End of https://www.toptal.com/developers/gitignore/api/django
