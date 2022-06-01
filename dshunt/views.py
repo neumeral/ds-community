@@ -1,14 +1,13 @@
 import datetime
-from django.shortcuts import render,redirect
-from django.views.generic import CreateView
-from django.views import View
 from django.http import HttpResponse
+from django.shortcuts import render,redirect
+from django.views import View
+from django.views.generic import CreateView
 
-from listing.forms import CreatePostForm
-from accounts.models import AppUser
-from .models import Post, Category, PostVote
+from .forms import CreatePostForm
+from .models import AppUser, Post, Category, PostVote
 
-def postList(request):
+def post_list(request):
     di = {}
     d = datetime.date.today()
     postvote = PostVote.objects.all()
@@ -26,12 +25,12 @@ def postList(request):
     # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
     
     context = {'post':di, 'd':d-datetime.timedelta(days=1)}
-    return render(request, 'layout.html', context)
+    return render(request, 'posts.html', context)
 
 
 class PostCreateView(View):
     form_class = CreatePostForm
-    template_name = 'listing/post_submit.html'
+    template_name = 'dshunt/post_submit.html'
 
     def get(self, request):
         form = self.form_class()
@@ -53,7 +52,6 @@ class PostCreateView(View):
 
 
 # Voting to Post
-
 class Vote(View):
 
     def post(self, request, id):
@@ -74,5 +72,5 @@ class Vote(View):
 def category(request):
     cat = Category.objects.all()
     context = {'category':cat}
-    return render(request, 'listing/category.html', context)
+    return render(request, 'dshunt/category.html', context)
 

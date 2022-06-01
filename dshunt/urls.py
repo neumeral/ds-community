@@ -16,13 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-# from accounts import views
-from listing import views
+
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home', views.postList, name='home'),
+    path('home', views.post_list, name='home'),
+
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
-    path('', include("listing.urls"))
+
+
+    path('', views.post_list, name="post-list"),
+    path('post/', views.PostCreateView.as_view(), name='post-create'),
+
+    # category
+    path('category/', views.category, name='category'),
+
+    # vote
+    path('post/<int:id>/vote', views.Vote.as_view(), name="postvote"),
 ]

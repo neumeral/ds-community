@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Best of Data Science | The pulse of the Data Science Community</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
+
+<body>
+    
+<header class="navbar navbar-light sticky-top bg-white border-bottom flex-md-nowrap py-2 px-3">
+
+  <a class="navbar-brand ms-5 ms-md-0 col-md-3 col-lg-2 me-0 fs-6" href="#">
+      <img src="{% static 'assets/images/logo_b.png' %}" height='38px' style='height: 38px;'/>
+  </a>
+
+  <button class="navbar-toggler position-absolute border-0 d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <ul class="topnav nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li><a href="#" class="nav-link px-3 link-secondary">
+        <i class="tw-text-gray-500 fa-solid fa-layer-group me-2"></i> Categories</a></li>
+    <li><a href="#" class="nav-link px-3 link-dark">
+        <i class="tw-text-gray-500 fa-solid fa-shapes me-2"></i> Collections
+    </a></li>
+    <li><a href="#" class="nav-link px-3 link-dark">
+        <i class="tw-text-gray-500 fa-solid fa-star me-2"></i> Staff Picks
+    </a></li>
+    <li><a href="#" class="nav-link px-3 link-dark"><i class="tw-text-gray-500 fa-solid fa-carrot me-2"></i> About</a></li>
+  </ul>
+
+  <div class="col-md-3 text-end">
+    <a class='btn btn-outline-secondary text-decoration-none' href='#'>Submit a link <i class='ms-2 fa-solid fa-arrow-right'></i></a>
+    <button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button>
+  </div>
+</header>
+
+<div class="container-fluid tw-bg-gray-100">
+  <div class="row">
+
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">
+              <i class="tw-text-yellow-500 fa-solid fa-calendar-day"></i>
+              <span class='ms-2'>Today</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="tw-text-green-500 fa-solid fa-video"></i>
+              <span class='ms-2'>Videos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="tw-text-blue-500 fa-solid fa-book-open"></i>
+              <span class='ms-2'>Books</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="tw-text-orange-500 fa-solid fa-file-signature"></i>
+              <span class='ms-2'>Tutorials</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="tw-text-pink-500 fa-solid fa-podcast"></i>
+              <span class='ms-2'>Podcasts</span>
+            </a>
+          </li>
+        </ul>
+        <div class='tw-bg-gray-200 mt-3'>
+            <div class='pt-3 mb-2 px-3'>
+                <span class='h6 fw-semibold'>Thinking Data</span>
+            </div>
+            <div class='px-3 pb-3 fw-italic small'>
+                If you travel at the speed of light, you can travel to the Sun and back 173 times from earth!
+            </div>
+        </div>
+
+        <div class='tw-bg-blue-100 mt-3'>
+            <div class='pt-3 mb-2 px-3'>
+                <span class='h6 fw-semibold'>Popular Tags</span>
+            </div>
+            <div class='px-3 pb-3'>
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span class='ms-0'>#terradata</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span class='ms-0'>#h2o</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span class='ms-0'>#pandas</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span class='ms-0'>#roadmaps</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span class='ms-0'>#js4ds</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span class='ms-0'>#pyspark</span>
+                    </a>
+                  </li>
+                </ul>
+            </div>
+        </div>
+
+      </div>
+    </nav>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
+        {% block main %}
+
+        {% endblock %}
+    </main>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -8,150 +8,21 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>DataScience Hunt | The pulse of the DataScience Community</title>
+    <title>Best of Data Science | The pulse of the Data Science Community</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/materialdesignicons.css">
-    <link rel="stylesheet" href="assets/css/vendor_002.css">
-    <link rel="stylesheet" href="assets/css/vendor.css">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <style type="text/css">
-    /* Chart.js */
-    @-webkit-keyframes chartjs-render-animation {
-        from {
-            opacity: 0.99
-        }
-
-        to {
-            opacity: 1
-        }
-    }
-
-    @keyframes chartjs-render-animation {
-        from {
-            opacity: 0.99
-        }
-
-        to {
-            opacity: 1
-        }
-    }
-
-    .chartjs-render-monitor {
-        -webkit-animation: chartjs-render-animation 0.001s;
-        animation: chartjs-render-animation 0.001s;
-    }
-    </style>
-    <style type="text/css">
-    span.im-caret {
-        -webkit-animation: 1s blink step-end infinite;
-        animation: 1s blink step-end infinite;
-    }
-
-    @keyframes blink {
-
-        from,
-        to {
-            border-right-color: black;
-        }
-
-        50% {
-            border-right-color: transparent;
-        }
-    }
-
-    @-webkit-keyframes blink {
-
-        from,
-        to {
-            border-right-color: black;
-        }
-
-        50% {
-            border-right-color: transparent;
-        }
-    }
-
-    span.im-static {
-        color: grey;
-    }
-
-    div.im-colormask {
-        display: inline-block;
-        border-style: inset;
-        border-width: 2px;
-        -webkit-appearance: textfield;
-        -moz-appearance: textfield;
-        appearance: textfield;
-    }
-
-    div.im-colormask>input {
-        position: absolute;
-        display: inline-block;
-        background-color: transparent;
-        color: transparent;
-        -webkit-appearance: caret;
-        -moz-appearance: caret;
-        appearance: caret;
-        border-style: none;
-        left: 0;
-        /*calculated*/
-    }
-
-    div.im-colormask>input:focus {
-        outline: none;
-    }
-
-    div.im-colormask>input::-moz-selection {
-        background: none;
-    }
-
-    div.im-colormask>input::selection {
-        background: none;
-    }
-
-    div.im-colormask>input::-moz-selection {
-        background: none;
-    }
-
-    div.im-colormask>div {
-        color: black;
-        display: inline-block;
-        width: 100px;
-        /*calculated*/
-    }
-    </style>
-    <style type="text/css">
-    .jqstooltip {
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        visibility: hidden;
-        background: rgb(0, 0, 0) transparent;
-        background-color: rgba(0, 0, 0, 0.6);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
-        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
-        color: white;
-        font: 10px arial, san serif;
-        text-align: left;
-        white-space: nowrap;
-        padding: 5px;
-        border: 1px solid white;
-        box-sizing: content-box;
-        z-index: 10000;
-    }
-
-    .jqsfield {
-        color: white;
-        font: 10px arial, san serif;
-        text-align: left;
-    }
-    </style>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
 </head>
 
 <body>
     <div class="container-scroller">
-        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="#">DataScience Hunt</a></div>
+        <nav class="navbar bg-dark default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center bg-bluebell navbar-brand-wrapper d-flex align-items-top justify-content-left"><a class="navbar-brand brand-logo" href="#">
+                <img src="{% static 'assets/images/logo_w.png' %}" />
+            </a></div>
             <div class="navbar-menu-wrapper d-flex align-items-left">
                 <ul class="navbar-nav navbar-nav-left header-links d-none d-md-none d-lg-flex">
                     <li class="nav-item">
@@ -173,7 +44,7 @@
                 <ul class="navbar-nav navbar-nav-right header-links">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a href="{% url 'post-create' %}" class='nav-link btn btn-info'><i class='far fa-paper-plane'></i> Submit</a>
+                            <a href="{% url 'post-create' %}" class='nav-link border-bottom'><i class='far fa-paper-plane'></i> Submit</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link"><i class='fas fa-user-check text-warning' style="font-size: 20px;"></i>{{user}}</a>
@@ -183,10 +54,10 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a href='{% url "account_login" %}' class='nav-link btn btn-info'><i class='far fa-paper-plane'></i> Submit</a>
+                            <a href='{% url "account_login" %}' class='nav-link '><i class='far fa-paper-plane'></i> Submit</a>
                         </li>
                         <li class="nav-item">
-                            <a href='{% url "account_login" %}' class='nav-link'>Login / Register</a>
+                            <a href='{% url "account_login" %}' class='nav-link'>Login</a>
                         </li>
                     {% endif %}
                 </ul>
