@@ -110,3 +110,26 @@ class Collections(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# Proxy Models
+
+class Book(Post):
+    class Meta:
+        proxy = True
+
+
+class Video(Post):
+    class Meta:
+        proxy = True
+
+
+class Tutorial(Post):
+    class Meta:
+        proxy = True
+
+
+class PodcastEpisode(Post):
+    class Meta:
+        proxy = True
+
