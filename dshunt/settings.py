@@ -95,9 +95,17 @@ WSGI_APPLICATION = 'dshunt.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bin',
+        'USER': 'postgres',
+        'PASSWORD': 'bibin1998',
+        'HOST': 'localhost',
+        'POST': '5432'
     }
 }
 
