@@ -1,18 +1,58 @@
-{% extends '_base.html' %}
+{% extends 'base2.html' %}
 {% load crispy_forms_tags %}
 
 {% block main %}
 
-<div class="container col-md-7 my-3">
+<div class="container col-sm-7 my-3">
     <h2 class="text-center mb-3">Submit your post</h2>
-
-    <form method="POST">
-        <!-- {% if msg %}<div class="alert alert-danger">{{msg}}</div>{% endif %} -->
+    <form method="post">
         {% csrf_token %}
-        {{form|crispy}}
-        <input class="btn btn-primary" type="submit", value="Submit Post">
+        {{ form }}
+        {% block submit %}
+            <input type="submit">
+        {% endblock %}
     </form>
-   
+
+<!--    <select class="form-select mb-3" onChange="get_post_type()" id="post_type">-->
+<!--        <option value="">-&#45;&#45;&#45;&#45; Select -&#45;&#45;&#45;&#45;</option>-->
+<!--        <option value="Book">Book</option>-->
+<!--        <option value="Video">Video</option>-->
+<!--        <option value="Tutorial">Tutorial</option>-->
+<!--        <option value="Podcast">Podcast Episode</option>-->
+<!--    </select>-->
+
+    {% block post_form %}
+    {% endblock post_form %}
+
 </div>
 
+<script>
+get_post_type();
+
+function get_post_type () {
+    const post_type = document.getElementById('post_type').value;
+        if (post_type == 'Book') {
+            document.getElementById('book_form').style.display = "block"
+            close_form('video_form', 'tutorial_form', 'podcast_form');
+        }
+        else if (post_type == 'Video') {
+            document.getElementById('video_form').style.display = "block";
+            close_form('book_form', 'tutorial_form', 'podcast_form');
+        }
+        else if (post_type == 'Tutorial') {
+            document.getElementById('tutorial_form').style.display = "block";
+            close_form('video_form', 'book_form', 'podcast_form');
+        }
+        else if (post_type == 'Podcast') {
+            document.getElementById('podcast_form').style.display = "block";
+            close_form('video_form', 'tutorial_form', 'book_form');
+        }
+    }
+
+function close_form(id1, id2, id3) {
+    document.getElementById(id1).style.display = 'none';
+    document.getElementById(id2).style.display = 'none';
+    document.getElementById(id3).style.display = 'none';
+}
+</script>
 {% endblock %}

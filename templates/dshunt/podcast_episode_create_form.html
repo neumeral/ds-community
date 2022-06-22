@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+
+<form method="post" action="{% url 'podcast-episode--create' %}">
+    {% csrf_token %}
+    {{ podcast_form | crispy }}
+    <button type="submit" class="btn btn-outline-primary">Create Podcast</button>
+</form>

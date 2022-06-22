@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
 
 from . import views
 
@@ -26,9 +25,13 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
 
-
     path('', views.post_list, name="post-list"),
-    path('post/', views.PostCreateView.as_view(), name='post-create'),
+    path('post/', views.PostSubmitPageView.as_view(), name='post-submit'),
+
+    path('books/new/', views.BookCreateView.as_view(), name='book-create'),
+    # path('videos/new/', views.video_create, name='video-create'),
+    # path('books/new/', views.BookCreateView.as_view(), name='tutorial-create'),
+    # path('books/new/', views.BookCreateView.as_view(), name='podcast-episode--create'),
 
     # category
     path('category/', views.category, name='category'),

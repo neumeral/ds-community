@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+
+<form method="post" action="{% url 'video-create' %}">
+    {% csrf_token %}
+    {{ video_form | crispy }}
+    <button type="submit" class="btn btn-outline-primary">Create Video</button>
+</form>

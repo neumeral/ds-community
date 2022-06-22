@@ -1,6 +1,5 @@
 {% load static %}
 
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -43,7 +42,7 @@
   </ul>
 
   <div class="col-md-3 text-end">
-    <a class='btn btn-outline-secondary text-decoration-none' href='#'>Submit a link <i class='ms-2 fa-solid fa-arrow-right'></i></a>
+    <a class='btn btn-outline-secondary text-decoration-none' href='{% url "post-submit" %}'>Submit a link <i class='ms-2 fa-solid fa-arrow-right'></i></a>
     <button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button>
   </div>
 </header>
