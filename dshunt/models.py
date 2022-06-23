@@ -76,9 +76,6 @@ class Post(models.Model):
     def __str__(self):
         return "{}-{}".format(self.title, self.approved)
 
-    def get_absolure_url(self):
-        return reverse('post-create', args=[str(self.id)])
-
 
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -98,7 +95,7 @@ class PostComment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Collections(models.Model):
+class Collection(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     posts = models.ManyToManyField(Post)
@@ -123,6 +120,9 @@ class Video(Post):
     class Meta:
         proxy = True
 
+    def get_absolute_url(self):
+        return reverse('post-submit')
+
 
 class Tutorial(Post):
     class Meta:
@@ -132,4 +132,7 @@ class Tutorial(Post):
 class PodcastEpisode(Post):
     class Meta:
         proxy = True
+
+    def get_absolute_url(self):
+        return reverse('post-submit')
 

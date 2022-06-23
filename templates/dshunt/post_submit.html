@@ -5,21 +5,12 @@
 
 <div class="container col-sm-7 my-3">
     <h2 class="text-center mb-3">Submit your post</h2>
-    <form method="post">
+    <form method="post" id="type_form">
         {% csrf_token %}
-        {{ form }}
-        {% block submit %}
-            <input type="submit">
-        {% endblock %}
-    </form>
+        {{ post_type_form }}
+        <button onclick="get_post_form()" class="btn btn-sm btn-outline-primary">Submit</button>
 
-<!--    <select class="form-select mb-3" onChange="get_post_type()" id="post_type">-->
-<!--        <option value="">-&#45;&#45;&#45;&#45; Select -&#45;&#45;&#45;&#45;</option>-->
-<!--        <option value="Book">Book</option>-->
-<!--        <option value="Video">Video</option>-->
-<!--        <option value="Tutorial">Tutorial</option>-->
-<!--        <option value="Podcast">Podcast Episode</option>-->
-<!--    </select>-->
+    </form>
 
     {% block post_form %}
     {% endblock post_form %}
@@ -28,6 +19,10 @@
 
 <script>
 get_post_type();
+
+function get_post_form(){
+    document.getElementById('type_form').action='{% url "post-submit" %}';
+}
 
 function get_post_type () {
     const post_type = document.getElementById('post_type').value;

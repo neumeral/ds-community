@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 from .forms import BookCreateForm, VideoCreateForm, TutorialCreateForm, PodcastEpisodeCreateForm, PostTypeForm
 from .models import AppUser, Post, Category, PostVote
@@ -40,16 +41,18 @@ class PostSubmitPageView(View):
     form = PostTypeForm
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'form': self.form})
+        return render(request, self.template_name, {'post_type_form': self.form})
 
     def post(self, request, *args, **kwargs):
         form = self.form(request.POST)
         if form.is_valid():
             post_type = form.cleaned_data.get('post_type')
+            print("Type ==== ", post_type)
             post_views = {'Book': 'book-create', 'Video': 'video-create', 'Tutorial': 'tutorial-create',
                           'Podcast': 'podcast-episode-create'}
+            print("Value === ", post_views.get(post_type))
             return redirect(post_views.get(post_type))
-        self.get(request)
+        self.get(request, *args, **kwargs)
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -64,9 +67,10 @@ class PostSubmitPageView(View):
 class BookCreateView(View):
     form_class = BookCreateForm
     template_name = 'dshunt/book_create_form.html'
+    post_type_form = PostTypeForm(initial={'post_type': 'Book'})
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'book_form': self.form_class()})
+        return render(request, self.template_name, {'post_type_form': self.post_type_form, 'form': self.form_class()})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -75,9 +79,57 @@ class BookCreateView(View):
             book.created_user = self.request.user
             book.post_type = 'Book'
             book.save()
-            return reverse_lazy('post-list')
+            return redirect('post-list')
         else:
-            return render(request, self.template_name, {'book_form': form})
+            return render(request, self.template_name, {'form': self.post_type_form, 'book_form': form})
+
+
+class VideoCreateView(CreateView):
+    form_class = VideoCreateForm
+    template_name = 'dshunt/video_create_form.html'
+    initial = {'post_type': 'Video'}
+    post_type = 'Video'
+    success_url = reverse_lazy('post-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['form'] = self.form_class
+        context['post_type_form'] = PostTypeForm(initial=self.initial)
+        return context
+
+    def form_valid(self, form):
+        form.instance.post_type = self.post_type
+        form.instance.created_user = self.request.user
+        return super().form_valid(form)
+
+
+@login_required()
+def tutotrial_create(request):
+    post_type_form = PostTypeForm(initial={'post_type': 'Tutorial'})
+    form = TutorialCreateForm()
+    context = {'post_type_form': post_type_form, 'form': form}
+
+    if request.method == 'POST':
+        form = TutorialCreateForm(request.POST)
+        if form.is_valid():
+            tutorial = form.instance
+            # tutorial = form.save(commit=False)
+            tutorial.post_type = 'Tutorial'
+            tutorial.created_user = request.user
+            tutorial.save()
+            return redirect('post-list')
+        else:
+            context['form'] = form
+            return render(request, 'dshunt/tutorial_create_from.html', context)
+    else:
+        return render(request, 'dshunt/tutorial_create_form.html', context)
+
+
+class PodcastEpisodeCreateView(VideoCreateView):
+    form_class = PodcastEpisodeCreateForm
+    template_name = 'dshunt/podcast_episode_create_form.html'
+    initial = {'post_type': 'Podcast'}
+    post_type = 'Podcast'
 
 
 # Voting to Post

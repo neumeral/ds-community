@@ -29,9 +29,9 @@ urlpatterns = [
     path('post/', views.PostSubmitPageView.as_view(), name='post-submit'),
 
     path('books/new/', views.BookCreateView.as_view(), name='book-create'),
-    # path('videos/new/', views.video_create, name='video-create'),
-    # path('books/new/', views.BookCreateView.as_view(), name='tutorial-create'),
-    # path('books/new/', views.BookCreateView.as_view(), name='podcast-episode--create'),
+    path('videos/new/', views.VideoCreateView.as_view(), name='video-create'),
+    path('tutorials/new/', views.tutotrial_create, name='tutorial-create'),
+    path('podcast-episode/new/', views.PodcastEpisodeCreateView.as_view(), name='podcast-episode-create'),
 
     # category
     path('category/', views.category, name='category'),
