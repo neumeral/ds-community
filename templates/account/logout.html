@@ -1,9 +1,9 @@
-{% extends '_base.html' %}
+{% extends 'base2.html' %}
 
 {% block main %}
 
 <div class="container my-lg-5 col-8 text-center bg-bluebell py-5">
-    <div class="py-5 text-light">
+    <div class="py-5 text-black">
         <p>Are you sure want to logout?</p>
         <form method="POST" action="{% url 'account_logout' %}">
             {% csrf_token %}

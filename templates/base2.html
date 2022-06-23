@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    
+
 <header class="navbar navbar-light sticky-top bg-white border-bottom flex-md-nowrap py-2 px-3">
 
   <a class="navbar-brand ms-5 ms-md-0 col-md-3 col-lg-2 me-0 fs-6" href="#">
@@ -42,8 +42,13 @@
   </ul>
 
   <div class="col-md-3 text-end">
-    <a class='btn btn-outline-secondary text-decoration-none' href='{% url "post-submit" %}'>Submit a link <i class='ms-2 fa-solid fa-arrow-right'></i></a>
-    <button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button>
+      {% if user.is_authenticated %}
+        <a class='btn btn-outline-secondary text-decoration-none' href='{% url "post-submit" %}'>Submit a link <i class='ms-2 fa-solid fa-arrow-right'></i></a>
+        <button class="btn btn-outline-primary">{{ user.username }}</button>
+        <a href="{% url 'account_logout' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Logout</button>
+      {% else %}
+            <a href="{% url 'account_login' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button>
+      {% endif %}
   </div>
 </header>
 
