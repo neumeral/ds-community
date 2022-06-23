@@ -5,10 +5,10 @@
 
 <div class="container col-sm-7 my-3">
     <h2 class="text-center mb-3">Submit your post</h2>
-    <form method="post" id="type_form">
+    <form method="post" id="type_form" action="/post/">
         {% csrf_token %}
         {{ post_type_form }}
-        <button onclick="get_post_form()" class="btn btn-sm btn-outline-primary">Submit</button>
+        <button class="btn btn-sm btn-outline-primary">Submit</button>
 
     </form>
 

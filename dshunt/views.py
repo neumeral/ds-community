@@ -47,10 +47,8 @@ class PostSubmitPageView(View):
         form = self.form(request.POST)
         if form.is_valid():
             post_type = form.cleaned_data.get('post_type')
-            print("Type ==== ", post_type)
             post_views = {'Book': 'book-create', 'Video': 'video-create', 'Tutorial': 'tutorial-create',
                           'Podcast': 'podcast-episode-create'}
-            print("Value === ", post_views.get(post_type))
             return redirect(post_views.get(post_type))
         self.get(request, *args, **kwargs)
 

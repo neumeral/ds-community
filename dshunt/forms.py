@@ -47,11 +47,6 @@ class BookCreateForm(forms.ModelForm):
             'tags'
         )
 
-    def clean_author(self):
-        author = self.cleaned_data.get('author')
-        if author[0] == 'B':
-            raise forms.ValidationError("Author Error")
-
 
 class VideoCreateForm(forms.ModelForm):
     channel = forms.ModelChoiceField(queryset=Channel.objects.all())
