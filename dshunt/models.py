@@ -98,7 +98,7 @@ class PostComment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Collections(models.Model):
+class Collection(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     posts = models.ManyToManyField(Post)
