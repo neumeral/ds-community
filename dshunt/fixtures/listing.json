@@ -1,165 +1,92 @@
 [
     {
-        "model":"listing.Category",
+        "model":"dshunt.Category",
         "pk":1,
         "fields":{
-            "name":"Computer Science"
+            "name":"Computer Science",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Category",
+        "model":"dshunt.Category",
         "pk":2,
         "fields":{
-            "name":"Data Science"
+            "name":"Data Science",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Category",
+        "model":"dshunt.Category",
         "pk":3,
         "fields":{
-            "name":"python"
+            "name":"python",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
-    
-
-
     {
-        "model":"listing.Post",
+        "model":"dshunt.Channel",
         "pk":1,
         "fields":{
-            "post_type":"Data",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"All about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-13",
-            "submitted_user":1
+            "name":"Channel 1",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Post",
+        "model":"dshunt.Channel",
         "pk":2,
         "fields":{
-            "post_type":"Python",
-            "category":2,
-            "title":"Python hunt",
-            "description":"Python is a wondeful programming language. All about the study of python",
-            "link":"www.python.org",
-            "date_published":"2021-03-13",
-            "submitted_user":1
+            "name":"Channel 2",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Post",
+        "model":"dshunt.Channel",
         "pk":3,
-        "fields":{
-            "post_type":"Computer",
-            "category":1,
-            "title":"Python is a wondeful programming language",
-            "description":"all about the study ofcs",
-            "link":"www.python.org",
-            "date_published":"2021-03-13",
-            "submitted_user":2
+        "fields": {
+            "name": "Channel 3",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Post",
-        "pk":4,
-        "fields":{
-            "post_type":"Data",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":1
+        "model": "dshunt.Podcast",
+        "pk": 1,
+        "fields": {
+            "name": "Podcast 1",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Post",
-        "pk":5,
-        "fields":{
-            "post_type":"Data",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":1
+        "model": "dshunt.Podcast",
+        "pk": 2,
+        "fields": {
+            "name": "Podcast 2",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     },
     {
-        "model":"listing.Post",
-        "pk":6,
-        "fields":{
-            "post_type":"Data",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":1
-        }
-    },
-    {
-        "model":"listing.Post",
-        "pk":7,
-        "fields":{
-            "post_type":"Data Science video",
-            "category":2,
-            "title":"Datascience",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":1
-        }
-    },
-    {
-        "model":"listing.Post",
-        "pk":8,
-        "fields":{
-            "post_type":"Data Science video",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":1
-        }
-    },
-    {
-        "model":"listing.Post",
-        "pk":9,
-        "fields":{
-            "post_type":"Data Science video",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":1
-        }
-    },
-    {
-        "model":"listing.Post",
-        "pk":10,
-        "fields":{
-            "post_type":"Data Science video",
-            "category":2,
-            "title":"Datascience hunt",
-            "description":"all about the study of data science",
-            "link":"www.python.org",
-            "date_published":"2021-03-11",
-            "submitted_user":2
-        }
-    },
-
-    {
-        "model":"accounts.AppUser",
-        "pk":2,
-        "fields":{
-            "email":"hello@h.com",
-            "username":"hello"
+        "model": "dshunt.Podcast",
+        "pk": 3,
+        "fields": {
+            "name": "Podcast 3",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
         }
     }
 ]

@@ -1,18 +1,53 @@
-{% extends '_base.html' %}
+{% extends 'base2.html' %}
 {% load crispy_forms_tags %}
 
 {% block main %}
 
-<div class="container col-md-7 my-3">
+<div class="container col-sm-7 my-3">
     <h2 class="text-center mb-3">Submit your post</h2>
-
-    <form method="POST">
-        <!-- {% if msg %}<div class="alert alert-danger">{{msg}}</div>{% endif %} -->
+    <form method="post" id="type_form" action="/post/">
         {% csrf_token %}
-        {{form|crispy}}
-        <input class="btn btn-primary" type="submit", value="Submit Post">
+        {{ post_type_form }}
+        <button class="btn btn-sm btn-outline-primary">Submit</button>
+
     </form>
-   
+
+    {% block post_form %}
+    {% endblock post_form %}
+
 </div>
 
+<script>
+get_post_type();
+
+function get_post_form(){
+    document.getElementById('type_form').action='{% url "post-submit" %}';
+}
+
+function get_post_type () {
+    const post_type = document.getElementById('post_type').value;
+        if (post_type == 'Book') {
+            document.getElementById('book_form').style.display = "block"
+            close_form('video_form', 'tutorial_form', 'podcast_form');
+        }
+        else if (post_type == 'Video') {
+            document.getElementById('video_form').style.display = "block";
+            close_form('book_form', 'tutorial_form', 'podcast_form');
+        }
+        else if (post_type == 'Tutorial') {
+            document.getElementById('tutorial_form').style.display = "block";
+            close_form('video_form', 'book_form', 'podcast_form');
+        }
+        else if (post_type == 'Podcast') {
+            document.getElementById('podcast_form').style.display = "block";
+            close_form('video_form', 'tutorial_form', 'book_form');
+        }
+    }
+
+function close_form(id1, id2, id3) {
+    document.getElementById(id1).style.display = 'none';
+    document.getElementById(id2).style.display = 'none';
+    document.getElementById(id3).style.display = 'none';
+}
+</script>
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'dshunt/post_submit.html' %}
+{% load crispy_forms_tags %}
+
+{% block post_form %}
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="submit" class="btn btn-outline-primary">Create Tutorial</button>
+    </form>
+{% endblock post_form %}

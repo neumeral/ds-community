@@ -1,0 +1,16 @@
+{% extends 'dshunt/post_submit.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block post_form %}
+    <form method="post" action="{% url 'book-create' %}">
+        {% csrf_token %}
+        {{ form | crispy }}
+
+         <input class="mt-3 btn btn-outline-primary" type="submit" value="Create Book">
+
+    </form>
+
+{% endblock post_form %}
+
+
