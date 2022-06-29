@@ -13,7 +13,7 @@
                         {% now "Y m d" as n %}
                         {% if n == i|date:"Y m d" %}
                             <span class='text-uppercase text-muted'>Today</span>
-                        {% elif i == d %}
+                        {% elif i == yesterday %}
                             <span class='text-uppercase text-muted'>Yesterday</span>
                         {% else %}
                             <span class='text-uppercase text-muted'>{{i}}</span>

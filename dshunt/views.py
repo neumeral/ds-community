@@ -2,25 +2,30 @@ import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
 from .forms import BookCreateForm, VideoCreateForm, TutorialCreateForm, PodcastEpisodeCreateForm, PostTypeForm
-from .models import AppUser, Post, Category, PostVote
+from .models import Post
 
 
-def post_list(request):
-    di = {}
-    d = datetime.date.today()
-    post_vote = PostVote.objects.all()
-    post = Post.objects.all()
+class PostListHomeView(View):
 
-    for i in range(7):
-        idate = d-datetime.timedelta(days=i)
-        posts = PostVote.objects.filter(post__published_at=idate, post__approved=True)[:5]
-        post = sorted(posts, key=lambda obj: obj.vote_count, reverse=True)
-        di[idate] = [(x.post, x.vote) for x in post]
+    def get_posts_and_votes(self, posts):
+        return [(post, post.get_vote_count()) for post in posts]
+
+    def get(self, request, *args, **kwargs):
+        main_posts = {}
+        today = datetime.date.today()
+
+        for i in range(7):
+            post_date = today-datetime.timedelta(days=i)
+            posts = Post.objects.filter(published_at=post_date, approved=True)
+
+            if posts.exists():
+                posts = sorted(posts, key=lambda obj: obj.vote_count, reverse=True)
+                main_posts[post_date] = self.get_posts_and_votes(posts)
 
     # di[d-datetime.timedelta(days=2)] = Post.objects.filter(date_published=d-datetime.timedelta(days=2))
     # di[d-datetime.timedelta(days=3)] = Post.objects.filter(date_published=d-datetime.timedelta(days=3))
@@ -28,8 +33,8 @@ def post_list(request):
     # di[d-datetime.timedelta(days=5)] = Post.objects.filter(date_published=d-datetime.timedelta(days=5))
     # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
 
-    context = {'post': di, 'd': d-datetime.timedelta(days=1)}
-    return render(request, 'posts.html', context)
+        context = {'post_list': main_posts, 'yesterday': today-datetime.timedelta(days=1)}
+        return render(request, 'posts.html', context)
 
 
 def post_submit_page(request):

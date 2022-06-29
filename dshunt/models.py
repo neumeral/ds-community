@@ -76,6 +76,9 @@ class Post(models.Model):
     def __str__(self):
         return "{}-{}".format(self.title, self.approved)
 
+    def get_vote_count(self):
+        return self.postvote_set.count()
+
 
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
