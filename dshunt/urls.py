@@ -26,6 +26,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     path('', views.PostListHomeView.as_view(), name="post-list"),
+    path('posts/', views.PostListView.as_view(), name="posts"),
+
     path('post/', views.PostSubmitPageView.as_view(), name='post-submit'),
 
     path('books/new/', views.BookCreateView.as_view(), name='book-create'),

@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import TemplateView, CreateView, DetailView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
@@ -11,6 +11,7 @@ from .models import Post, PostVote
 
 
 class PostListHomeView(View):
+    model = Post
 
     def get_posts_and_votes(self, posts):
         # return [(post, post.get_vote_count()) for post in posts]
@@ -19,8 +20,7 @@ class PostListHomeView(View):
                 'post': post,
                 'vote': post.get_vote_count(),
                 'is_voted': post.is_voted(self.request.user)
-            }
-            for post in posts]
+            } for post in posts]
 
     def get(self, request, *args, **kwargs):
         main_posts = {}
@@ -28,21 +28,45 @@ class PostListHomeView(View):
 
         for i in range(7):
             post_date = today-datetime.timedelta(days=i)
-            posts = Post.objects.filter(published_at__date=post_date, approved=True)
+            posts = self.model.objects.filter(published_at__date=post_date, approved=True)
 
             if posts.exists():
-                posts = sorted(posts, key=lambda obj: obj.get_vote_count(), reverse=True)
+                posts = sorted(posts, key=lambda obj: obj.get_vote_count(), reverse=True)[:5]
                 main_posts[post_date] = self.get_posts_and_votes(posts)
 
-    # di[d-datetime.timedelta(days=2)] = Post.objects.filter(date_published=d-datetime.timedelta(days=2))
-    # di[d-datetime.timedelta(days=3)] = Post.objects.filter(date_published=d-datetime.timedelta(days=3))
-    # di[d-datetime.timedelta(days=4)] = Post.objects.filter(date_published=d-datetime.timedelta(days=4))
-    # di[d-datetime.timedelta(days=5)] = Post.objects.filter(date_published=d-datetime.timedelta(days=5))
-    # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
+        # Redirecting to all post list when main_posts is empty
+        if not main_posts:
+            return render('posts')
 
-        print("PPPP ===== ", posts)
         context = {'posts': main_posts, 'yesterday': today-datetime.timedelta(days=1)}
         return render(request, 'posts.html', context)
+
+
+class PostListView(ListView):
+    queryset = Post.objects.filter(approved=True).order_by('-published_at')
+
+    def get_posts_and_votes(self, posts):
+        # return [(post, post.get_vote_count()) for post in posts]
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            } for post in posts]
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from django.core.paginator import Paginator
+        per_page = self.request.GET.get('per_page', 5)
+        page_number = self.request.GET.get('page', 1)
+
+        paginator = Paginator(self.queryset, per_page)
+        page_obj = paginator.page(page_number)
+        context['paginator'] = paginator
+        context['page_obj'] = page_obj
+        context['is_paginated'] = True
+        context['post_list'] = self.get_posts_and_votes(page_obj.object_list)
+        return context
 
 
 class PostSubmitPageView(View):
@@ -142,10 +166,7 @@ class PodcastEpisodeCreateView(VideoCreateView):
 # Voting to Post
 
 class Vote(View):
-
     def get(self, request, *args, **kwargs):
-        print("ARGS == ", args)
-        print("KWARGS == ", kwargs)
         post = Post.objects.get(id=kwargs['id'])
         vote = PostVote(post=post, created_user=request.user)
         vote.save()

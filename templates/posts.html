@@ -19,53 +19,44 @@
                             <span class='text-uppercase text-muted'>{{i}}</span>
                        {% endif %}
                     </div>
-                            {% if posts %}
-                                {% for item in posts %}
-                                    <div class="card mb-1">
-                                        <div class="card-body">
+                            {% for item in posts %}
+                                <div class="card mb-1">
+                                    <div class="card-body">
 
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h3>{{item.post.title}}</h3>
-                                                    <p>{{item.post.description}}</p>
-                                                    <span class="text-muted">{{item.post.post_type}}</span><br>
-                                                    <div class="badge badge-warning">Category : {{item.post.category}}</div>
-                                                    <p class="text-muted">author: {{item.post.submitted_user}}</p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    {% if user.is_authenticated %}
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h3>{{item.post.title}}</h3>
+                                                <p>{{item.post.description}}</p>
+                                                <span class="text-muted">{{item.post.post_type}}</span><br>
+                                                <div class="badge badge-warning">Category : {{item.post.category}}</div>
+                                                <p class="text-muted">author: {{item.post.submitted_user}}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                {% if user.is_authenticated %}
 
-                                                        {% if item.is_voted %}
-                                                            {% include 'dshunt/vote.html' %}
-
-                                                        {% else %}
-                                                            <a href="{% url 'post-vote' item.post.id %}">
-                                                                {% include 'dshunt/vote.html' %}
-                                                            </a>
-                                                        {% endif %}
+                                                    {% if item.is_voted %}
+                                                        {% include 'dshunt/vote.html' %}
 
                                                     {% else %}
+                                                        <a href="{% url 'post-vote' item.post.id %}">
+                                                            {% include 'dshunt/vote.html' %}
+                                                        </a>
+                                                    {% endif %}
 
-                                                        <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
-                                                            <div class="">
+                                                {% else %}
+
+                                                    <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
+                                                        <div class="">
                                                             {{ item.vote }}<br>
                                                             <i class="fas fa-hand-point-up text-bluebell"></i>
-                                                            </div>
-                                                        </button></a>
-                                                    {% endif %}
-                                                </div>
+                                                        </div>
+                                                    </button></a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
-                            {% else %}
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>Not found</p>
                                 </div>
-                            </div>
-                            {% endif %}
-                            <hr>                               
+                            {% endfor %}
                     {% endfor%}
 
                 </div>
