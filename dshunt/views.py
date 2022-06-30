@@ -7,13 +7,20 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
 from .forms import BookCreateForm, VideoCreateForm, TutorialCreateForm, PodcastEpisodeCreateForm, PostTypeForm
-from .models import Post
+from .models import Post, PostVote
 
 
 class PostListHomeView(View):
 
     def get_posts_and_votes(self, posts):
-        return [(post, post.get_vote_count()) for post in posts]
+        # return [(post, post.get_vote_count()) for post in posts]
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            }
+            for post in posts]
 
     def get(self, request, *args, **kwargs):
         main_posts = {}
@@ -21,10 +28,10 @@ class PostListHomeView(View):
 
         for i in range(7):
             post_date = today-datetime.timedelta(days=i)
-            posts = Post.objects.filter(published_at=post_date, approved=True)
+            posts = Post.objects.filter(published_at__date=post_date, approved=True)
 
             if posts.exists():
-                posts = sorted(posts, key=lambda obj: obj.vote_count, reverse=True)
+                posts = sorted(posts, key=lambda obj: obj.get_vote_count(), reverse=True)
                 main_posts[post_date] = self.get_posts_and_votes(posts)
 
     # di[d-datetime.timedelta(days=2)] = Post.objects.filter(date_published=d-datetime.timedelta(days=2))
@@ -33,12 +40,9 @@ class PostListHomeView(View):
     # di[d-datetime.timedelta(days=5)] = Post.objects.filter(date_published=d-datetime.timedelta(days=5))
     # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
 
-        context = {'post_list': main_posts, 'yesterday': today-datetime.timedelta(days=1)}
+        print("PPPP ===== ", posts)
+        context = {'posts': main_posts, 'yesterday': today-datetime.timedelta(days=1)}
         return render(request, 'posts.html', context)
-
-
-def post_submit_page(request):
-    return render(request, 'dshunt/post_submit.html')
 
 
 class PostSubmitPageView(View):
@@ -139,19 +143,13 @@ class PodcastEpisodeCreateView(VideoCreateView):
 
 class Vote(View):
 
-    def post(self, request, id):
-        post = Post.objects.get(id=id)
-        postvote = PostVote.objects.filter(post=post)
-        if postvote.exists():
-            for i in postvote:
-                i.vote = i.vote + 1
-                i.save()
-        else:
-            postvote = PostVote(
-                post=post, vote=1
-            )
-            postvote.save()
-        return redirect('home')
+    def get(self, request, *args, **kwargs):
+        print("ARGS == ", args)
+        print("KWARGS == ", kwargs)
+        post = Post.objects.get(id=kwargs['id'])
+        vote = PostVote(post=post, created_user=request.user)
+        vote.save()
+        return redirect('post-list')
 
 
 # CATEGORY

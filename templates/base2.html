@@ -33,7 +33,7 @@
     <li><a href="#" class="nav-link px-3 link-secondary">
         <i class="tw-text-gray-500 fa-solid fa-layer-group me-2"></i> Categories</a></li>
     <li><a href="#" class="nav-link px-3 link-dark">
-        <i class="tw-text-gray-500 fa-solid fa-shapes me-2"></i> Collections
+        <i class="tw-text-gray-500 fa-solid fa-shapes me-2"></i>Collections
     </a></li>
     <li><a href="#" class="nav-link px-3 link-dark">
         <i class="tw-text-gray-500 fa-solid fa-star me-2"></i> Staff Picks
@@ -45,9 +45,9 @@
       {% if user.is_authenticated %}
         <a class='btn btn-outline-secondary text-decoration-none' href='{% url "post-submit" %}'>Submit a link <i class='ms-2 fa-solid fa-arrow-right'></i></a>
         <button class="btn btn-outline-primary">{{ user.username }}</button>
-        <a href="{% url 'account_logout' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Logout</button>
+      <a href="{% url 'account_logout' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Logout</button></a>
       {% else %}
-            <a href="{% url 'account_login' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button>
+      <a href="{% url 'account_login' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button></a>
       {% endif %}
   </div>
 </header>

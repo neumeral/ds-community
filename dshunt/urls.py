@@ -20,12 +20,12 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home', views.post_list, name='home'),
+    # path('home', views.PostListHomeView.as_view(), name='home'),
 
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
 
-    path('', views.post_list, name="post-list"),
+    path('', views.PostListHomeView.as_view(), name="post-list"),
     path('post/', views.PostSubmitPageView.as_view(), name='post-submit'),
 
     path('books/new/', views.BookCreateView.as_view(), name='book-create'),
@@ -37,5 +37,5 @@ urlpatterns = [
     path('category/', views.category, name='category'),
 
     # vote
-    path('post/<int:id>/vote', views.Vote.as_view(), name="postvote"),
+    path('post/<int:id>/vote', views.Vote.as_view(), name="post-vote"),
 ]

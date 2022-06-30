@@ -1,0 +1,10 @@
+
+  <button type="submit" class="vote float-right p-3 mt-4" onclick="">
+      <div class="">
+        {{item.vote}}<br>
+
+        {% if not item.is_voted %}
+            <i class="fas fa-hand-point-up text-bluebell mt-1"></i>
+        {% endif  %}
+      </div>
+  </button>

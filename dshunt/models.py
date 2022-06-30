@@ -79,6 +79,10 @@ class Post(models.Model):
     def get_vote_count(self):
         return self.postvote_set.count()
 
+    def is_voted(self, user):
+        voted = self.postvote_set.filter(created_user=user).exists()
+        return voted
+
 
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -87,7 +91,7 @@ class PostVote(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.post
+        return self.post.title
 
 
 class PostComment(models.Model):
