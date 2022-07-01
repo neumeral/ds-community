@@ -1,28 +1,11 @@
-{% extends 'posts.html' %}
+{% extends 'base2.html' %}
 
 {% block main %}
         <ul>
-            {% for item in post_list %}
-                <li>{{ item.post.title }}</li>
-                <li>{{ item.post.description }}</li>
-                <li>{{ item.post.post_type }}</li>
-                <li>{{ item.post.category }}</li>
-                <li>{{ item.post.created_user }}</li>
-                <li>{{ item.post.tags }}</li>
-                <li>{{ item.post.link }}</li>
-                <li>{{ item.post.author }}</li>
-                <li>{{ item.post.channel }}</li>
-                <li>{{ item.post.podcast }}</li>
-                <li>{{ item.post.published_at }}</li>
-                <li>{{ item.post.channel }}</li>
+            {% for object in object_list %}
 
-                {% if item.is_voted %}
-                    {% include 'dshunt/vote.html' %}
-                {% else %}
-                    <a href="{% url 'post-vote' item.post.id %}">
-                        {% include 'dshunt/vote.html' %}
-                    </a>
-                {% endif %}
+                {% include 'dshunt/post_list/post.html' %}
+
             {% endfor %}
 
         </ul>
@@ -30,6 +13,7 @@
 
 <!--Bootstrap for Pagination-->
 
+{% if paginator.num_pages > 1 %}
 <nav aria-label="...">
   <ul class="pagination">
 
@@ -40,7 +24,7 @@
       {% else %}
         <a href="?page={{ page_obj.previous_page_number }}"><li class="page-item disabled">
           <span class="page-link">Previous</span>
-        </li>
+        </li></a>
       {% endif %}
 
     {% for i in paginator.page_range %}
@@ -58,10 +42,10 @@
       {% else %}
         <a href="?page={{ page_obj.next_page_number }}"><li class="page-item">
           <span class="page-link">Next</span>
-        </li>
+        </li></a>
       {% endif %}
   </ul>
 </nav>
-
+{% endif %}
 
 {% endblock %}

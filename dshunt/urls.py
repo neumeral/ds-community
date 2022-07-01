@@ -28,6 +28,10 @@ urlpatterns = [
     path('', views.PostListHomeView.as_view(), name="post-list"),
     path('posts/', views.PostListView.as_view(), name="posts"),
     path('posts/<int:year>/<int:month>/<int:day>/', views.PostListByDateView.as_view(month_format="%m"), name='posts-list-by-date'),
+    path('books/', views.BookListView.as_view(), name='book-list'),
+    path('videos/', views.VideoListView.as_view(), name='video-list'),
+    path('tutorials/', views.TutorialListView.as_view(), name='tutorial-list'),
+    path('podcast-episodes/', views.PodcastEpisodeListView.as_view(), name='podcast-list'),
 
     # Post Submit
     path('post/', views.PostSubmitPageView.as_view(), name='post-submit'),

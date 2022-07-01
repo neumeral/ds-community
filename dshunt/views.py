@@ -6,11 +6,13 @@ from django.views.generic import TemplateView, CreateView, DetailView, ListView
 from django.views.generic.dates import DayArchiveView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .forms import BookCreateForm, VideoCreateForm, TutorialCreateForm, PodcastEpisodeCreateForm, PostTypeForm
-from .models import Post, PostVote
+from .models import Post, PostVote, Book, Video, Tutorial, PodcastEpisode
 
 
+@method_decorator(login_required, name='dispatch')
 class PostListHomeView(View):
     model = Post
 
@@ -49,6 +51,7 @@ class PostListHomeView(View):
 
 
 class PostListView(ListView):
+    template_name = 'dshunt/post_list/post_list.html'
     queryset = Post.objects.filter(approved=True).order_by('-published_at')
 
     def get_posts_and_votes(self, posts):
@@ -71,14 +74,14 @@ class PostListView(ListView):
         context['paginator'] = paginator
         context['page_obj'] = page_obj
         context['is_paginated'] = True
-        context['post_list'] = self.get_posts_and_votes(page_obj.object_list)
+        context['object_list'] = self.get_posts_and_votes(page_obj.object_list)
         return context
 
 
 class PostListByDateView(DayArchiveView):
     queryset = Post.objects.filter(approved=True).order_by('-published_at')
     date_field = 'published_at'
-    template_name = 'dshunt/post_list.html'
+    template_name = 'dshunt/post_list/post_list.html'
     paginate_by = 10
 
     def get_posts_and_votes(self, posts):
@@ -91,8 +94,41 @@ class PostListByDateView(DayArchiveView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['post_list'] = self.get_posts_and_votes(context['post_list'])
+        context['object_list'] = self.get_posts_and_votes(context['post_list'])
         return context
+
+
+# Book, Video, Tutorial, Podcast Lists
+
+class BookListView(ListView):
+    queryset = Book.objects.books()
+    template_name = 'dshunt/post_list/post_list.html'
+    paginate_by = 10
+
+    def get_posts_and_votes(self, posts):
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            } for post in posts]
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = self.get_posts_and_votes(self.queryset)
+        return context
+
+
+class VideoListView(BookListView):
+    queryset = Video.objects.videos()
+
+
+class TutorialListView(BookListView):
+    queryset = Tutorial.objects.tutorials()
+
+
+class PodcastEpisodeListView(BookListView):
+    queryset = PodcastEpisode.objects.podcasts()
 
 
 class PostSubmitPageView(View):
@@ -205,17 +241,3 @@ def category(request):
     cat = Category.objects.all()
     context = {'category':cat}
     return render(request, 'dshunt/category.html', context)
-
-
-from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView, DayArchiveView
-from .models import Post
-
-
-class ArchiveView(DayArchiveView):
-    # model = Post
-    queryset = Post.objects.all()
-    date_field = 'published_at'
-    template_name_suffix = '_archive'
-    # make_object_list = True
-    # allow_future = True
-    allow_empty = True

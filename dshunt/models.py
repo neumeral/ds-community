@@ -118,12 +118,43 @@ class Collection(models.Model):
 
 # Proxy Models
 
+class PostQuerySet(models.QuerySet):
+    def all(self):
+        return self.filter(approved=True)
+
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db).all()
+
+    def get_sorted_query(self, query):
+        query = sorted(query, key=lambda obj: obj.get_vote_count(), reverse=True)
+        return query
+
+    def books(self):
+        query = self.get_queryset().filter(post_type='Book')
+        return self.get_sorted_query(query)
+
+    def videos(self):
+        return self.get_sorted_query(self.get_queryset().filter(post_type='Video'))
+
+    def tutorials(self):
+        return self.get_sorted_query(self.get_queryset().filter(post_type='Tutorial'))
+
+    def podcasts(self):
+        return self.get_sorted_query(self.get_queryset().all().filter(post_type='Podcast'))
+
+
 class Book(Post):
     class Meta:
         proxy = True
 
+    objects = PostManager()
+
 
 class Video(Post):
+    objects = PostManager()
+
     class Meta:
         proxy = True
 
@@ -135,6 +166,8 @@ class Tutorial(Post):
     class Meta:
         proxy = True
 
+    objects = PostManager()
+
 
 class PodcastEpisode(Post):
     class Meta:
@@ -142,4 +175,6 @@ class PodcastEpisode(Post):
 
     def get_absolute_url(self):
         return reverse('post-submit')
+
+    objects = PostManager()
 
