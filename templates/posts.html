@@ -56,7 +56,12 @@
                                         </div>
                                     </div>
                                 </div>
+
                             {% endfor %}
+
+                        {% if post_count.i > 2 %}
+                            <a href="{% url 'posts-list-by-date' year=i|date:'Y' day=i|date:'d' month=i|date:'m' %}">View all</a>
+                        {% endif %}
                     {% endfor%}
 
                 </div>

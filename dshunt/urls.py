@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from . import views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('home', views.PostListHomeView.as_view(), name='home'),
@@ -25,11 +24,13 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
 
+    # Post List
     path('', views.PostListHomeView.as_view(), name="post-list"),
     path('posts/', views.PostListView.as_view(), name="posts"),
+    path('posts/<int:year>/<int:month>/<int:day>/', views.PostListByDateView.as_view(month_format="%m"), name='posts-list-by-date'),
 
+    # Post Submit
     path('post/', views.PostSubmitPageView.as_view(), name='post-submit'),
-
     path('books/new/', views.BookCreateView.as_view(), name='book-create'),
     path('videos/new/', views.VideoCreateView.as_view(), name='video-create'),
     path('tutorials/new/', views.tutotrial_create, name='tutorial-create'),
@@ -40,4 +41,7 @@ urlpatterns = [
 
     # vote
     path('post/<int:id>/vote', views.Vote.as_view(), name="post-vote"),
+
 ]
+
+
