@@ -24,24 +24,27 @@ class PostListHomeView(View):
             } for post in posts]
 
     def get(self, request, *args, **kwargs):
-        main_posts = {}
-        post_count = {}
+        object_list = []
+
         today = datetime.date.today()
 
         for i in range(7):
+            object_data = {}
             post_date = today-datetime.timedelta(days=i)
             posts = self.model.objects.filter(published_at__date=post_date, approved=True)
 
             if posts.exists():
                 sorted_posts = sorted(posts, key=lambda obj: obj.get_vote_count(), reverse=True)[:5]
-                main_posts[post_date] = self.get_posts_and_votes(sorted_posts)
-                post_count[post_date] = posts.count()
+                object_data['date'] = post_date
+                object_data['post_list'] = self.get_posts_and_votes(sorted_posts)
+                object_data['post_count'] = posts.count()
+            object_list.append(object_data)
 
         # Redirecting to all post list when main_posts is empty
-        if not main_posts:
+        if not object_list:
             return render('posts')
 
-        context = {'posts': main_posts, 'post_count': post_count, 'yesterday': today-datetime.timedelta(days=1)}
+        context = {'object_list': object_list, 'yesterday': today-datetime.timedelta(days=1)}
         return render(request, 'posts.html', context)
 
 

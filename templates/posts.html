@@ -8,18 +8,18 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    {% for i, posts in posts.items %}
+                    {% for object in object_list %}
                     <div class='post-date mx-1 mt-2 mb-3'>
                         {% now "Y m d" as n %}
-                        {% if n == i|date:"Y m d" %}
+                        {% if n == object.date|date:"Y m d" %}
                             <span class='text-uppercase text-muted'>Today</span>
-                        {% elif i == yesterday %}
+                        {% elif object.date == yesterday %}
                             <span class='text-uppercase text-muted'>Yesterday</span>
                         {% else %}
-                            <span class='text-uppercase text-muted'>{{i}}</span>
+                            <span class='text-uppercase text-muted'>{{ object.date }}</span>
                        {% endif %}
                     </div>
-                            {% for item in posts %}
+                            {% for item in object.post_list %}
                                 <div class="card mb-1">
                                     <div class="card-body">
 
@@ -59,8 +59,8 @@
 
                             {% endfor %}
 
-                        {% if post_count.i > 2 %}
-                            <a href="{% url 'posts-list-by-date' year=i|date:'Y' day=i|date:'d' month=i|date:'m' %}">View all</a>
+                        {% if object.post_count > 5 %}
+                            <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d' month=object.date|date:'m' %}">View all</a>
                         {% endif %}
                     {% endfor%}
 
@@ -76,19 +76,17 @@
                     <div class="wrapper">
                         <p class='mb-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
 
-<div class="w-100 d-flex justify-content-between">
-  <div class="">
-    <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
-  </div>
-  <div class="">
-    <button type="submit" class="btn btn-primary">Subscribe</button>
-  </div>
-</div>
+                        <div class="w-100 d-flex justify-content-between">
+                          <div class="">
+                            <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
+                          </div>
+                          <div class="">
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
 
             <div class="section card mt-3 rounded-1">
                 <div class="card-title mb-0 p-3 bg-light rounded-top">
