@@ -8,6 +8,13 @@
                 <li>{{ item.post.post_type }}</li>
                 <li>{{ item.post.category }}</li>
                 <li>{{ item.post.created_user }}</li>
+                <li>{{ item.post.tags }}</li>
+                <li>{{ item.post.link }}</li>
+                <li>{{ item.post.author }}</li>
+                <li>{{ item.post.channel }}</li>
+                <li>{{ item.post.podcast }}</li>
+                <li>{{ item.post.published_at }}</li>
+                <li>{{ item.post.channel }}</li>
 
                 {% if item.is_voted %}
                     {% include 'dshunt/vote.html' %}
