@@ -1,6 +1,6 @@
 import datetime
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, CreateView, DetailView, ListView
 from django.views.generic.dates import DayArchiveView
@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from .forms import BookCreateForm, VideoCreateForm, TutorialCreateForm, PodcastEpisodeCreateForm, PostTypeForm
+from .forms import CommentForm
 from .models import Post, PostVote, Book, Video, Tutorial, PodcastEpisode
 
 
@@ -223,6 +224,45 @@ class PodcastEpisodeCreateView(VideoCreateView):
     template_name = 'dshunt/podcast_episode_create_form.html'
     initial = {'post_type': 'Podcast'}
     post_type = 'Podcast'
+
+
+# Post Detail
+
+class PostDetailView(View):
+
+    def get_comment_set(self, post):
+        post_comments = post.postcomment_set.order_by('-id')
+        for comment in post_comments:
+            comment.is_commented = comment.is_commented(self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        post_id = self.kwargs['id']
+        post = get_object_or_404(Post, id=post_id)
+        post_comments = post.postcomment_set.order_by('-id')
+
+        self.get_comment_set(post)
+
+        context = {}
+        context['post'] = post
+        context['object'] = post
+        context['comments'] = post_comments
+        # print("Com ==>> ", context['comments'])
+        # print("Type ==>> ", type(context['comments']))
+        context['comment_form'] = CommentForm()
+
+        return render(request, 'dshunt/post_detail/post-detail.html', context)
+
+
+class CommentCreateView(CreateView):
+    form_class = CommentForm
+    template_name = 'dshunt/post_detail/post_comment_form.html'
+    # success_url = reverse_lazy('post-detail', )
+
+    def form_valid(self, form):
+        form.instance.created_user = self.request.user
+        post_pk = self.kwargs['pk']
+        form.instance.post = Post.objects.get(pk=post_pk)
+        return super().form_valid(form)
 
 
 # Voting to Post

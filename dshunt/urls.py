@@ -40,6 +40,9 @@ urlpatterns = [
     path('tutorials/new/', views.tutotrial_create, name='tutorial-create'),
     path('podcast-episode/new/', views.PodcastEpisodeCreateView.as_view(), name='podcast-episode-create'),
 
+    # Post Detail
+    path('posts/<int:id>/', views.PostDetailView.as_view(), name='post-detail'),
+    path('posts/<int:pk>/comments/new/', views.CommentCreateView.as_view(), name='post-comment-create'),
     # category
     path('category/', views.category, name='category'),
 

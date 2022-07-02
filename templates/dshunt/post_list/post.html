@@ -9,12 +9,3 @@
     <li>Channel: {{ object.post.channel }}</li>
     <li>Podcast: {{ object.post.podcast }}</li>
     <li>Published Date: {{ object.post.published_at|date }}</li>
-
-
-    {% if object.is_voted %}
-        {% include 'dshunt/post_list/vote.html' %}
-    {% else %}
-        <a href="{% url 'post-vote' object.post.id %}">
-            {% include 'dshunt/post_list/vote.html' %}
-        </a>
-    {% endif %}

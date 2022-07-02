@@ -101,6 +101,13 @@ class PostComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_absolute_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy('post-detail', kwargs={'id': self.post.pk})
+
+    def is_commented(self, user):
+        return self.created_user.id == user.id
+
 
 class Collection(models.Model):
     title = models.CharField(max_length=100)
