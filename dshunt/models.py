@@ -103,7 +103,7 @@ class PostComment(models.Model):
 
     def get_absolute_url(self):
         from django.urls import reverse_lazy
-        return reverse_lazy('post-detail', kwargs={'id': self.post.pk})
+        return reverse_lazy('post-detail', kwargs={'pk': self.post.pk})
 
     def is_commented(self, user):
         return self.created_user.id == user.id

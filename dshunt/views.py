@@ -228,29 +228,24 @@ class PodcastEpisodeCreateView(VideoCreateView):
 
 # Post Detail
 
-class PostDetailView(View):
+class PostDetailView(DetailView):
+    queryset = Post.objects.filter(approved=True)
+    template_name = 'dshunt/post_detail/post_detail.html'
 
     def get_comment_set(self, post):
-        post_comments = post.postcomment_set.order_by('-id')
+        if self.request.GET.get('comment') == 'all':
+            post_comments = post.postcomment_set.order_by('-id')
+        else:
+            post_comments = post.postcomment_set.order_by('-id')[:5]
         for comment in post_comments:
             comment.is_commented = comment.is_commented(self.request.user)
+        return post_comments
 
-    def get(self, request, *args, **kwargs):
-        post_id = self.kwargs['id']
-        post = get_object_or_404(Post, id=post_id)
-        post_comments = post.postcomment_set.order_by('-id')
-
-        self.get_comment_set(post)
-
-        context = {}
-        context['post'] = post
-        context['object'] = post
-        context['comments'] = post_comments
-        # print("Com ==>> ", context['comments'])
-        # print("Type ==>> ", type(context['comments']))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.get_comment_set(self.object)
         context['comment_form'] = CommentForm()
-
-        return render(request, 'dshunt/post_detail/post-detail.html', context)
+        return context
 
 
 class CommentCreateView(CreateView):
@@ -263,6 +258,9 @@ class CommentCreateView(CreateView):
         post_pk = self.kwargs['pk']
         form.instance.post = Post.objects.get(pk=post_pk)
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return redirect('post-detail', pk=self.kwargs.get('pk'))
 
 
 # Voting to Post

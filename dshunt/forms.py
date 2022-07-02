@@ -97,6 +97,8 @@ class PodcastEpisodeCreateForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea(attrs={'cols': 50, 'rows': 3}))
+
     class Meta:
         model = PostComment
         fields = (

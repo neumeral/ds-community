@@ -14,12 +14,20 @@
         <li>Channel: {{ object.channel }}</li>
         <li>Podcast: {{ object.podcast }}</li>
         <li>Published Date: {{ object.published_at|date }}</li>
+        <li>Vote: {{ object.get_vote_count }}</li>
 
         {% include 'dshunt/post_detail/post_comment_form.html' %}
 
         <div>
             <h3>Comments</h3>
-            {% include 'dshunt/post_detail/post_comment_list.html' %}
+
+            <ol type="1">
+                {% for comment in comments %}
+                    {% include 'dshunt/post_detail/post_comment.html' %}
+                {% endfor %}
+            </ol>
+
+            <a href="?comment=all">view all</a>
         </div>
     </ul>
 {% endblock main %}
