@@ -1,0 +1,5 @@
+<form action="{% url 'post-comment-create' post.pk %}" method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <input type="submit">
+</form>

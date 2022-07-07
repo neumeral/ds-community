@@ -8,65 +8,62 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    {% for i,j in post.items %}
+                    {% for obj in object_list %}
                     <div class='post-date mx-1 mt-2 mb-3'>
                         {% now "Y m d" as n %}
-                        {% if n == i|date:"Y m d" %}
+                        {% if n == obj.date|date:"Y m d" %}
                             <span class='text-uppercase text-muted'>Today</span>
-                        {% elif i == d %}
+                        {% elif obj.date == yesterday %}
                             <span class='text-uppercase text-muted'>Yesterday</span>
                         {% else %}
-                            <span class='text-uppercase text-muted'>{{i}}</span>
+                            <span class='text-uppercase text-muted'>{{ obj.date }}</span>
                        {% endif %}
                     </div>
-                            {% if j %}
-                                {% for x,y in j %}
-                                    <div class="card mb-1">
-                                        <div class="card-body">
+                            {% for object in obj.post_list %}
+                                <div class="card mb-1">
+                                    <div class="card-body">
 
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h3>{{x.title}}</h3>
-                                                    <p>{{x.description}}</p>
-                                                    <span class="text-muted">{{x.post_type}}</span><br>
-                                                    <div class="badge badge-warning">Category : {{x.category}}</div>
-                                                    <p class="text-muted">author: {{x.submitted_user}}</p>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    {% if user.is_authenticated %}
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h3>{{object.post.title}}</h3>
+                                                <p>{{object.post.description}}</p>
+                                                <span class="text-muted">{{object.post.post_type}}</span><br>
+                                                <div class="badge badge-warning">Category : {{object.post.category}}</div>
+                                                <p class="text-muted">author: {{object.post.submitted_user}}</p>
+                                                <p class="text-muted">tags: {{object.post.tags}}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                {% if user.is_authenticated %}
 
-                                                        <form class="text-dark votea" action="" id="addvote{{x.id}}" method="POST">
-                                                            {%  csrf_token %}
-                                                            <button type="submit" class="vote float-right p-3 mt-4" onclick="addvote({{x.id}},'{{x.title}}')">
-                                                                <div class="">
-                                                                {{y}}<br>
-                                                                <i class="fas fa-hand-point-up text-bluebell mt-1"></i>
-                                                                </div>
-                                                            </button>
-                                                        </form>
+                                                    {% if object.is_voted %}
+                                                        {% include 'dshunt/post_list/vote.html' %}
+
                                                     {% else %}
-
-                                                        <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
-                                                            <div class="">
-                                                            {{y}}<br>
-                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
-                                                            </div>
-                                                        </button></a>
+                                                        <a href="{% url 'post-vote' object.post.id %}">
+                                                            {% include 'dshunt/post_list/vote.html' %}
+                                                        </a>
                                                     {% endif %}
-                                                </div>
+
+                                                {% else %}
+
+                                                    <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
+                                                        <div class="">
+                                                            {{ object.vote }}<br>
+                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
+                                                        </div>
+                                                    </button></a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
-                            {% else %}
-                            <div class="card">
-                                <div class="card-body">
-                                    <p>Not found</p>
                                 </div>
-                            </div>
-                            {% endif %}
-                            <hr>                               
-                    {% endfor%}
+
+                            {% endfor %}
+
+                        {% if object.post_count > 5 %}
+                            <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d' month=object.date|date:'m' %}">View all</a>
+                        {% endif %}
+                    {% endfor %}
 
                 </div>
             </div>
@@ -80,19 +77,17 @@
                     <div class="wrapper">
                         <p class='mb-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
 
-<div class="w-100 d-flex justify-content-between">
-  <div class="">
-    <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
-  </div>
-  <div class="">
-    <button type="submit" class="btn btn-primary">Subscribe</button>
-  </div>
-</div>
+                        <div class="w-100 d-flex justify-content-between">
+                          <div class="">
+                            <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
+                          </div>
+                          <div class="">
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
 
             <div class="section card mt-3 rounded-1">
                 <div class="card-title mb-0 p-3 bg-light rounded-top">

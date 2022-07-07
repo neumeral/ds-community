@@ -2,8 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import AppUser, Book, Video, Tutorial, PodcastEpisode
-from .models import Podcast, Channel
-from .choices import POST_TYPES
+from .models import Podcast, Channel, PostComment
 
 
 class AppUserCreationForm(UserCreationForm):
@@ -94,5 +93,15 @@ class PodcastEpisodeCreateForm(forms.ModelForm):
             'link',
             'tags',
             'podcast'
+        )
+
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea(attrs={'cols': 50, 'rows': 3}))
+
+    class Meta:
+        model = PostComment
+        fields = (
+            'content',
         )
 

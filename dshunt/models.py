@@ -76,6 +76,13 @@ class Post(models.Model):
     def __str__(self):
         return "{}-{}".format(self.title, self.approved)
 
+    def get_vote_count(self):
+        return self.postvote_set.count()
+
+    def is_voted(self, user):
+        voted = self.postvote_set.filter(created_user=user).exists()
+        return voted
+
 
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -84,7 +91,7 @@ class PostVote(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.post
+        return self.post.title
 
 
 class PostComment(models.Model):
@@ -93,6 +100,13 @@ class PostComment(models.Model):
     created_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy('post-detail', kwargs={'pk': self.post.pk})
+
+    def is_commented(self, user):
+        return self.created_user.id == user.id
 
 
 class Collection(models.Model):
@@ -111,12 +125,43 @@ class Collection(models.Model):
 
 # Proxy Models
 
+class PostQuerySet(models.QuerySet):
+    def all(self):
+        return self.filter(approved=True)
+
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model, using=self._db).all()
+
+    def get_sorted_query(self, query):
+        query = sorted(query, key=lambda obj: obj.get_vote_count(), reverse=True)
+        return query
+
+    def books(self):
+        query = self.get_queryset().filter(post_type='Book')
+        return self.get_sorted_query(query)
+
+    def videos(self):
+        return self.get_sorted_query(self.get_queryset().filter(post_type='Video'))
+
+    def tutorials(self):
+        return self.get_sorted_query(self.get_queryset().filter(post_type='Tutorial'))
+
+    def podcasts(self):
+        return self.get_sorted_query(self.get_queryset().all().filter(post_type='Podcast'))
+
+
 class Book(Post):
     class Meta:
         proxy = True
 
+    objects = PostManager()
+
 
 class Video(Post):
+    objects = PostManager()
+
     class Meta:
         proxy = True
 
@@ -128,6 +173,8 @@ class Tutorial(Post):
     class Meta:
         proxy = True
 
+    objects = PostManager()
+
 
 class PodcastEpisode(Post):
     class Meta:
@@ -135,4 +182,6 @@ class PodcastEpisode(Post):
 
     def get_absolute_url(self):
         return reverse('post-submit')
+
+    objects = PostManager()
 

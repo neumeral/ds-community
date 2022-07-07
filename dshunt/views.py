@@ -1,39 +1,135 @@
 import datetime
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView, CreateView, DetailView, ListView
+from django.views.generic.dates import DayArchiveView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .forms import BookCreateForm, VideoCreateForm, TutorialCreateForm, PodcastEpisodeCreateForm, PostTypeForm
-from .models import AppUser, Post, Category, PostVote
+from .forms import CommentForm
+from .models import Post, PostVote, Book, Video, Tutorial, PodcastEpisode
 
 
-def post_list(request):
-    di = {}
-    d = datetime.date.today()
-    post_vote = PostVote.objects.all()
-    post = Post.objects.all()
+@method_decorator(login_required, name='dispatch')
+class PostListHomeView(View):
+    model = Post
 
-    for i in range(7):
-        idate = d-datetime.timedelta(days=i)
-        posts = PostVote.objects.filter(post__published_at=idate, post__approved=True)[:5]
-        post = sorted(posts, key=lambda obj: obj.vote_count, reverse=True)
-        di[idate] = [(x.post, x.vote) for x in post]
+    def get_posts_and_votes(self, posts):
+        # return [(post, post.get_vote_count()) for post in posts]
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            } for post in posts]
 
-    # di[d-datetime.timedelta(days=2)] = Post.objects.filter(date_published=d-datetime.timedelta(days=2))
-    # di[d-datetime.timedelta(days=3)] = Post.objects.filter(date_published=d-datetime.timedelta(days=3))
-    # di[d-datetime.timedelta(days=4)] = Post.objects.filter(date_published=d-datetime.timedelta(days=4))
-    # di[d-datetime.timedelta(days=5)] = Post.objects.filter(date_published=d-datetime.timedelta(days=5))
-    # di[d-datetime.timedelta(days=6)] = Post.objects.filter(date_published=d-datetime.timedelta(days=6))
+    def get(self, request, *args, **kwargs):
+        object_list = []
 
-    context = {'post': di, 'd': d-datetime.timedelta(days=1)}
-    return render(request, 'posts.html', context)
+        today = datetime.date.today()
+
+        for i in range(7):
+            object_data = {}
+            post_date = today-datetime.timedelta(days=i)
+            posts = self.model.objects.filter(published_at__date=post_date, approved=True)
+
+            if posts.exists():
+                sorted_posts = sorted(posts, key=lambda obj: obj.get_vote_count(), reverse=True)[:5]
+                object_data['date'] = post_date
+                object_data['post_list'] = self.get_posts_and_votes(sorted_posts)
+                object_data['post_count'] = posts.count()
+            object_list.append(object_data)
+
+        # Redirecting to all post list when main_posts is empty
+        if not object_list:
+            return render('posts')
+
+        context = {'object_list': object_list, 'yesterday': today-datetime.timedelta(days=1)}
+        return render(request, 'posts.html', context)
 
 
-def post_submit_page(request):
-    return render(request, 'dshunt/post_submit.html')
+class PostListView(ListView):
+    template_name = 'dshunt/post_list/post_list.html'
+    queryset = Post.objects.filter(approved=True).order_by('-published_at')
+
+    def get_posts_and_votes(self, posts):
+        # return [(post, post.get_vote_count()) for post in posts]
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            } for post in posts]
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from django.core.paginator import Paginator
+        per_page = self.request.GET.get('per_page', 10)
+        page_number = self.request.GET.get('page', 1)
+
+        paginator = Paginator(self.queryset, per_page)
+        page_obj = paginator.page(page_number)
+        context['paginator'] = paginator
+        context['page_obj'] = page_obj
+        context['is_paginated'] = True
+        context['object_list'] = self.get_posts_and_votes(page_obj.object_list)
+        return context
+
+
+class PostListByDateView(DayArchiveView):
+    queryset = Post.objects.filter(approved=True).order_by('-published_at')
+    date_field = 'published_at'
+    template_name = 'dshunt/post_list/post_list.html'
+    paginate_by = 10
+
+    def get_posts_and_votes(self, posts):
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            } for post in posts]
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = self.get_posts_and_votes(context['post_list'])
+        return context
+
+
+# Book, Video, Tutorial, Podcast Lists
+
+class BookListView(ListView):
+    queryset = Book.objects.books()
+    template_name = 'dshunt/post_list/post_list.html'
+    paginate_by = 10
+
+    def get_posts_and_votes(self, posts):
+        return [
+            {
+                'post': post,
+                'vote': post.get_vote_count(),
+                'is_voted': post.is_voted(self.request.user)
+            } for post in posts]
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = self.get_posts_and_votes(self.queryset)
+        return context
+
+
+class VideoListView(BookListView):
+    queryset = Video.objects.videos()
+
+
+class TutorialListView(BookListView):
+    queryset = Tutorial.objects.tutorials()
+
+
+class PodcastEpisodeListView(BookListView):
+    queryset = PodcastEpisode.objects.podcasts()
 
 
 class PostSubmitPageView(View):
@@ -130,23 +226,51 @@ class PodcastEpisodeCreateView(VideoCreateView):
     post_type = 'Podcast'
 
 
+# Post Detail
+
+class PostDetailView(DetailView):
+    queryset = Post.objects.filter(approved=True)
+    template_name = 'dshunt/post_detail/post_detail.html'
+
+    def get_comment_set(self, post):
+        if self.request.GET.get('comment') == 'all':
+            post_comments = post.postcomment_set.order_by('-id')
+        else:
+            post_comments = post.postcomment_set.order_by('-id')[:5]
+        for comment in post_comments:
+            comment.is_commented = comment.is_commented(self.request.user)
+        return post_comments
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.get_comment_set(self.object)
+        context['comment_form'] = CommentForm()
+        return context
+
+
+class CommentCreateView(CreateView):
+    form_class = CommentForm
+    template_name = 'dshunt/post_detail/post_comment_form.html'
+    # success_url = reverse_lazy('post-detail', )
+
+    def form_valid(self, form):
+        form.instance.created_user = self.request.user
+        post_pk = self.kwargs['pk']
+        form.instance.post = Post.objects.get(pk=post_pk)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return redirect('post-detail', pk=self.kwargs.get('pk'))
+
+
 # Voting to Post
 
 class Vote(View):
-
-    def post(self, request, id):
-        post = Post.objects.get(id=id)
-        postvote = PostVote.objects.filter(post=post)
-        if postvote.exists():
-            for i in postvote:
-                i.vote = i.vote + 1
-                i.save()
-        else:
-            postvote = PostVote(
-                post=post, vote=1
-            )
-            postvote.save()
-        return redirect('home')
+    def get(self, request, *args, **kwargs):
+        post = Post.objects.get(id=kwargs['id'])
+        vote = PostVote(post=post, created_user=request.user)
+        vote.save()
+        return redirect('post-list')
 
 
 # CATEGORY
@@ -155,4 +279,3 @@ def category(request):
     cat = Category.objects.all()
     context = {'category':cat}
     return render(request, 'dshunt/category.html', context)
-
