@@ -3,11 +3,11 @@
 {% block main %}
 
 <div class="row ml-3">
-    {% for i in category %}
+    {% for category in categories %}
     <a href="#" class="col-md-5 my-2 mx-2 bg-primary text-light" style="min-height: 100px;">
     <div>
-        <h2>{{i.name}}</h2>
-        <p>{{i.description}}</p>
+        <h2>{{category.name}}</h2>
+        <p>{{category.description}}</p>
     </div>
     </a>
     {% endfor %}

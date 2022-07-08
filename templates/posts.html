@@ -1,179 +1,176 @@
 {% extends 'base2.html' %}
 {% load static %}
 
-{% block main %}
-<div class="content-wrapper">
-    <div class="row content-padding">
-        <div class="col-lg-8 grid-margin">
-            <div class="row">
-                <div class="col-lg-12">
 
-                    {% for obj in object_list %}
-                    <div class='post-date mx-1 mt-2 mb-3'>
-                        {% now "Y m d" as n %}
-                        {% if n == obj.date|date:"Y m d" %}
-                            <span class='text-uppercase text-muted'>Today</span>
-                        {% elif obj.date == yesterday %}
-                            <span class='text-uppercase text-muted'>Yesterday</span>
-                        {% else %}
-                            <span class='text-uppercase text-muted'>{{ obj.date }}</span>
-                       {% endif %}
-                    </div>
-                            {% for object in obj.post_list %}
-                                <div class="card mb-1">
-                                    <div class="card-body">
+{% block content %}
 
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <h3>{{object.post.title}}</h3>
-                                                <p>{{object.post.description}}</p>
-                                                <span class="text-muted">{{object.post.post_type}}</span><br>
-                                                <div class="badge badge-warning">Category : {{object.post.category}}</div>
-                                                <p class="text-muted">author: {{object.post.submitted_user}}</p>
-                                                <p class="text-muted">tags: {{object.post.tags}}</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                {% if user.is_authenticated %}
+<div class="row">
+    <div class="col-lg-12">
 
-                                                    {% if object.is_voted %}
-                                                        {% include 'dshunt/post_list/vote.html' %}
-
-                                                    {% else %}
-                                                        <a href="{% url 'post-vote' object.post.id %}">
-                                                            {% include 'dshunt/post_list/vote.html' %}
-                                                        </a>
-                                                    {% endif %}
-
-                                                {% else %}
-
-                                                    <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
-                                                        <div class="">
-                                                            {{ object.vote }}<br>
-                                                            <i class="fas fa-hand-point-up text-bluebell"></i>
-                                                        </div>
-                                                    </button></a>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            {% endfor %}
-
-                        {% if object.post_count > 5 %}
-                            <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d' month=object.date|date:'m' %}">View all</a>
-                        {% endif %}
-                    {% endfor %}
-
-                </div>
-            </div>
+        {% for obj in object_list %}
+        <div class='post-date mx-1 mt-2 mb-3'>
+            {% now "Y m d" as n %}
+            {% if n == obj.date|date:"Y m d" %}
+                <span class='text-uppercase text-muted'>Today</span>
+            {% elif obj.date == yesterday %}
+                <span class='text-uppercase text-muted'>Yesterday</span>
+            {% else %}
+                <span class='text-uppercase text-muted'>{{ obj.date }}</span>
+            {% endif %}
         </div>
-        <div class="col-lg-4 grid-margin">
-            <div class="section card mt-3 rounded-1">
-                <div class="card-title mb-0 p-3 bg-light rounded-top">
-                    <span class="mb-0 h6 text-github"><b>Subscribe to The Daily</b></span>
-                </div>
-                <div class="card-body">
-                    <div class="wrapper">
-                        <p class='mb-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+                {% for object in obj.post_list %}
+                    <div class="card mb-1">
+                        <div class="card-body">
 
-                        <div class="w-100 d-flex justify-content-between">
-                          <div class="">
-                            <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
-                          </div>
-                          <div class="">
-                            <button type="submit" class="btn btn-primary">Subscribe</button>
-                          </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3>{{object.post.title}}</h3>
+                                    <p>{{object.post.description}}</p>
+                                    <span class="text-muted">{{object.post.post_type}}</span><br>
+                                    <div class="badge badge-warning">Category : {{object.post.category}}</div>
+                                    <p class="text-muted">author: {{object.post.submitted_user}}</p>
+                                    <p class="text-muted">tags: {{object.post.tags}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    {% if user.is_authenticated %}
+
+                                        {% if object.is_voted %}
+                                            {% include 'dshunt/post_list/vote.html' %}
+
+                                        {% else %}
+                                            <a href="{% url 'post-vote' object.post.id %}">
+                                                {% include 'dshunt/post_list/vote.html' %}
+                                            </a>
+                                        {% endif %}
+
+                                    {% else %}
+
+                                        <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
+                                            <div class="">
+                                                {{ object.vote }}<br>
+                                                <i class="fas fa-hand-point-up text-bluebell"></i>
+                                            </div>
+                                        </button></a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="section card mt-3 rounded-1">
-                <div class="card-title mb-0 p-3 bg-light rounded-top">
-                    <span class="mb-0 h6 text-github"><b>What is Trending?</b></span>
-                </div>
-                <div class="card-body">
-                    <div class="wrapper">
-<div class='h6 fw-bold mb-3'>#learning-ml</div>
+                {% endfor %}
 
-<div class="d-flex align-items-center mb-2">
-  <div class="flex-shrink-0">
-    <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+            {% if object.post_count > 5 %}
+                <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d' month=object.date|date:'m' %}">View all</a>
+            {% endif %}
+        {% endfor %}
 
-  </div>
-  <div class="flex-grow-1 ms-3 small">
-    This is some content from a media component. You can replace this with any content.
-  </div>
+    </div>
 </div>
+{% endblock content %}
 
-<div class="d-flex align-items-center">
-  <div class="flex-shrink-0">
-    <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
 
-  </div>
-  <div class="flex-grow-1 ms-3 small">
-    This is some content from a media component. You can replace.
-  </div>
-</div>
-                        
-                    </div>
 
-                    <div class="wrapper mt-4">
-<div class='h6 fw-bold mb-3'>#terradata</div>
+{% block sidebar %}
+<div class="section card mt-3 rounded-1">
+    <div class="card-title mb-0 p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>Subscribe to The Daily</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper">
+            <p class='mb-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
 
-<div class="d-flex align-items-center mb-2">
-  <div class="flex-shrink-0">
-    <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
-
-  </div>
-  <div class="flex-grow-1 ms-3 small">
-    This is some content from a media component. You can replace this with any content.
-  </div>
-</div>
-
-<div class="d-flex align-items-center">
-  <div class="flex-shrink-0">
-    <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
-
-  </div>
-  <div class="flex-grow-1 ms-3 small">
-    This is some content from a media component. You can replace.
-  </div>
-</div>
-                        
-                    </div>
-
+            <div class="w-100 d-flex justify-content-between">
+                <div class="">
+                <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
                 </div>
-            </div>
-
-            
-
-            <div class="section card mt-3 rounded-1">
-                <div class="card-title p-3 bg-light rounded-top">
-                    <span class="mb-0 h6 text-github"><b>Have a question?</b></span>
+                <div class="">
+                <button type="submit" class="btn btn-primary">Subscribe</button>
                 </div>
-                <div class="card-body">
-                    <div class="wrapper">
-                            <p>Found a bug or have a question regarding the content?</p>
-                            <p>This site is maintained by me and you can reach me at <a href="#">support@dshunt.com</a></p>
-                    </div>
-                </div>
-            </div>
-
-            
-            <div class="section card mt-3 rounded-1">
-                <div class="card-title p-3 bg-light rounded-top">
-                    <span class="mb-0 h6 text-github"><b>Follow Us</b></span>
-                </div>
-                <div class="card-body">
-                    <div class="wrapper"><a href="https://twitter.com/_flock_community"><i class="fab fa-twitter"></i>@_flock_community</a></div>
-                </div>
-            </div>
-
-
             </div>
         </div>
     </div>
 </div>
+
+<div class="section card mt-3 rounded-1">
+    <div class="card-title mb-0 p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>What is Trending?</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper">
+            <div class='h6 fw-bold mb-3'>#learning-ml</div>
+
+            <div class="d-flex align-items-center mb-2">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace this with any content.
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace.
+            </div>
+            </div>
+
+        </div>
+
+        <div class="wrapper mt-4">
+            <div class='h6 fw-bold mb-3'>#terradata</div>
+
+            <div class="d-flex align-items-center mb-2">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace this with any content.
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace.
+            </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="section card mt-3 rounded-1">
+    <div class="card-title p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>Have a question?</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper">
+                <p>Found a bug or have a question regarding the content?</p>
+                <p>This site is maintained by me and you can reach me at <a href="#">support@dshunt.com</a></p>
+        </div>
+    </div>
+</div>
+
+
+<div class="section card mt-3 rounded-1">
+    <div class="card-title p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>Follow Us</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper"><a href="https://twitter.com/_flock_community"><i class="fab fa-twitter"></i>@_flock_community</a></div>
+    </div>
+</div>
 {% endblock %}
+
