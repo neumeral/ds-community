@@ -8,7 +8,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path("accounts/", include("allauth.urls")),
     # Post List
-    path("", views.PostListHomeView.as_view(), name="post-list"),
+    path("", views.PostListHomeView.as_view(), name="root"),
     path("posts/", views.PostListView.as_view(), name="posts"),
     path(
         "posts/<int:year>/<int:month>/<int:day>/",
