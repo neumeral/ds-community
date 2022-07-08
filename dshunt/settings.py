@@ -107,7 +107,7 @@ DATABASES = {
         "POST": "5432",
     }
 }
-
+# If DATABASE_URL is provided in the config then that has higher precedence
 db_from_env = dj_database_url.config()
 if db_from_env:
     DATABASES.update({"default": db_from_env})

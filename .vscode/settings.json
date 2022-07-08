@@ -11,6 +11,9 @@
     "[html]": {
         "editor.formatOnSave": false
     },
+    "[django-html]": {
+        "editor.formatOnSave": false
+    },
     "html.format.wrapLineLength": 0,
     "html.format.wrapAttributes": "aligned-multiple",
     "html.format.indentHandlebars": true,
