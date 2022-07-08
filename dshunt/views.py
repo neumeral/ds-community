@@ -54,6 +54,7 @@ class PostListHomeView(View):
 class PostListView(ListView):
     template_name = 'dshunt/post_list/post_list.html'
     queryset = Post.objects.filter(approved=True).order_by('-published_at')
+    paginate_by = 10
 
     def get_posts_and_votes(self, posts):
         # return [(post, post.get_vote_count()) for post in posts]
@@ -66,16 +67,10 @@ class PostListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        from django.core.paginator import Paginator
-        per_page = self.request.GET.get('per_page', 10)
-        page_number = self.request.GET.get('page', 1)
-
-        paginator = Paginator(self.queryset, per_page)
-        page_obj = paginator.page(page_number)
-        context['paginator'] = paginator
-        context['page_obj'] = page_obj
-        context['is_paginated'] = True
-        context['object_list'] = self.get_posts_and_votes(page_obj.object_list)
+        per_page = self.request.GET.get('per_page')
+        if per_page:
+            self.paginate_by = per_page
+        context['object_list'] = self.get_posts_and_votes(context['object_list'])
         return context
 
 
@@ -101,36 +96,24 @@ class PostListByDateView(DayArchiveView):
 
 # Book, Video, Tutorial, Podcast Lists
 
-class BookListView(ListView):
+class BookListView(PostListView):
     queryset = Book.objects.books()
     template_name = 'dshunt/post_list/post_list.html'
-    paginate_by = 10
-
-    def get_posts_and_votes(self, posts):
-        return [
-            {
-                'post': post,
-                'vote': post.get_vote_count(),
-                'is_voted': post.is_voted(self.request.user)
-            } for post in posts]
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object_list'] = self.get_posts_and_votes(self.queryset)
-        return context
 
 
-class VideoListView(BookListView):
+class VideoListView(PostListView):
     queryset = Video.objects.videos()
 
 
-class TutorialListView(BookListView):
+class TutorialListView(PostListView):
     queryset = Tutorial.objects.tutorials()
 
 
-class PodcastEpisodeListView(BookListView):
+class PodcastEpisodeListView(PostListView):
     queryset = PodcastEpisode.objects.podcasts()
 
+
+# Post Create
 
 class PostSubmitPageView(View):
     template_name = 'dshunt/post_submit.html'
@@ -261,6 +244,17 @@ class CommentCreateView(CreateView):
 
     def form_invalid(self, form):
         return redirect('post-detail', pk=self.kwargs.get('pk'))
+
+
+# class PostDetailView(View):
+#     def get(self, request, *args, **kwargs):
+#         post_id = self.kwargs['id']
+#         post = Post.objects.get(pk=post_id)
+#         context = {}
+#         context['post'] = post
+#         context['object'] = post
+# 
+#         return render(request, 'post-detail.html', context)
 
 
 # Voting to Post
