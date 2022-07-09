@@ -234,19 +234,23 @@ class PostDetailView(DetailView):
     queryset = Post.objects.filter(approved=True)
     template_name = "dshunt/post_detail/post_detail.html"
 
-    def get_comment_set(self, post):
-        if self.request.GET.get("comment") == "all":
-            post_comments = post.postcomment_set.order_by("-id")
-        else:
-            post_comments = post.postcomment_set.order_by("-id")[:5]
+    def get_comments(self, post):
+        return post.postcomment_set.order_by('-id')
+
+    def get_comment_set(self, post_comments):
+        if self.request.GET.get("comment") is None:
+            post_comments = post_comments[:5]
         for comment in post_comments:
             comment.is_commented = comment.is_commented(self.request.user)
         return post_comments
 
     def get_context_data(self, **kwargs):
+        post_comments = self.get_comments(self.object)
         context = super().get_context_data(**kwargs)
-        context["comments"] = self.get_comment_set(self.object)
+        context["comments"] = self.get_comment_set(post_comments)
         context["comment_form"] = CommentForm()
+        context["comments_count"] = post_comments.count()
+
         return context
 
 
