@@ -1,16 +1,16 @@
 
 {% if object.is_voted %}
     <button>
-        {{object.vote}}<br>
+        {{object.total_votes}}<br>
 
         {% if not object.is_voted %}
             <b>VOTE</b>
         {% endif  %}
     </button>
 {% else %}
-    <a href="{% url 'post-vote' object.post.id %}">
+    <a href="{% url 'post-vote' object.id %}">
         <button>
-            {{object.vote}}<br>
+            {{object.total_votes}}<br>
 
             {% if not object.is_voted %}
                 <b>VOTE</b>

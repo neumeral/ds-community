@@ -93,6 +93,12 @@ class Post(models.Model):
         voted = self.postvote_set.filter(created_user=user).exists()
         return voted
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        from django.utils import timezone
+        self.published_at = timezone.now()
+        return super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+
 
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

@@ -1,11 +1,12 @@
 
-    <li>Post Type: {{ object.post.post_type }}</li>
-    <li>Category: {{ object.post.category }}</li>
-    <li>Title: {{ object.post.title }}</li>
-    <li>Description: {{ object.post.description }}</li>
-    <li>Tags: {{ object.post.tags }}</li>
-    <li>Link: {{ object.post.link }}</li>
-    <li>Author: {{ object.post.author }}</li>
-    <li>Channel: {{ object.post.channel }}</li>
-    <li>Podcast: {{ object.post.podcast }}</li>
-    <li>Published Date: {{ object.post.published_at|date }}</li>
+    <li>Post Type: {{ object.get_post_type_display }}</li>
+    <li>Category: {{ object.category }}</li>
+    <li>Title: {{ object.title }}</li>
+    <li>Description: {{ object.description }}</li>
+    <li>Tags: {{ object.tags }}</li>
+    <li>Link: {{ object.link }}</li>
+    <li>Author: {{ object.author }}</li>
+    <li>Channel: {{ object.channel }}</li>
+    <li>Podcast: {{ object.podcast }}</li>
+    <li>Votes: {{ object.total_votes }}</li>
+    <li>Published Date: {{ object.published_at|date }}</li>

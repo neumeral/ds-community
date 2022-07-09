@@ -33,16 +33,9 @@ from .models import (
 class PostListHomeView(View):
     model = Post
 
-    def get_posts_and_votes(self, posts):
-        # return [(post, post.get_vote_count()) for post in posts]
-        return [
-            {
-                "post": post,
-                "vote": post.get_vote_count(),
-                "is_voted": post.is_voted(self.request.user),
-            }
-            for post in posts
-        ]
+    def update_post_context(self, posts):
+        for post in posts:
+            post.is_voted = post.is_voted(self.request.user)
 
     def get(self, request, *args, **kwargs):
         object_list = []
@@ -57,7 +50,8 @@ class PostListHomeView(View):
             if posts.exists():
                 sorted_posts = posts.order_by("-total_votes")[:5]
                 object_data["date"] = post_date
-                object_data["post_list"] = self.get_posts_and_votes(sorted_posts)
+                self.update_post_context(sorted_posts)
+                object_data["post_list"] = sorted_posts
                 object_data["post_count"] = posts.count()
                 object_list.append(object_data)
 
@@ -77,23 +71,17 @@ class PostListView(ListView):
     queryset = Post.objects.filter(approved=True).order_by("-published_at")
     paginate_by = 10
 
-    def get_posts_and_votes(self, posts):
-        # return [(post, post.get_vote_count()) for post in posts]
-        return [
-            {
-                "post": post,
-                "vote": post.get_vote_count(),
-                "is_voted": post.is_voted(self.request.user),
-            }
-            for post in posts
-        ]
+    def update_post_context(self, posts):
+        for post in posts:
+            post.is_voted = post.is_voted(self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         per_page = self.request.GET.get("per_page")
         if per_page:
             self.paginate_by = per_page
-        context["object_list"] = self.get_posts_and_votes(context["object_list"])
+
+        self.update_post_context(context["object_list"])
         return context
 
 
@@ -103,19 +91,13 @@ class PostListByDateView(DayArchiveView):
     template_name = "dshunt/post_list/post_list.html"
     paginate_by = 10
 
-    def get_posts_and_votes(self, posts):
-        return [
-            {
-                "post": post,
-                "vote": post.get_vote_count(),
-                "is_voted": post.is_voted(self.request.user),
-            }
-            for post in posts
-        ]
+    def update_post_context(self, posts):
+        for post in posts:
+            post.is_voted = post.is_voted(self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["object_list"] = self.get_posts_and_votes(context["post_list"])
+        self.update_post_context(context["object_list"])
         return context
 
 
@@ -152,10 +134,10 @@ class PostSubmitPageView(View):
         if form.is_valid():
             post_type = form.cleaned_data.get("post_type")
             post_views = {
-                "Book": "book-create",
-                "Video": "video-create",
-                "Tutorial": "tutorial-create",
-                "Podcast": "podcast-episode-create",
+                "book": "book-create",
+                "video": "video-create",
+                "tutorial": "tutorial-create",
+                "podcast": "podcast-episode-create",
             }
             return redirect(post_views.get(post_type))
         self.get(request, *args, **kwargs)
@@ -185,11 +167,13 @@ class BookCreateView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
+            from django.utils import timezone
             book = form.save(commit=False)
             book.created_user = self.request.user
             book.post_type = PostType.BOOK
+            book.published_at = timezone.now()
             book.save()
-            return redirect("post-list")
+            return redirect("posts")
         else:
             return render(
                 request,
@@ -203,7 +187,7 @@ class VideoCreateView(CreateView):
     template_name = "dshunt/video_create_form.html"
     initial = {"post_type": PostType.VIDEO}
     post_type = PostType.VIDEO
-    success_url = reverse_lazy("post-list")
+    success_url = reverse_lazy("posts")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

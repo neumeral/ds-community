@@ -24,30 +24,23 @@
 
                             <div class="row">
                                 <div class="col-md-8">
-                                    <h3>{{object.post.title}}</h3>
-                                    <p>{{object.post.description}}</p>
-                                    <span class="text-muted">{{object.post.post_type}}</span><br>
-                                    <div class="badge badge-warning">Category : {{object.post.category}}</div>
-                                    <p class="text-muted">author: {{object.post.submitted_user}}</p>
-                                    <p class="text-muted">tags: {{object.post.tags}}</p>
+                                    <h3>{{object.title}}</h3>
+                                    <p>{{object.description}}</p>
+                                    <span class="text-muted">{{object.post_type}}</span><br>
+                                    <div class="badge badge-warning">Category : {objectt.category}}</div>
+                                    <p class="text-muted">author: {{object.submitted_user}}</p>
+                                    <p class="text-muted">tags: {{object.tags}}</p>
                                 </div>
                                 <div class="col-md-4">
                                     {% if user.is_authenticated %}
 
-                                        {% if object.is_voted %}
-                                            {% include 'dshunt/post_list/vote.html' %}
-
-                                        {% else %}
-                                            <a href="{% url 'post-vote' object.post.id %}">
-                                                {% include 'dshunt/post_list/vote.html' %}
-                                            </a>
-                                        {% endif %}
+                                        {% include 'dshunt/post_list/vote.html' %}
 
                                     {% else %}
 
                                         <a class="text-dark votea" href="{% url 'account_login' %}"><button class="vote float-right p-3 mt-4">
                                             <div class="">
-                                                {{ object.vote }}<br>
+                                                {{ object.total_votes }}<br>
                                                 <i class="fas fa-hand-point-up text-bluebell"></i>
                                             </div>
                                         </button></a>
@@ -60,7 +53,8 @@
                 {% endfor %}
 
             {% if object.post_count > 5 %}
-                <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d' month=object.date|date:'m' %}">View all</a>
+                <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d'
+                month=object.date|date:'m' %}">View all</a>
             {% endif %}
         {% endfor %}
 
