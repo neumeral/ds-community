@@ -8,16 +8,16 @@
     <div class="col-lg-12">
 
         {% for obj in object_list %}
-        <div class='post-date mx-1 mt-2 mb-3'>
-            {% now "Y m d" as n %}
-            {% if n == obj.date|date:"Y m d" %}
-                <span class='text-uppercase text-muted'>Today</span>
-            {% elif obj.date == yesterday %}
-                <span class='text-uppercase text-muted'>Yesterday</span>
-            {% else %}
-                <span class='text-uppercase text-muted'>{{ obj.date }}</span>
-            {% endif %}
-        </div>
+            <div class='post-date mx-1 mt-2 mb-3'>
+                {% now "Y m d" as n %}
+                {% if n == obj.date|date:"Y m d" %}
+                    <span class='text-uppercase text-muted'>Today</span>
+                {% elif obj.date == yesterday %}
+                    <span class='text-uppercase text-muted'>Yesterday</span>
+                {% else %}
+                    <span class='text-uppercase text-muted'>{{ obj.date }}</span>
+                {% endif %}
+            </div>
                 {% for object in obj.post_list %}
                     <div class="card mb-1">
                         <div class="card-body">
@@ -52,9 +52,8 @@
 
                 {% endfor %}
 
-            {% if object.post_count > 5 %}
-                <a href="{% url 'posts-list-by-date' year=object.date|date:'Y' day=object.date|date:'d'
-                month=object.date|date:'m' %}">View all</a>
+            {% if obj.post_count > 5 %}
+                <a href="{% url 'posts-list-by-date' obj.date|date:'Y' obj.date|date:'m' obj.date|date:'d' %}">View all</a>
             {% endif %}
         {% endfor %}
 

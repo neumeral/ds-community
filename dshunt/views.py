@@ -48,11 +48,11 @@ class PostListHomeView(View):
             posts = self.model.objects.filter(published_at__date=post_date, approved=True)
 
             if posts.exists():
-                sorted_posts = posts.order_by("-total_votes")[:5]
                 object_data["date"] = post_date
-                self.update_post_context(sorted_posts)
-                object_data["post_list"] = sorted_posts
                 object_data["post_count"] = posts.count()
+                posts = posts.order_by("-total_votes")[:5]
+                self.update_post_context(posts)
+                object_data["post_list"] = posts
                 object_list.append(object_data)
 
         # Redirecting to all post list when main_posts is empty
@@ -64,6 +64,22 @@ class PostListHomeView(View):
             "yesterday": today - datetime.timedelta(days=1),
         }
         return render(request, "posts.html", context)
+
+
+class PostListByDateView(DayArchiveView):
+    queryset = Post.objects.filter(approved=True).order_by("-total_votes")
+    date_field = "published_at"
+    template_name = "dshunt/post_list/post_list.html"
+    paginate_by = 10
+
+    def update_post_context(self, posts):
+        for post in posts:
+            post.is_voted = post.is_voted(self.request.user)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.update_post_context(context["object_list"])
+        return context
 
 
 class PostListView(ListView):
@@ -81,22 +97,6 @@ class PostListView(ListView):
         if per_page:
             self.paginate_by = per_page
 
-        self.update_post_context(context["object_list"])
-        return context
-
-
-class PostListByDateView(DayArchiveView):
-    queryset = Post.objects.filter(approved=True).order_by("-published_at")
-    date_field = "published_at"
-    template_name = "dshunt/post_list/post_list.html"
-    paginate_by = 10
-
-    def update_post_context(self, posts):
-        for post in posts:
-            post.is_voted = post.is_voted(self.request.user)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
         self.update_post_context(context["object_list"])
         return context
 

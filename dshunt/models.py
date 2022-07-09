@@ -96,7 +96,14 @@ class Post(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         from django.utils import timezone
-        self.published_at = timezone.now()
+
+        if self.pk:
+            p = Post.objects.get(pk=self.pk)
+            if not p.approved:
+                self.approved_at = timezone.now()
+        else:
+            self.published_at = timezone.now()
+
         return super().save(force_insert=False, force_update=False, using=None, update_fields=None)
 
 
@@ -156,10 +163,6 @@ class PostQuerySet(models.QuerySet):
 class PostManager(models.Manager):
     def get_queryset(self):
         return PostQuerySet(self.model, using=self._db).all()
-
-    def get_sorted_query(self, query):
-        query = sorted(query, key=lambda obj: obj.get_vote_count(), reverse=True)
-        return query
 
 
 class BookManager(models.Manager):
