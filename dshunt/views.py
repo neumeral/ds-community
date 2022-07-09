@@ -265,17 +265,6 @@ class CommentCreateView(CreateView):
         return redirect("post-detail", pk=self.kwargs.get("pk"))
 
 
-# class PostDetailView(View):
-#     def get(self, request, *args, **kwargs):
-#         post_id = self.kwargs['id']
-#         post = Post.objects.get(pk=post_id)
-#         context = {}
-#         context['post'] = post
-#         context['object'] = post
-#
-#         return render(request, 'post-detail.html', context)
-
-
 class Vote(View):
     def get(self, request, *args, **kwargs):
         post_id = kwargs["id"]

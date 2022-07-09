@@ -99,7 +99,7 @@ class Post(models.Model):
 
         if self.pk:
             p = Post.objects.get(pk=self.pk)
-            if not p.approved:
+            if not p.approved and self.approved:
                 self.approved_at = timezone.now()
         else:
             self.published_at = timezone.now()
