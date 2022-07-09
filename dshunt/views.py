@@ -279,7 +279,7 @@ class Vote(View):
                 post.save()
                 vote.save()
 
-        return redirect("post-list")
+        return redirect("posts")
 
 
 def category(request):
