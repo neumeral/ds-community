@@ -1,0 +1,7 @@
+TRUNCATE TABLE dshunt_postcomment CASCADE;
+TRUNCATE TABLE dshunt_postvote CASCADE;
+TRUNCATE TABLE dshunt_post CASCADE;
+TRUNCATE TABLE dshunt_category CASCADE;
+TRUNCATE TABLE dshunt_channel CASCADE;
+TRUNCATE TABLE dshunt_collection CASCADE;
+TRUNCATE TABLE dshunt_podcast CASCADE;

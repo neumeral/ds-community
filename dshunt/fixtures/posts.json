@@ -1,0 +1,111 @@
+[{
+        "model": "dshunt.post",
+        "pk": 3,
+        "fields": {
+            "post_type": "book",
+            "category": 7,
+            "title": "Head First Statistics: A Brain-Friendly Guide",
+            "description": "Just like other books of Headfirst, the tone of this book is friendly and conversational and the best book for data science to start with. The book covers a lot of statistics starting with descriptive statistics – mean, median, mode, standard deviation – and then go on to probability and inferential statistics like correlation, regression, etc… If you were a science or commerce student in school, you may have studied all of it, and the book is a great start to refresh everything you have already learned in a detailed manner.",
+            "tags": "[\"beginner\", \"ds-book\", \"statistics\"]",
+            "link": "https://www.oreilly.com/library/view/head-first-statistics/9780596527587/",
+            "author": "Dawn Griffiths",
+            "channel": null,
+            "podcast": null,
+            "published_at": "2022-07-13T09:59:30.690Z",
+            "approved_at": "2022-07-13T09:59:29Z",
+            "created_user": 2,
+            "approved": true,
+            "created_at": "2022-07-13T09:59:30.691Z",
+            "updated_at": "2022-07-13T09:59:30.691Z",
+            "total_votes": 0
+        }
+    },
+    {
+        "model": "dshunt.post",
+        "pk": 4,
+        "fields": {
+            "post_type": "book",
+            "category": 1,
+            "title": "Pattern recognition and machine learning",
+            "description": "This book is for all age groups, whether you are an undergraduate, graduate or advanced level researcher, there is something for everyone. If you have a Kindle subscription, this book will cost you nothing. Get the international edition that has colorful pictures and graphs making your reading experience totally worth it.",
+            "tags": "[\"ml\", \"beginner\"]",
+            "link": "http://users.isr.ist.utl.pt/~wurmd/Livros/school/Bishop%20-%20Pattern%20Recognition%20And%20Machine%20Learning%20-%20Springer%20%202006.pdf",
+            "author": "Christopher M Bishop",
+            "channel": null,
+            "podcast": null,
+            "published_at": "2022-07-13T10:01:14.995Z",
+            "approved_at": "2022-07-13T10:01:08Z",
+            "created_user": 2,
+            "approved": false,
+            "created_at": "2022-07-13T10:01:14.995Z",
+            "updated_at": "2022-07-13T10:01:14.995Z",
+            "total_votes": 0
+        }
+    },
+    {
+        "model": "dshunt.post",
+        "pk": 5,
+        "fields": {
+            "post_type": "podcast",
+            "category": 1,
+            "title": "Machine Learning Tutorial Python -1: What is Machine Learning?",
+            "description": "What is Machine Learning? This is an introduction to machine learning to begin the python machine learning tutorial series. This video describes what is machine learning, deep learning, machine learning application in real life. In next tutorial we will start writing python code to solve a simple problem using machine learning",
+            "tags": "[\"ml\", \"video\"]",
+            "link": "https://www.youtube.com/watch?v=gmvvaobm7eQ",
+            "author": null,
+            "channel": 1,
+            "podcast": null,
+            "published_at": "2022-07-13T10:02:54.551Z",
+            "approved_at": "2022-07-13T10:02:38Z",
+            "created_user": 3,
+            "approved": false,
+            "created_at": "2022-07-13T10:02:54.551Z",
+            "updated_at": "2022-07-13T10:02:54.551Z",
+            "total_votes": 0
+        }
+    },
+    {
+        "model": "dshunt.post",
+        "pk": 6,
+        "fields": {
+            "post_type": "video",
+            "category": 2,
+            "title": "Simulations and Synthetic Data for Machine Learning",
+            "description": "In this episode you will learn:\r\n• What simulations and synthetic data are, and why they can be invaluable for real-life applications [4:03]\r\n• How simulated bots can solve any problem [7:23]\r\n• Practical uses of simulated data [20:05]\r\n• Why the mobile operating system language Swift is interesting for A.I. [24:02]\r\n• Why it's critical to track the amount of junk in space [34:03]\r\n• Whether programming or statistical skills are more important in data science [45:21]\r\n• What it’s like creating video games in a \"secret\" games lab [55:01]\r\n• Why you might want to do a data science internship in industry before pursuing in academia [ 1:00:10]",
+            "tags": "[\"simulation\", \"data\", \"synthetic-data\"]",
+            "link": "https://www.youtube.com/watch?v=0Y74L5JXGmM",
+            "author": "Jared",
+            "channel": 2,
+            "podcast": null,
+            "published_at": "2022-07-13T10:04:51.010Z",
+            "approved_at": "2022-07-13T10:04:46Z",
+            "created_user": 3,
+            "approved": false,
+            "created_at": "2022-07-13T10:04:51.011Z",
+            "updated_at": "2022-07-13T10:04:51.011Z",
+            "total_votes": 0
+        }
+    },
+    {
+        "model": "dshunt.post",
+        "pk": 7,
+        "fields": {
+            "post_type": "tutorial",
+            "category": 3,
+            "title": "Logging in Python",
+            "description": "Logging is a very useful tool in a programmer’s toolbox. It can help you develop a better understanding of the flow of a program and discover scenarios that you might not even have thought of while developing.\r\n\r\nLogs provide developers with an extra set of eyes that are constantly looking at the flow that an application is going through. They can store information, like which user or IP accessed the application. If an error occurs, then they can provide more insights than a stack trace by telling you what the state of the program was before it arrived at the line of code where the error occurred.",
+            "tags": "[\"logging\", \"python\"]",
+            "link": "https://realpython.com/python-logging/",
+            "author": "RealPython",
+            "channel": null,
+            "podcast": null,
+            "published_at": "2022-07-13T10:05:58.076Z",
+            "approved_at": "2022-07-13T10:05:52Z",
+            "created_user": 3,
+            "approved": true,
+            "created_at": "2022-07-13T10:05:58.077Z",
+            "updated_at": "2022-07-13T10:05:58.077Z",
+            "total_votes": 0
+        }
+    }
+]
