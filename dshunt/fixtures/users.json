@@ -1,0 +1,83 @@
+[{
+        "model": "dshunt.appuser",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$r1iFLXpF1RL0FyPHrz3FJk$1V/FIyGcymdP/6SRMYLgltx3792XFM/0g9uB7+HQrsg=",
+            "last_login": "2022-07-13T09:56:09.902Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "admin@example.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2022-07-08T07:09:56.239Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "dshunt.appuser",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$YF8DjzYAR7V25pDYldVp2X$tyFS0NNwYLuowiM1eMBLB0sunlqY5zrEeQlTWVN3zuY=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "john",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2022-07-13T09:59:18.187Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "dshunt.appuser",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$HB9QIEtCWcCphD2G0fjTI2$GBOKQGgaSO3StC3ixtV1MJxmFkSw6ssI/yv3aaeDedw=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "jane",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2022-07-13T10:02:49.645Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "dshunt.userprofile",
+        "pk": 1,
+        "fields": {
+            "user": 3,
+            "headline": "Data Scientist @ Yelp",
+            "avatar": "",
+            "website": "https://janeatyelpds.com",
+            "twitter_profile": "janeds",
+            "github_profile": null,
+            "linkedin": null,
+            "youtube_channel": null
+        }
+    },
+    {
+        "model": "dshunt.userprofile",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "headline": "Data Analyst @ Google",
+            "avatar": "",
+            "website": "https://datasciencebyjohn.com",
+            "twitter_profile": "datasciencebyjohn",
+            "github_profile": null,
+            "linkedin": null,
+            "youtube_channel": null
+        }
+    }
+]

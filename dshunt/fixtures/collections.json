@@ -1,0 +1,34 @@
+[{
+        "model": "dshunt.collection",
+        "pk": 1,
+        "fields": {
+            "title": "Beginner Tutorials",
+            "description": "A list of beginner tutorials and videos.",
+            "is_staffpick": false,
+            "is_public": true,
+            "created_user": 3,
+            "created_at": "2022-07-13T10:07:26.599Z",
+            "updated_at": "2022-07-13T10:07:26.599Z",
+            "posts": [
+                5,
+                7
+            ]
+        }
+    },
+    {
+        "model": "dshunt.collection",
+        "pk": 2,
+        "fields": {
+            "title": "Course on Deep Learning",
+            "description": "We have put together a course on deep learning.",
+            "is_staffpick": false,
+            "is_public": true,
+            "created_user": 2,
+            "created_at": "2022-07-13T10:07:59.554Z",
+            "updated_at": "2022-07-13T10:07:59.554Z",
+            "posts": [
+                4
+            ]
+        }
+    }
+]

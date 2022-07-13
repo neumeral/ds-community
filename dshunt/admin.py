@@ -6,11 +6,13 @@ from .models import (
     AppUser,
     Book,
     Category,
+    Collection,
     PodcastEpisode,
     Post,
     PostComment,
     PostVote,
     Tutorial,
+    UserProfile,
     Video,
 )
 
@@ -22,6 +24,7 @@ class AppUserAdmin(BaseUserAdmin):
 
 
 admin.site.register(AppUser, AppUserAdmin)
+admin.site.register(UserProfile)
 
 admin.site.register(Category)
 
@@ -33,3 +36,5 @@ admin.site.register(Book)
 admin.site.register(Video)
 admin.site.register(Tutorial)
 admin.site.register(PodcastEpisode)
+
+admin.site.register(Collection)

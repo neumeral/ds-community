@@ -40,6 +40,7 @@ class Category(models.Model):
 
 class Channel(models.Model):
     name = models.CharField(max_length=100)
+    link = models.URLField(blank=True, null=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -50,6 +51,7 @@ class Channel(models.Model):
 
 class Podcast(models.Model):
     name = models.CharField(max_length=100)
+    link = models.URLField(blank=True, null=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -1,89 +1,68 @@
-[
-    {
-        "model":"dshunt.Category",
-        "pk":1,
-        "fields":{
-            "name":"Computer Science",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "created_at": "2022-06-21",
-            "updated_at": "2022-06-21"
-        }
-    },
-    {
-        "model":"dshunt.Category",
-        "pk":2,
-        "fields":{
-            "name":"Data Science",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "created_at": "2022-06-21",
-            "updated_at": "2022-06-21"
-        }
-    },
-    {
-        "model":"dshunt.Category",
-        "pk":3,
-        "fields":{
-            "name":"python",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "created_at": "2022-06-21",
-            "updated_at": "2022-06-21"
-        }
-    },
-    {
-        "model":"dshunt.Channel",
-        "pk":1,
-        "fields":{
-            "name":"Channel 1",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "created_at": "2022-06-21",
-            "updated_at": "2022-06-21"
-        }
-    },
-    {
-        "model":"dshunt.Channel",
-        "pk":2,
-        "fields":{
-            "name":"Channel 2",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "created_at": "2022-06-21",
-            "updated_at": "2022-06-21"
-        }
-    },
-    {
-        "model":"dshunt.Channel",
-        "pk":3,
-        "fields": {
-            "name": "Channel 3",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-            "created_at": "2022-06-21",
-            "updated_at": "2022-06-21"
-        }
-    },
-    {
-        "model": "dshunt.Podcast",
+[{
+        "model": "dshunt.Category",
         "pk": 1,
         "fields": {
-            "name": "Podcast 1",
+            "name": "Machine Learning",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             "created_at": "2022-06-21",
             "updated_at": "2022-06-21"
         }
     },
     {
-        "model": "dshunt.Podcast",
+        "model": "dshunt.Category",
         "pk": 2,
         "fields": {
-            "name": "Podcast 2",
+            "name": "Deep Learning",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             "created_at": "2022-06-21",
             "updated_at": "2022-06-21"
         }
     },
     {
-        "model": "dshunt.Podcast",
+        "model": "dshunt.Category",
         "pk": 3,
         "fields": {
-            "name": "Podcast 3",
+            "name": "Python",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    },
+    {
+        "model": "dshunt.Category",
+        "pk": 4,
+        "fields": {
+            "name": "NLP",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    },
+    {
+        "model": "dshunt.Category",
+        "pk": 5,
+        "fields": {
+            "name": "Neural Networks",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    },
+    {
+        "model": "dshunt.Category",
+        "pk": 6,
+        "fields": {
+            "name": "Math for DS",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    },
+    {
+        "model": "dshunt.Category",
+        "pk": 7,
+        "fields": {
+            "name": "Data Science",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             "created_at": "2022-06-21",
             "updated_at": "2022-06-21"

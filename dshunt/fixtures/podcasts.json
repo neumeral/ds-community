@@ -1,0 +1,34 @@
+[{
+        "model": "dshunt.Podcast",
+        "pk": 1,
+        "fields": {
+            "name": "Super Data Science",
+            "link": "https://www.superdatascience.com/podcast",
+            "description": "The Super Data Science podcast with Jon Krohn brings you the latest and most important machine learning, artificial intelligence, and broader data-world topics from across both academia and industry.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    },
+    {
+        "model": "dshunt.Podcast",
+        "pk": 2,
+        "fields": {
+            "name": "Data Engineering Podcast",
+            "link": "https://www.dataengineeringpodcast.com/",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    },
+    {
+        "model": "dshunt.Podcast",
+        "pk": 3,
+        "fields": {
+            "name": "DataFramed by Data Camp",
+            "link": "https://www.datacamp.com/podcast",
+            "description": "DataFramed is a podcast for data & analytics leaders looking to scale data science throughout their organization by equipping them with the insights to drive value from data science and create a data-driven culture. Each episode will feature a conversation with data science and analytics leaders who are transforming their organizations and are at the forefront of the data revolution. ",
+            "created_at": "2022-06-21",
+            "updated_at": "2022-06-21"
+        }
+    }
+]
