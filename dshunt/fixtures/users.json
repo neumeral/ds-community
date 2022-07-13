@@ -20,7 +20,7 @@
         "model": "dshunt.appuser",
         "pk": 2,
         "fields": {
-            "password": "pbkdf2_sha256$260000$YF8DjzYAR7V25pDYldVp2X$tyFS0NNwYLuowiM1eMBLB0sunlqY5zrEeQlTWVN3zuY=",
+            "password": "pbkdf2_sha256$260000$r1iFLXpF1RL0FyPHrz3FJk$1V/FIyGcymdP/6SRMYLgltx3792XFM/0g9uB7+HQrsg=",
             "last_login": null,
             "is_superuser": false,
             "username": "john",
@@ -38,7 +38,7 @@
         "model": "dshunt.appuser",
         "pk": 3,
         "fields": {
-            "password": "pbkdf2_sha256$260000$HB9QIEtCWcCphD2G0fjTI2$GBOKQGgaSO3StC3ixtV1MJxmFkSw6ssI/yv3aaeDedw=",
+            "password": "pbkdf2_sha256$260000$r1iFLXpF1RL0FyPHrz3FJk$1V/FIyGcymdP/6SRMYLgltx3792XFM/0g9uB7+HQrsg=",
             "last_login": null,
             "is_superuser": false,
             "username": "jane",
