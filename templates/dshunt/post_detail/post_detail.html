@@ -27,7 +27,7 @@
                 {% endfor %}
             </ol>
 
-            {% if comments_count > 5 %}
+            {% if comments|length == 5 and comments_count > 5 %}
                 <a href="?comment=all">view all</a>
             {% endif %}
         </div>
