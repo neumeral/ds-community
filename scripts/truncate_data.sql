@@ -5,3 +5,5 @@ TRUNCATE TABLE dshunt_category CASCADE;
 TRUNCATE TABLE dshunt_channel CASCADE;
 TRUNCATE TABLE dshunt_collection CASCADE;
 TRUNCATE TABLE dshunt_podcast CASCADE;
+TRUNCATE TABLE dshunt_appuser CASCADE;
+TRUNCATE TABLE dshunt_userprofile CASCADE;
