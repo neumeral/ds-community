@@ -1,19 +1,14 @@
 {% extends 'base2.html' %}
 
-{% block main %}
-        <ul>
-            {% for object in object_list %}
+{% block content %}
 
-                {% include 'dshunt/post_list/post.html' %}
+<ul>
+    {% for object in object_list %}
+        {% include 'dshunt/post_list/post.html' %}
+        {% include 'dshunt/post_list/vote.html' %}
+    {% endfor %}
+</ul>
 
-                {% include 'dshunt/post_list/vote.html' %}
-
-            {% endfor %}
-
-        </ul>
-
-
-<!--Bootstrap for Pagination-->
 
 {% if paginator.num_pages > 1 %}
 <nav aria-label="...">
@@ -51,3 +46,110 @@
 {% endif %}
 
 {% endblock %}
+
+
+
+{% block sidebar %}
+<div class="section card mt-3 rounded-1">
+    <div class="card-title mb-0 p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>Subscribe to The Daily</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper">
+            <p class='mb-3'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+
+            <div class="w-100 d-flex justify-content-between">
+                <div class="">
+                <input type="text" class="form-control" placeholder="Your email eg. john@example.com" aria-label="Email Address">
+                </div>
+                <div class="">
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section card mt-3 rounded-1">
+    <div class="card-title mb-0 p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>What is Trending?</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper">
+            <div class='h6 fw-bold mb-3'>#learning-ml</div>
+
+            <div class="d-flex align-items-center mb-2">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace this with any content.
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace.
+            </div>
+            </div>
+
+        </div>
+
+        <div class="wrapper mt-4">
+            <div class='h6 fw-bold mb-3'>#terradata</div>
+
+            <div class="d-flex align-items-center mb-2">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace this with any content.
+            </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+                <svg class="bd-placeholder-img" width="80" height="80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e5e5e5"></rect><text x="50%" y="50%" fill="#999" dy=".3em">Image</text></svg>
+
+            </div>
+            <div class="flex-grow-1 ms-3 small">
+                This is some content from a media component. You can replace.
+            </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="section card mt-3 rounded-1">
+    <div class="card-title p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>Have a question?</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper">
+                <p>Found a bug or have a question regarding the content?</p>
+                <p>This site is maintained by me and you can reach me at <a href="#">support@dshunt.com</a></p>
+        </div>
+    </div>
+</div>
+
+
+<div class="section card mt-3 rounded-1">
+    <div class="card-title p-3 bg-light rounded-top">
+        <span class="mb-0 h6 text-github"><b>Follow Us</b></span>
+    </div>
+    <div class="card-body">
+        <div class="wrapper"><a href="https://twitter.com/_flock_community"><i class="fab fa-twitter"></i>@_flock_community</a></div>
+    </div>
+</div>
+{% endblock %}
+
