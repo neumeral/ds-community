@@ -93,6 +93,19 @@ class Post(models.Model):
         voted = self.postvote_set.filter(created_user=user).exists()
         return voted
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        from django.utils import timezone
+
+        if self.pk:
+            p = Post.objects.get(pk=self.pk)
+            if not p.approved and self.approved:
+                self.approved_at = timezone.now()
+        else:
+            self.published_at = timezone.now()
+
+        return super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+
 
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -150,10 +163,6 @@ class PostQuerySet(models.QuerySet):
 class PostManager(models.Manager):
     def get_queryset(self):
         return PostQuerySet(self.model, using=self._db).all()
-
-    def get_sorted_query(self, query):
-        query = sorted(query, key=lambda obj: obj.get_vote_count(), reverse=True)
-        return query
 
 
 class BookManager(models.Manager):

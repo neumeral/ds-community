@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import AppUser, Book, Video, Tutorial, PodcastEpisode
+from .models import AppUser, Book, Video, Tutorial, PodcastEpisode, PostType
 from .models import Podcast, Channel, PostComment
 
 
@@ -18,17 +18,9 @@ class AppUserChangeForm(UserChangeForm):
         model = AppUser
         fields = ['email']
 
-POST_TYPES = [
-    ('', '------select-----'),
-    ('Book', 'Book'),
-    ('Video', 'Video'),
-    ('Tutorial', 'Tutorial'),
-    ('Podcast', 'Podcast Episode')
-]
-
 
 class PostTypeForm(forms.Form):
-    post_type = forms.ChoiceField(choices=POST_TYPES)
+    post_type = forms.ChoiceField(choices=PostType.choices)
 
 
 class BookCreateForm(forms.ModelForm):
