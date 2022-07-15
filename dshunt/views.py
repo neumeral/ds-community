@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.dates import DayArchiveView
+from django.core.paginator import Paginator
 
 from .forms import (
     BookCreateForm,
@@ -16,6 +17,7 @@ from .forms import (
     PostTypeForm,
     TutorialCreateForm,
     VideoCreateForm,
+    CollectionForm
 )
 from .models import (
     Book,
@@ -26,6 +28,7 @@ from .models import (
     PostVote,
     Tutorial,
     Video,
+    Collection
 )
 
 
@@ -290,3 +293,46 @@ def category(request):
     categories = Category.objects.all()
     context = {"categories": categories}
     return render(request, "dshunt/category.html", context)
+
+
+# Collections
+
+def collection_create_view(request):
+    form = CollectionForm()
+
+    if request.method == 'POST':
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            posts = form.cleaned_data.get('posts')
+            form.instance.created_user = request.user
+            form.save()
+            for post in posts:
+                form.posts.add(post)
+            return redirect('collection-list')
+        else:
+            return render(request, 'dshunt/collection/collection_form.html', {'form':  form})
+    return render(request, 'dshunt/collection/collection_form.html', {'form':  form})
+
+
+def collection_list_view(request):
+    per_page = request.GET.get('per_page', 1)
+    page = request.GET.get('page', 1)
+    is_paginated = True
+
+    collections = Collection.objects.filter(created_user=request.user)
+    paginator = Paginator(collections, int(per_page))
+    page_obj = paginator.page(int(page))
+    context = dict()
+    # object_list = page_obj.object_list
+    # context['object_list'] = object_list
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+    context['is_paginated'] = is_paginated
+
+    return render(request, 'dshunt/collection/collection_list.html', context)
+
+
+def collection_detail_view(request, id):
+    collection = get_object_or_404(Collection, pk=id)
+    context = {'collection': collection}
+    return render(request, template_name='dshunt/collection/collection_detail.html', context=context)

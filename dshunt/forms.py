@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import AppUser, Book, Video, Tutorial, PodcastEpisode, PostType
-from .models import Podcast, Channel, PostComment
+from .models import AppUser, Post, Book, Video, Tutorial, PodcastEpisode, PostType
+from .models import (Podcast, Channel, PostComment, Collection)
 
 
 class AppUserCreationForm(UserCreationForm):
@@ -97,3 +97,15 @@ class CommentForm(forms.ModelForm):
             'content',
         )
 
+
+class CollectionForm(forms.ModelForm):
+
+    class Meta:
+        model = Collection
+        fields = (
+            'title',
+            'description',
+            'posts',
+            'is_staffpick',
+            'is_public'
+        )

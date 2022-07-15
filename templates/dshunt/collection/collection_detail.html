@@ -1,0 +1,27 @@
+{% extends 'base2.html' %}
+
+{% block main %}
+  <h2>Collection Detail</h2>
+
+  <a href="#"><button>Add Post</button></a>
+
+  <div class="p-4">
+    <p>Title: {{ collection.title }}</p>
+    <p>Description: {{ collection.description }}</p>
+    <p>is_staffpick: {{ collection.is_staffpick }}</p>
+    <p>is_public: {{ collection.is_public }}</p>
+    <p>Created User: {{ collection.created_user }}</p>
+    <p>Created At: {{ collection.created_at }}</p>
+    <p>Posts
+    {% if collection.posts %}
+      <div>
+        <ul>
+          {% for object in collection.posts.all %}
+            {% include 'dshunt/post_list/post.html' %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    </p>
+  </div>
+{% endblock %}
