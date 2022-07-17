@@ -301,7 +301,7 @@ def category(request):
 
 # Collections
 
-@login_required()
+@login_required
 def collection_create_view(request):
     form = CollectionForm()
 
@@ -319,7 +319,7 @@ def collection_create_view(request):
     return render(request, 'dshunt/collection/collection_form.html', {'form':  form})
 
 
-@login_required()
+@login_required
 def collection_list_view(request):
     per_page = request.GET.get('per_page', 10)
     page = request.GET.get('page', 1)
@@ -338,7 +338,7 @@ def collection_list_view(request):
     return render(request, 'dshunt/collection/collection_list.html', context)
 
 
-@login_required()
+@login_required
 def collection_detail_view(request, pk):
     collection = get_object_or_404(Collection, pk=pk)
     posts = collection.posts.select_related()
@@ -350,7 +350,7 @@ def collection_detail_view(request, pk):
     return render(request, template_name='dshunt/collection/collection_detail.html', context=context)
 
 
-@login_required()
+@login_required
 def add_post_to_collection_view(request, pk):
 
     if request.method == 'POST':
@@ -378,7 +378,7 @@ def add_post_to_collection_view(request, pk):
 
 # Staff Picks
 
-@login_required()
+@login_required
 def staff_pick_collection_list(request):
     per_page = request.GET.get('per_page', 10)
     page = request.GET.get('page', 1)
