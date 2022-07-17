@@ -1,4 +1,5 @@
 {% extends 'base2.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -6,6 +7,31 @@
     {% for object in object_list %}
         {% include 'dshunt/post_list/post.html' %}
         {% include 'dshunt/post_list/vote.html' %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPostModal">
+          Add Post
+        </button>
+
+<!-- Modal -->
+<div class="modal fade" id="addPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add To Collection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form method="post" action="/collections/{{ object.id }}/post/new/?model=post">
+          <div class="modal-body">
+              {% csrf_token %}
+            {{ add_to_coll_form|crispy }}
+          </div>
+          <div class="modal-footer">
+<!--            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+            <button type="submit" class="btn btn-primary">Add Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
     {% endfor %}
 </ul>
 

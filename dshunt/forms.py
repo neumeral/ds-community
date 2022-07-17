@@ -122,5 +122,5 @@ class AddtoCollectionForm(forms.Form):
     post = forms.ModelChoiceField(queryset=Post.objects.filter(approved=True))
 
 
-class CollectionListForm(forms.ModelForm):
+class CollectionListForm(forms.Form):
     collection = forms.ModelChoiceField(queryset=Collection.objects.all())

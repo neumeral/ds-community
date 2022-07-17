@@ -12,3 +12,6 @@
     <li>Published Date: {{ object.published_at|date }}</li>
 
     <a href="{% url 'post-detail' object.id %}"><button>View</button></a>
+
+    {% block add_to_collection %}
+    {% endblock add_to_collection %}

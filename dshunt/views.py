@@ -99,6 +99,7 @@ class PostListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['add_to_coll_form'] = CollectionListForm()
         per_page = self.request.GET.get("per_page")
         if per_page:
             self.paginate_by = per_page
@@ -366,7 +367,7 @@ def add_post_to_collection_view(request, pk):
             coll_obj.posts.add(post)
             return redirect('collection-detail', pk=pk)
         else:
-            return render('collection-detail', pk=pk)
+            return redirect('collection-detail', pk=pk)
     else:
         return redirect('root')
 
