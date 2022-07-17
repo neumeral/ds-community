@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -17,7 +18,9 @@ from .forms import (
     PostTypeForm,
     TutorialCreateForm,
     VideoCreateForm,
-    CollectionForm
+    CollectionForm,
+    CollectionListForm,
+    AddtoCollectionForm
 )
 from .models import (
     Book,
@@ -307,7 +310,7 @@ def collection_create_view(request):
             form.instance.created_user = request.user
             form.save()
             for post in posts:
-                form.posts.add(post)
+                form.instance.posts.add(post)
             return redirect('collection-list')
         else:
             return render(request, 'dshunt/collection/collection_form.html', {'form':  form})
@@ -332,7 +335,38 @@ def collection_list_view(request):
     return render(request, 'dshunt/collection/collection_list.html', context)
 
 
-def collection_detail_view(request, id):
-    collection = get_object_or_404(Collection, pk=id)
-    context = {'collection': collection}
+def collection_detail_view(request, pk):
+    collection = get_object_or_404(Collection, pk=pk)
+    posts = collection.posts.select_related()
+    context = {'collection': collection,
+               'add_to_coll_form': AddtoCollectionForm(),
+               'post_list': posts.order_by('title'),
+               'posts_count': posts.count()
+               }
     return render(request, template_name='dshunt/collection/collection_detail.html', context=context)
+
+
+def add_post_to_collection_view(request, pk):
+
+    if request.method == 'POST':
+
+        model_name = request.GET.get('model')
+        if model_name == 'collection':
+            form = AddtoCollectionForm(request.POST)
+            coll_obj = Collection.objects.get(id=pk)
+            post = request.POST['post']
+        elif model_name == 'post':
+            form = AddtoCollectionForm(request.POST)
+            coll_obj = request.POST['collection']
+            post = Post.objects.get(pk=pk)
+        else:
+            return HttpResponseNotFound('Get request not found')
+
+        if form.is_valid():
+            coll_obj.posts.add(post)
+            return redirect('collection-detail', pk=pk)
+        else:
+            return render('collection-detail', pk=pk)
+    else:
+        return redirect('root')
+

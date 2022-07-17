@@ -1,9 +1,39 @@
 {% extends 'base2.html' %}
+{% load crispy_forms_tags %}
 
 {% block main %}
   <h2>Collection Detail</h2>
 
-  <a href="#"><button>Add Post</button></a>
+{{ add_to_coll_form.errors }}
+
+  <!--Modal to add post to collection-->
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPostModal">
+  Add Post
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="addPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Post to {{ collection.title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form method="post" action="/collections/{{ collection.pk }}/post/new/?model=collection">
+          <div class="modal-body">
+              {% csrf_token %}
+            {{ add_to_coll_form|crispy }}
+          </div>
+          <div class="modal-footer">
+<!--            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+            <button type="submit" class="btn btn-primary">Add Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <div class="p-4">
     <p>Title: {{ collection.title }}</p>
@@ -12,11 +42,12 @@
     <p>is_public: {{ collection.is_public }}</p>
     <p>Created User: {{ collection.created_user }}</p>
     <p>Created At: {{ collection.created_at }}</p>
+    <p>Post count: {{ posts_count }}</p>
     <p>Posts
     {% if collection.posts %}
       <div>
         <ul>
-          {% for object in collection.posts.all %}
+          {% for object in post_list %}
             {% include 'dshunt/post_list/post.html' %}
           {% endfor %}
         </ul>
@@ -24,4 +55,5 @@
     {% endif %}
     </p>
   </div>
+
 {% endblock %}

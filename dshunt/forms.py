@@ -109,3 +109,18 @@ class CollectionForm(forms.ModelForm):
             'is_staffpick',
             'is_public'
         )
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        cols = Collection.objects.filter(title__iexact=title).select_related()
+        if cols.exists():
+            raise forms.ValidationError("Title already exists")
+        return title
+
+
+class AddtoCollectionForm(forms.Form):
+    post = forms.ModelChoiceField(queryset=Post.objects.filter(approved=True))
+
+
+class CollectionListForm(forms.ModelForm):
+    collection = forms.ModelChoiceField(queryset=Collection.objects.all())

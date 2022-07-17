@@ -47,9 +47,9 @@ urlpatterns = [
 
     # Collection
     path('collections/', views.collection_list_view, name='collection-list'),
-    path('collections/<int:id>/', views.collection_detail_view, name='collection-detail'),
+    path('collections/<int:pk>/', views.collection_detail_view, name='collection-detail'),
     path('collections/new/', views.collection_create_view, name='collection-create'),
-    # path('collections/<int:pk>/post/new/', views.add_post_to_collection_view, name='add-to-collection'),
+    path('collections/<int:pk>/post/new/', views.add_post_to_collection_view, name='add-to-collection'),
 
     # category
     path("category/", views.category, name="category"),
