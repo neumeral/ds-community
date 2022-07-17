@@ -319,7 +319,7 @@ def collection_create_view(request):
 
 
 def collection_list_view(request):
-    per_page = request.GET.get('per_page', 1)
+    per_page = request.GET.get('per_page', 10)
     page = request.GET.get('page', 1)
     is_paginated = True
 
@@ -370,4 +370,25 @@ def add_post_to_collection_view(request, pk):
             return redirect('collection-detail', pk=pk)
     else:
         return redirect('root')
+
+
+# Staff Picks
+
+def staff_pick_collection_list(request):
+    per_page = request.GET.get('per_page', 10)
+    page = request.GET.get('page', 1)
+    is_paginated = True
+
+    collections = Collection.objects.filter(is_staffpick=True, created_user=request.user)
+
+    paginator = Paginator(collections, int(per_page))
+    page_obj = paginator.page(int(page))
+    context = dict()
+    # object_list = page_obj.object_list
+    # context['object_list'] = object_list
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+    context['is_paginated'] = is_paginated
+
+    return render(request, 'dshunt/collection/collection_list.html', context)
 

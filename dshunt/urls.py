@@ -50,6 +50,7 @@ urlpatterns = [
     path('collections/<int:pk>/', views.collection_detail_view, name='collection-detail'),
     path('collections/new/', views.collection_create_view, name='collection-create'),
     path('collections/<int:pk>/post/new/', views.add_post_to_collection_view, name='add-to-collection'),
+    path('collections/staff-pick/', views.staff_pick_collection_list, name='staff-pick-collection'),
 
     # category
     path("category/", views.category, name="category"),
