@@ -7,11 +7,12 @@ from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.views.generic.dates import DayArchiveView
 from django.core.paginator import Paginator
 
 from .forms import (
+    UserProfileUpdateForm,
     BookCreateForm,
     CommentForm,
     PodcastEpisodeCreateForm,
@@ -23,6 +24,7 @@ from .forms import (
     AddtoCollectionForm
 )
 from .models import (
+    UserProfile,
     Book,
     Category,
     PodcastEpisode,
@@ -31,8 +33,52 @@ from .models import (
     PostVote,
     Tutorial,
     Video,
-    Collection
+    Collection,
+    AppUser
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+# User
+
+class UserProfileDetailsView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = get_object_or_404(AppUser, pk=self.kwargs['pk'])
+        user_obj, created = UserProfile.objects.get_or_create(user=user, defaults={'headline': 'Headline'})
+        context = dict()
+        context['object'] = user_obj
+        return render(self.request, 'user/user_profile_detail.html', context)
+
+
+class UserProfileUpdateView(UpdateView):
+    form_class = UserProfileUpdateForm
+    model = UserProfile
+    pk_url_kwarg = 'pk'
+    template_name = 'user/user_update_form.html'
+
+
+class UserSubmittedListView(ListView):
+    paginate_by = 10
+    page_kwarg = 'page'
+    template_name = 'user/user_post_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(approved=False, created_user_id=self.kwargs['pk'])
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['add_to_coll_form'] = CollectionListForm()
+        return context
+
+
+class UserUpvotedPostListView(UserSubmittedListView):
+    def get_queryset(self):
+        return Post.objects.filter(postvote__created_user_id=self.kwargs['pk'])
+
+
+class UserApprovedPostListView(UserSubmittedListView):
+    def get_queryset(self):
+        return Post.objects.filter(postvote__created_user_id=self.kwargs['pk'])
 
 
 @method_decorator(login_required, name="dispatch")

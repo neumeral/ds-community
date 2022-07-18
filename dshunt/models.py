@@ -24,9 +24,14 @@ class UserProfile(models.Model):
     linkedin = models.URLField(blank=True, null=True)
     youtube_channel = models.URLField(blank=True, null=True)
 
+    def __str__(self):
+        return str(self.user.email)
+
+    def get_absolute_url(self):
+        return reverse('user-profile', kwargs={'pk': self.user.pk})
+
 
 # ------------- POSTS -------------- #
-
 
 class Category(models.Model):
     name = models.CharField(max_length=50)

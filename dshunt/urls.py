@@ -7,6 +7,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # path('accounts/', include('django.contrib.auth.urls')),
     path("accounts/", include("allauth.urls")),
+    path("user/<int:pk>/", views.UserProfileDetailsView.as_view(), name='user-profile'),
+    path("user/<int:pk>/update/", views.UserProfileUpdateView.as_view(), name='user-profile-update'),
+    path("user/<int:pk>/submitted-list/", views.UserSubmittedListView.as_view(), name='user-submitted-post'),
+    path("user/<int:pk>/upvoted-list/", views.UserUpvotedPostListView.as_view(), name='user-upvoted-post'),
+    path("user/<int:pk>/approved-list/", views.UserApprovedPostListView.as_view(), name='user-approved-post'),
 
     # Post List
     path("", views.PostListHomeView.as_view(), name="root"),
