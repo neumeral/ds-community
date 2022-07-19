@@ -4,17 +4,7 @@
     <h2>Post Detail</h2>
 
     <ul>
-        <li>Post Type: {{ object.post_type }}</li>
-        <li>Category: {{ object.category }}</li>
-        <li>Title: {{ object.title }}</li>
-        <li>Description: {{ object.description }}</li>
-        <li>Tags: {{ object.tags }}</li>
-        <li>Link: {{ object.link }}</li>
-        <li>Author: {{ object.author }}</li>
-        <li>Channel: {{ object.channel }}</li>
-        <li>Podcast: {{ object.podcast }}</li>
-        <li>Published Date: {{ object.published_at|date }}</li>
-        <li>Vote: {{ object.get_vote_count }}</li>
+        {% include 'dshunt/post_list/post.html' with from_post_detail=True %}
         <li>Comments Count: {{ comments_count }}</li>
 
         {% include 'dshunt/post_detail/post_comment_form.html' %}

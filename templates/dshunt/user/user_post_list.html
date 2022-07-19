@@ -5,7 +5,7 @@
 
 <ul>
     {% for object in object_list %}
-        {% include 'dshunt/post_list/post.html' %}
+        {% include 'dshunt/post_list/post.html' with from_user_profile=True %}
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPostModal">
           Add To Collection
         </button>

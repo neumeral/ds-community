@@ -15,5 +15,14 @@
   <li>Github profile: {{ object.github_profile }}</li>
   <li>Linked In: {{ object.linkedin }}</li>
   <li>Youtube Channel: {{ object.youtube_channel }}</li>
+
+<!--  User's Post-->
+  <br>
+    <b>Post</b>
+  <br>
+  <li>Post Count: {{ post_count }}</li>
+  <l1><a href="{% url 'user-approved-post' object.user.pk %}">View posts</a></l1>
+
+
 </ul>
 {% endblock %}

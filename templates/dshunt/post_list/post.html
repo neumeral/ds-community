@@ -5,13 +5,22 @@
     <li>Description: {{ object.description }}</li>
     <li>Tags: {{ object.tags }}</li>
     <li>Link: {{ object.link }}</li>
-    <li>Author: {{ object.author.name }}</li>
-    <li>Channel: {{ object.channel.name }}</li>
-    <li>Podcast: {{ object.podcast.name }}</li>
+    <li>Author: {{ object.author }}</li>
+    <li>Channel: {{ object.channel }}</li>
+    <li>Podcast: {{ object.podcast }}</li>
+    {% if not from_user_profile %}
+        {% if user == object.created_user %}
+        <li>Created User: <a href="{% url 'user-profile' object.created_user.id %}">You</a></li>
+        {% else %}
+        <li>Created User: <a href="{% url 'user-profile' object.created_user.id %}">{{ object.created_user }}</a></li>
+        {% endif %}
+    {% endif %}
     <li>Votes: {{ object.total_votes }}</li>
     <li>Published Date: {{ object.published_at|date }}</li>
 
-    <a href="{% url 'post-detail' object.id %}"><button>View</button></a>
+    {% if not from_post_detail %}
+        <a href="{% url 'post-detail' object.id %}"><button>View</button></a>
+    {% endif %}
 
     {% block add_to_collection %}
     {% endblock add_to_collection %}

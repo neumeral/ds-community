@@ -47,6 +47,7 @@ class UserProfileDetailsView(LoginRequiredMixin, View):
         user_obj, created = UserProfile.objects.get_or_create(user=user, defaults={'headline': 'Headline'})
         context = dict()
         context['object'] = user_obj
+        context['post_count'] = Post.objects.filter(approved=True, created_user=user).count()
         return render(self.request, 'dshunt/user/user_profile_detail.html', context)
 
 
@@ -63,7 +64,7 @@ class UserSubmittedListView(ListView):
     template_name = 'dshunt/user/user_post_list.html'
 
     def get_queryset(self):
-        return Post.objects.filter(approved=False, created_user_id=self.kwargs['pk'])
+        return Post.objects.filter(created_user_id=self.kwargs['pk'])
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -78,7 +79,7 @@ class UserUpvotedPostListView(UserSubmittedListView):
 
 class UserApprovedPostListView(UserSubmittedListView):
     def get_queryset(self):
-        return Post.objects.filter(postvote__created_user_id=self.kwargs['pk'], approved=True)
+        return Post.objects.filter(created_user_id=self.kwargs['pk'], approved=True)
 
 
 @method_decorator(login_required, name="dispatch")
