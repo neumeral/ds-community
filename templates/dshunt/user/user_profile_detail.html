@@ -1,19 +1,19 @@
 {% extends 'base2.html' %}
 
 {% block main %}
-<a href="{% url 'user-profile-update' object.id %}"><button>Update</button></a>
+<a href="{% url 'user-profile-update' object.pk %}"><button>Update</button></a>
 <ul>
-  <li>{{ object.user.email }}</li>
-  <li>{{ object.headline }}</li>
+  <li>Email: {{ object.user.email }}</li>
+  <li>Headline: {{ object.headline }}</li>
   {% if object.avatar %}
-  <li>{{ object.avatar }}</li>
+  <li>Avatar: <img src="{{ 'object.avatar.path' }}" height="200px" width="200px"></li>
   {% else %}
-  <li>No Avatar</li>
+  <li>Avatar: No avatar</li>
   {% endif %}
-  <li>{{ object.website }}</li>
-  <li>{{ object.twitter_profile }}</li>
-  <li>{{ object.github_profile }}</li>
-  <li>{{ object.linkedin }}</li>
-  <li>{{ object.youtube_channel }}</li>
+  <li>Website: {{ object.website }}</li>
+  <li>Twitter profile: {{ object.twitter_profile }}</li>
+  <li>Github profile: {{ object.github_profile }}</li>
+  <li>Linked In: {{ object.linkedin }}</li>
+  <li>Youtube Channel: {{ object.youtube_channel }}</li>
 </ul>
 {% endblock %}

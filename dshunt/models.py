@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     youtube_channel = models.URLField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.user.email)
+        return str(self.headline)
 
     def get_absolute_url(self):
         return reverse('user-profile', kwargs={'pk': self.user.pk})
