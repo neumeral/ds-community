@@ -15,6 +15,7 @@
         <li>Podcast: {{ object.podcast }}</li>
         <li>Published Date: {{ object.published_at|date }}</li>
         <li>Vote: {{ object.get_vote_count }}</li>
+        <li>Comments Count: {{ comments_count }}</li>
 
         {% include 'dshunt/post_detail/post_comment_form.html' %}
 
