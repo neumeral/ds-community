@@ -40,7 +40,7 @@
     <p>Description: {{ collection.description }}</p>
     <p>is_staffpick: {{ collection.is_staffpick }}</p>
     <p>is_public: {{ collection.is_public }}</p>
-    <p>Created User: {{ collection.created_user }}</p>
+<!--    <p>Created User: {{ collection.created_user }}</p>-->
     <p>Created At: {{ collection.created_at }}</p>
     <p>Post count: {{ posts_count }}</p>
     <p>Posts
@@ -48,7 +48,7 @@
       <div>
         <ul>
           {% for object in post_list %}
-            {% include 'dshunt/post_list/post.html' %}
+            {% include 'dshunt/post_list/post.html' with from_user_profile=True %}
           {% endfor %}
         </ul>
       </div>

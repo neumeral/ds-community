@@ -48,6 +48,7 @@ class UserProfileDetailsView(LoginRequiredMixin, View):
         context = dict()
         context['object'] = user_obj
         context['post_count'] = Post.objects.filter(approved=True, created_user=user).count()
+        context['collection_count'] = Collection.objects.filter(created_user=user).count()
         return render(self.request, 'dshunt/user/user_profile_detail.html', context)
 
 
@@ -80,6 +81,44 @@ class UserUpvotedPostListView(UserSubmittedListView):
 class UserApprovedPostListView(UserSubmittedListView):
     def get_queryset(self):
         return Post.objects.filter(created_user_id=self.kwargs['pk'], approved=True)
+
+
+class UserCollectionListView(View):
+    template_name = 'dshunt/user/user_collection_list.html'
+    paginate_by = 25
+    context = dict()
+
+    def get(self, request, **kwargs):
+        page = self.request.GET.get('page', 1)
+        pk = self.kwargs['pk']
+        c = Collection.objects.filter(created_user_id=pk)
+        paginator = Paginator(c, self.paginate_by)
+        page_obj = paginator.page(page)
+        self.context['paginator'] = paginator
+        self.context['page_obj'] = page_obj
+        return render(request, template_name=self.template_name, context=self.context)
+
+
+class UserCollectionDetailView(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        page = request.GET.get('page', 1)
+        per_page = request.GET.get('per_page', 25)
+        collection = get_object_or_404(Collection, pk=pk)
+        posts = collection.posts.select_related().order_by('-title')
+
+        paginator = Paginator(posts, per_page)
+        page_obj = paginator.page(page)
+
+        context = {
+            'collection': collection,
+            'add_to_coll_form': AddtoCollectionForm(),
+            'post_list': page_obj.object_list,
+            'paginator': paginator,
+            'page_obj': page_obj,
+            'posts_count': posts.count()
+            }
+        return render(request, template_name='dshunt/user/user_collection_detail.html', context=context)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -308,6 +347,11 @@ class PostDetailView(DetailView):
         return context
 
 
+class UserPostDetailView(PostDetailView):
+    queryset = Post.objects.filter(approved=True)
+    template_name = "dshunt/user/user_post_detail.html"
+
+
 class CommentCreateView(CreateView):
     form_class = CommentForm
     template_name = "dshunt/post_detail/post_comment_form.html"
@@ -387,11 +431,19 @@ def collection_list_view(request):
 
 @login_required
 def collection_detail_view(request, pk):
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 25)
     collection = get_object_or_404(Collection, pk=pk)
-    posts = collection.posts.select_related()
+    posts = collection.posts.select_related().order_by('-title')
+
+    paginator = Paginator(posts, per_page)
+    page_obj = paginator.page(page)
+
     context = {'collection': collection,
                'add_to_coll_form': AddtoCollectionForm(),
-               'post_list': posts.order_by('title'),
+               'post_list': page_obj.object_list,
+               'paginator': paginator,
+               'page_obj': page_obj,
                'posts_count': posts.count()
                }
     return render(request, template_name='dshunt/collection/collection_detail.html', context=context)

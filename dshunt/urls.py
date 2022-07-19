@@ -12,6 +12,9 @@ urlpatterns = [
     path("user/<int:pk>/submitted-list/", views.UserSubmittedListView.as_view(), name='user-submitted-post'),
     path("user/<int:pk>/upvoted-list/", views.UserUpvotedPostListView.as_view(), name='user-upvoted-post'),
     path("user/<int:pk>/approved-list/", views.UserApprovedPostListView.as_view(), name='user-approved-post'),
+    path("user/<int:pk>/post-detail/", views.UserPostDetailView.as_view(), name='user-post-detail'),
+    path('user/<int:pk>/collection-list/', views.UserCollectionListView.as_view(), name='user-collection-list'),
+    path('user/<int:pk>/collection-detail/', views.UserCollectionDetailView.as_view(), name='user-collection-detail'),
 
     # Post List
     path("", views.PostListHomeView.as_view(), name="root"),

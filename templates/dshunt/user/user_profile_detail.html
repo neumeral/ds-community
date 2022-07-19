@@ -23,6 +23,12 @@
   <li>Post Count: {{ post_count }}</li>
   <l1><a href="{% url 'user-approved-post' object.user.pk %}">View posts</a></l1>
 
+  <br>
+    <b>Collection</b>
+  <br>
+  <li>Collection Count: {{ collection_count }}</li>
+  <l1><a href="{% url 'user-collection-list' object.user.pk %}">View collections</a></l1>
+
 
 </ul>
 {% endblock %}
