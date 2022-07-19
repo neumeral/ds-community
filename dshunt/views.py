@@ -47,20 +47,20 @@ class UserProfileDetailsView(LoginRequiredMixin, View):
         user_obj, created = UserProfile.objects.get_or_create(user=user, defaults={'headline': 'Headline'})
         context = dict()
         context['object'] = user_obj
-        return render(self.request, 'user/user_profile_detail.html', context)
+        return render(self.request, 'dshunt/user/user_profile_detail.html', context)
 
 
 class UserProfileUpdateView(UpdateView):
     form_class = UserProfileUpdateForm
     model = UserProfile
     pk_url_kwarg = 'pk'
-    template_name = 'user/user_update_form.html'
+    template_name = 'dshunt/user/user_update_form.html'
 
 
 class UserSubmittedListView(ListView):
     paginate_by = 10
     page_kwarg = 'page'
-    template_name = 'user/user_post_list.html'
+    template_name = 'dshunt/user/user_post_list.html'
 
     def get_queryset(self):
         return Post.objects.filter(approved=False, created_user_id=self.kwargs['pk'])
@@ -78,7 +78,7 @@ class UserUpvotedPostListView(UserSubmittedListView):
 
 class UserApprovedPostListView(UserSubmittedListView):
     def get_queryset(self):
-        return Post.objects.filter(postvote__created_user_id=self.kwargs['pk'])
+        return Post.objects.filter(postvote__created_user_id=self.kwargs['pk'], approved=True)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -406,18 +406,20 @@ def add_post_to_collection_view(request, pk):
             form = AddtoCollectionForm(request.POST)
             coll_obj = Collection.objects.get(id=pk)
             post = request.POST['post']
+            col_id = pk
         elif model_name == 'post':
             form = AddtoCollectionForm(request.POST)
             coll_obj = request.POST['collection']
             post = Post.objects.get(pk=pk)
+            col_id = coll_obj
         else:
             return HttpResponseNotFound('Get request not found')
 
         if form.is_valid():
             coll_obj.posts.add(post)
-            return redirect('collection-detail', pk=pk)
+            return redirect('collection-detail', pk=col_id)
         else:
-            return redirect('collection-detail', pk=pk)
+            return redirect('collection-detail', pk=col_id)
     else:
         return redirect('root')
 

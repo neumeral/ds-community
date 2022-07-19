@@ -18,7 +18,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Add To Collection</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <form method="post" action="/collections/{{ object.id }}/post/new/?model=collection">
+        <form method="post" action="/collections/{{ object.id }}/post/new/?model=post">
           <div class="modal-body">
               {% csrf_token %}
             {{ add_to_coll_form|crispy }}
