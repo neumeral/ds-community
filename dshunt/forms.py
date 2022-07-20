@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import AppUser, Book, Video, Tutorial, PodcastEpisode, PostType
-from .models import Podcast, Channel, PostComment
+from .models import AppUser, Post, Book, Video, Tutorial, PodcastEpisode, PostType
+from .models import (Podcast, Channel, PostComment, Collection)
 
 
 class AppUserCreationForm(UserCreationForm):
@@ -97,3 +97,30 @@ class CommentForm(forms.ModelForm):
             'content',
         )
 
+
+class CollectionForm(forms.ModelForm):
+
+    class Meta:
+        model = Collection
+        fields = (
+            'title',
+            'description',
+            'posts',
+            'is_staffpick',
+            'is_public'
+        )
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        cols = Collection.objects.filter(title__iexact=title).select_related()
+        if cols.exists():
+            raise forms.ValidationError("Title already exists")
+        return title
+
+
+class AddtoCollectionForm(forms.Form):
+    post = forms.ModelChoiceField(queryset=Post.objects.filter(approved=True))
+
+
+class CollectionListForm(forms.Form):
+    collection = forms.ModelChoiceField(queryset=Collection.objects.all())

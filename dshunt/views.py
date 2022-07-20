@@ -3,11 +3,13 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.dates import DayArchiveView
+from django.core.paginator import Paginator
 
 from .forms import (
     BookCreateForm,
@@ -16,6 +18,9 @@ from .forms import (
     PostTypeForm,
     TutorialCreateForm,
     VideoCreateForm,
+    CollectionForm,
+    CollectionListForm,
+    AddtoCollectionForm
 )
 from .models import (
     Book,
@@ -26,6 +31,7 @@ from .models import (
     PostVote,
     Tutorial,
     Video,
+    Collection
 )
 
 
@@ -93,6 +99,7 @@ class PostListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['add_to_coll_form'] = CollectionListForm()
         per_page = self.request.GET.get("per_page")
         if per_page:
             self.paginate_by = per_page
@@ -290,3 +297,103 @@ def category(request):
     categories = Category.objects.all()
     context = {"categories": categories}
     return render(request, "dshunt/category.html", context)
+
+
+# Collections
+
+@login_required
+def collection_create_view(request):
+    form = CollectionForm()
+
+    if request.method == 'POST':
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            posts = form.cleaned_data.get('posts')
+            form.instance.created_user = request.user
+            form.save()
+            for post in posts:
+                form.instance.posts.add(post)
+            return redirect('collection-list')
+        else:
+            return render(request, 'dshunt/collection/collection_form.html', {'form':  form})
+    return render(request, 'dshunt/collection/collection_form.html', {'form':  form})
+
+
+@login_required
+def collection_list_view(request):
+    per_page = request.GET.get('per_page', 10)
+    page = request.GET.get('page', 1)
+    is_paginated = True
+
+    collections = Collection.objects.filter(created_user=request.user)
+    paginator = Paginator(collections, int(per_page))
+    page_obj = paginator.page(int(page))
+    context = dict()
+    # object_list = page_obj.object_list
+    # context['object_list'] = object_list
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+    context['is_paginated'] = is_paginated
+
+    return render(request, 'dshunt/collection/collection_list.html', context)
+
+
+@login_required
+def collection_detail_view(request, pk):
+    collection = get_object_or_404(Collection, pk=pk)
+    posts = collection.posts.select_related()
+    context = {'collection': collection,
+               'add_to_coll_form': AddtoCollectionForm(),
+               'post_list': posts.order_by('title'),
+               'posts_count': posts.count()
+               }
+    return render(request, template_name='dshunt/collection/collection_detail.html', context=context)
+
+
+@login_required
+def add_post_to_collection_view(request, pk):
+
+    if request.method == 'POST':
+
+        model_name = request.GET.get('model')
+        if model_name == 'collection':
+            form = AddtoCollectionForm(request.POST)
+            coll_obj = Collection.objects.get(id=pk)
+            post = request.POST['post']
+        elif model_name == 'post':
+            form = AddtoCollectionForm(request.POST)
+            coll_obj = request.POST['collection']
+            post = Post.objects.get(pk=pk)
+        else:
+            return HttpResponseNotFound('Get request not found')
+
+        if form.is_valid():
+            coll_obj.posts.add(post)
+            return redirect('collection-detail', pk=pk)
+        else:
+            return redirect('collection-detail', pk=pk)
+    else:
+        return redirect('root')
+
+
+# Staff Picks
+
+@login_required
+def staff_pick_collection_list(request):
+    per_page = request.GET.get('per_page', 10)
+    page = request.GET.get('page', 1)
+    is_paginated = True
+
+    collections = Collection.objects.filter(is_staffpick=True, created_user=request.user)
+
+    paginator = Paginator(collections, int(per_page))
+    page_obj = paginator.page(int(page))
+    context = dict()
+    # object_list = page_obj.object_list
+    # context['object_list'] = object_list
+    context['paginator'] = paginator
+    context['page_obj'] = page_obj
+    context['is_paginated'] = is_paginated
+
+    return render(request, 'dshunt/collection/collection_list.html', context)
+

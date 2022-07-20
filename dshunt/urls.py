@@ -7,6 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # path('accounts/', include('django.contrib.auth.urls')),
     path("accounts/", include("allauth.urls")),
+
     # Post List
     path("", views.PostListHomeView.as_view(), name="root"),
     path("posts/", views.PostListView.as_view(), name="posts"),
@@ -21,6 +22,7 @@ urlpatterns = [
     path(
         "podcast-episodes/", views.PodcastEpisodeListView.as_view(), name="podcast-list"
     ),
+
     # Post Submit
     path("post/", views.PostSubmitPageView.as_view(), name="post-submit"),
     path("books/new/", views.BookCreateView.as_view(), name="book-create"),
@@ -31,6 +33,7 @@ urlpatterns = [
         views.PodcastEpisodeCreateView.as_view(),
         name="podcast-episode-create",
     ),
+
     # Post Detail
     path("posts/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),
     path(
@@ -38,8 +41,17 @@ urlpatterns = [
         views.CommentCreateView.as_view(),
         name="post-comment-create",
     ),
-    # category
-    path("category/", views.category, name="category"),
+
     # vote
     path("post/<int:id>/vote", views.Vote.as_view(), name="post-vote"),
+
+    # Collection
+    path('collections/', views.collection_list_view, name='collection-list'),
+    path('collections/<int:pk>/', views.collection_detail_view, name='collection-detail'),
+    path('collections/new/', views.collection_create_view, name='collection-create'),
+    path('collections/<int:pk>/post/new/', views.add_post_to_collection_view, name='add-to-collection'),
+    path('collections/staff-pick/', views.staff_pick_collection_list, name='staff-pick-collection'),
+
+    # category
+    path("category/", views.category, name="category"),
 ]
