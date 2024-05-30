@@ -1,11 +1,11 @@
 {% extends 'base2.html' %}
 
 {% block main %}
-    <h2>Post Detail</h2>
+    <h2>User Post Detail</h2>
 
-    <ul>
-        {% include 'dshunt/post_list/post.html' with from_post_detail=True %}
-        <li>Comments Count: {{ comments_count }}</li>
+    {% include 'dshunt/user/user_post.html' with from_post_detail=True %}
+
+    <li>Comments Count: {{ comments_count }}</li>
 
         {% include 'dshunt/post_detail/post_comment_form.html' %}
 
@@ -18,10 +18,10 @@
                 {% endfor %}
             </ol>
 
-
             {% if comments_count > 5 and comments|length == 5 %}
                 <a href="?comment=all">view all</a>
             {% endif %}
         </div>
     </ul>
+
 {% endblock main %}

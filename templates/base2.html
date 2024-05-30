@@ -47,6 +47,7 @@
         <button class="btn btn-outline-primary">{{ user.username }}</button>
       <a href="{% url 'account_logout' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Logout</button></a>
       {% else %}
+      <a href="{% url 'account_signup' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Register</button></a>
       <a href="{% url 'account_login' %}"><button type="button" class="btn text-white px-4 tw-bg-indigo-700">Login</button></a>
       {% endif %}
   </div>

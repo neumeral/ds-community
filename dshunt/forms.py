@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from .models import AppUser, Post, Book, Video, Tutorial, PodcastEpisode, PostType
+from .models import AppUser, UserProfile, Post, Book, Video, Tutorial, PodcastEpisode, PostType
 from .models import (Podcast, Channel, PostComment, Collection)
 
 
@@ -17,6 +17,20 @@ class AppUserChangeForm(UserChangeForm):
     class Meta:
         model = AppUser
         fields = ['email']
+
+
+class UserProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = [
+            'headline',
+            'avatar',
+            'website',
+            'twitter_profile',
+            'github_profile',
+            'linkedin',
+            'youtube_channel',
+        ]
 
 
 class PostTypeForm(forms.Form):

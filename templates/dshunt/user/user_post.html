@@ -8,18 +8,13 @@
     <li>Author: {{ object.author }}</li>
     <li>Channel: {{ object.channel }}</li>
     <li>Podcast: {{ object.podcast }}</li>
-
-    {% if user == object.created_user %}
-        <li>Created User: <a href="{% url 'user-profile' object.created_user.id %}">You</a></li>
-    {% else %}
-        <li>Created User: <a href="{% url 'user-profile' object.created_user.id %}">{{ object.created_user }}</a></li>
-    {% endif %}
+    <li>Podcast: {{ from_user_profile }}</li>
 
     <li>Votes: {{ object.total_votes }}</li>
     <li>Published Date: {{ object.published_at|date }}</li>
 
     {% if not from_post_detail %}
-        <a href="{% url 'post-detail' object.id %}"><button>View</button></a>
+        <a href="{% url 'user-post-detail' object.id %}"><button>View</button></a>
     {% endif %}
 
     {% block add_to_collection %}

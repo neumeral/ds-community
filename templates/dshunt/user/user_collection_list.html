@@ -1,0 +1,27 @@
+{% extends 'base2.html' %}
+
+{% block main %}
+  <h2>Collections</h2>
+<!--  <a href="{% url 'collection-create' %}"><button>Create Collection</button></a>-->
+  <ul>
+    {% for object in page_obj.object_list %}
+      <li>
+        <ol type="1">
+          <li>{{ object.title }}</li>
+          <li>{{ object.description }}</li>
+          <li>{{ object.is_staffpick }}</li>
+          <li>{{ object.is_public }}</li>
+          <li>{{ object.created_user }}</li>
+          <li>{{ object.created_at }}</li>
+          <li><a href="{% url 'user-collection-detail' object.id %}"><button>View</button></a></li>
+        </ol>
+      </li>
+    {% empty %}
+    <h5>No collections exists !</h5>
+    {% endfor %}
+  </ul>
+
+<!-- Pagination -->
+{% include 'dshunt/pagination.html' %}
+
+{% endblock %}

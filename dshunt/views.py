@@ -7,11 +7,12 @@ from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.views.generic.dates import DayArchiveView
 from django.core.paginator import Paginator
 
 from .forms import (
+    UserProfileUpdateForm,
     BookCreateForm,
     CommentForm,
     PodcastEpisodeCreateForm,
@@ -23,6 +24,7 @@ from .forms import (
     AddtoCollectionForm
 )
 from .models import (
+    UserProfile,
     Book,
     Category,
     PodcastEpisode,
@@ -31,8 +33,92 @@ from .models import (
     PostVote,
     Tutorial,
     Video,
-    Collection
+    Collection,
+    AppUser
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+# User
+
+class UserProfileDetailsView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        user = get_object_or_404(AppUser, pk=self.kwargs['pk'])
+        user_obj, created = UserProfile.objects.get_or_create(user=user, defaults={'headline': 'Headline'})
+        context = dict()
+        context['object'] = user_obj
+        context['post_count'] = Post.objects.filter(approved=True, created_user=user).count()
+        context['collection_count'] = Collection.objects.filter(created_user=user).count()
+        return render(self.request, 'dshunt/user/user_profile_detail.html', context)
+
+
+class UserProfileUpdateView(UpdateView):
+    form_class = UserProfileUpdateForm
+    model = UserProfile
+    pk_url_kwarg = 'pk'
+    template_name = 'dshunt/user/user_update_form.html'
+
+
+class UserSubmittedListView(ListView):
+    paginate_by = 10
+    page_kwarg = 'page'
+    template_name = 'dshunt/user/user_post_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(created_user_id=self.kwargs['pk'])
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['add_to_coll_form'] = CollectionListForm()
+        return context
+
+
+class UserUpvotedPostListView(UserSubmittedListView):
+    def get_queryset(self):
+        return Post.objects.filter(postvote__created_user_id=self.kwargs['pk'])
+
+
+class UserApprovedPostListView(UserSubmittedListView):
+    def get_queryset(self):
+        return Post.objects.filter(created_user_id=self.kwargs['pk'], approved=True)
+
+
+class UserCollectionListView(View):
+    template_name = 'dshunt/user/user_collection_list.html'
+    paginate_by = 25
+    context = dict()
+
+    def get(self, request, **kwargs):
+        page = self.request.GET.get('page', 1)
+        pk = self.kwargs['pk']
+        c = Collection.objects.filter(created_user_id=pk)
+        paginator = Paginator(c, self.paginate_by)
+        page_obj = paginator.page(page)
+        self.context['paginator'] = paginator
+        self.context['page_obj'] = page_obj
+        return render(request, template_name=self.template_name, context=self.context)
+
+
+class UserCollectionDetailView(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        page = request.GET.get('page', 1)
+        per_page = request.GET.get('per_page', 25)
+        collection = get_object_or_404(Collection, pk=pk)
+        posts = collection.posts.select_related().order_by('-title')
+
+        paginator = Paginator(posts, per_page)
+        page_obj = paginator.page(page)
+
+        context = {
+            'collection': collection,
+            'add_to_coll_form': AddtoCollectionForm(),
+            'post_list': page_obj.object_list,
+            'paginator': paginator,
+            'page_obj': page_obj,
+            'posts_count': posts.count()
+            }
+        return render(request, template_name='dshunt/user/user_collection_detail.html', context=context)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -261,6 +347,11 @@ class PostDetailView(DetailView):
         return context
 
 
+class UserPostDetailView(PostDetailView):
+    queryset = Post.objects.filter(approved=True)
+    template_name = "dshunt/user/user_post_detail.html"
+
+
 class CommentCreateView(CreateView):
     form_class = CommentForm
     template_name = "dshunt/post_detail/post_comment_form.html"
@@ -340,11 +431,19 @@ def collection_list_view(request):
 
 @login_required
 def collection_detail_view(request, pk):
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 25)
     collection = get_object_or_404(Collection, pk=pk)
-    posts = collection.posts.select_related()
+    posts = collection.posts.select_related().order_by('-title')
+
+    paginator = Paginator(posts, per_page)
+    page_obj = paginator.page(page)
+
     context = {'collection': collection,
                'add_to_coll_form': AddtoCollectionForm(),
-               'post_list': posts.order_by('title'),
+               'post_list': page_obj.object_list,
+               'paginator': paginator,
+               'page_obj': page_obj,
                'posts_count': posts.count()
                }
     return render(request, template_name='dshunt/collection/collection_detail.html', context=context)
@@ -360,18 +459,20 @@ def add_post_to_collection_view(request, pk):
             form = AddtoCollectionForm(request.POST)
             coll_obj = Collection.objects.get(id=pk)
             post = request.POST['post']
+            col_id = pk
         elif model_name == 'post':
             form = AddtoCollectionForm(request.POST)
             coll_obj = request.POST['collection']
             post = Post.objects.get(pk=pk)
+            col_id = coll_obj
         else:
             return HttpResponseNotFound('Get request not found')
 
         if form.is_valid():
             coll_obj.posts.add(post)
-            return redirect('collection-detail', pk=pk)
+            return redirect('collection-detail', pk=col_id)
         else:
-            return redirect('collection-detail', pk=pk)
+            return redirect('collection-detail', pk=col_id)
     else:
         return redirect('root')
 

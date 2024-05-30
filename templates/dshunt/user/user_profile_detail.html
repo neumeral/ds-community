@@ -1,0 +1,34 @@
+{% extends 'base2.html' %}
+
+{% block main %}
+<a href="{% url 'user-profile-update' object.pk %}"><button>Update</button></a>
+<ul>
+  <li>Email: {{ object.user.email }}</li>
+  <li>Headline: {{ object.headline }}</li>
+  {% if object.avatar %}
+  <li>Avatar: <img src="{{ 'object.avatar.url' }}" height="200px" width="200px"></li>
+  {% else %}
+  <li>Avatar: No avatar</li>
+  {% endif %}
+  <li>Website: {{ object.website }}</li>
+  <li>Twitter profile: {{ object.twitter_profile }}</li>
+  <li>Github profile: {{ object.github_profile }}</li>
+  <li>Linked In: {{ object.linkedin }}</li>
+  <li>Youtube Channel: {{ object.youtube_channel }}</li>
+
+<!--  User's Post-->
+  <br>
+    <b>Post</b>
+  <br>
+  <li>Post Count: {{ post_count }}</li>
+  <l1><a href="{% url 'user-approved-post' object.user.pk %}">View posts</a></l1>
+
+  <br>
+    <b>Collection</b>
+  <br>
+  <li>Collection Count: {{ collection_count }}</li>
+  <l1><a href="{% url 'user-collection-list' object.user.pk %}">View collections</a></l1>
+
+
+</ul>
+{% endblock %}
