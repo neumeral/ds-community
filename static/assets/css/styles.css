@@ -23,6 +23,7 @@ html, body {
   color: #2945b1;
   font-weight: bold;
 }
+
 .btn-outline-secondary:hover{
   color:  white;
 }

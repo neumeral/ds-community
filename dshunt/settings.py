@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+
 import os
 from pathlib import Path
 
@@ -100,9 +101,9 @@ DATABASES = {
     # }
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "bin",
-        "USER": "postgres",
-        "PASSWORD": "bibin1998",
+        "NAME": "dsdb",
+        "USER": "dsdb_u",
+        "PASSWORD": "dsdb_u",
         "HOST": "localhost",
         "POST": "5432",
     }
@@ -159,7 +160,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 LOGIN_REDIRECT_URL = "root"
 SITE_ID = 1
