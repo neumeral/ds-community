@@ -105,7 +105,7 @@ DATABASES = {
         "USER": "dsdb_u",
         "PASSWORD": "dsdb_u",
         "HOST": "localhost",
-        "POST": "5432",
+        "PORT": "5432",
     }
 }
 # If DATABASE_URL is provided in the config then that has higher precedence
