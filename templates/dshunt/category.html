@@ -1,11 +1,12 @@
-{% extends '_base.html' %}
+{% extends 'base2.html' %}
 
 {% block main %}
 
-<div class="row ml-3">
+<div class="row ml-3 category-grid">
     {% for category in categories %}
-    <a href="#" class="col-md-5 my-2 mx-2 bg-primary text-light" style="min-height: 100px;">
-    <div>
+    {% comment %} <a href="{% url "category" %}" class="col-md-5 my-2 mx-2 bg-primary text-light" style="min-height: 100px;border-radius: 10px;"> {% endcomment %}
+    <a href="{% url "category" %}" class="col-md-5 category-box my-2 mx-2">
+    <div class="category-content">
         <h2>{{category.name}}</h2>
         <p>{{category.description}}</p>
     </div>
