@@ -6,6 +6,7 @@ from .models import (
     AppUser,
     Book,
     Category,
+    Challenges,
     Collection,
     PodcastEpisode,
     Post,
@@ -27,6 +28,8 @@ admin.site.register(AppUser, AppUserAdmin)
 admin.site.register(UserProfile)
 
 admin.site.register(Category)
+
+admin.site.register(Challenges)
 
 
 admin.site.register(Post)

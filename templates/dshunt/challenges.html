@@ -1,0 +1,22 @@
+{% extends 'base2.html' %}
+
+{% block main %}
+<h2>Challenges</h2>
+<div class="row ml-3 challenges-grid">
+    {% for challenges in challenges %}
+    <div class="col-md-5 challenges-box my-2 mx-2">
+        <a href="{% url "challenges" %}">
+        <div class="challenges-content">
+            <h2>{{challenges.name}}</h2>
+            <p>{{challenges.description}}</p>
+            <div class="challenges-link">
+                <a href="{{challenges.link}}">Start challenge</a>
+            </div>
+        </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
