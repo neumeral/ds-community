@@ -782,11 +782,52 @@ body {
 .category-content {
   padding: 20px;
   text-align: center;
-  color: #666666;
+  color: black;
 }
 
 .category-name {
   font-weight: bold;
   margin-bottom: 10px;
-  color: #333333;
+  color: black;
+}
+
+
+/* challenges css */
+
+.challenges-grid {
+  margin: 20px auto;
+}
+
+.challenges-box {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.challenges-box:hover {
+  background-color: #ebeef1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.challenges-content {
+  padding: 20px;
+  text-align: center;
+  color: black;
+}
+
+.challenges-name {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.challenges-content h2,
+.challenges-content p {
+  color: black;
+  text-decoration: none;
+}
+
+.challenges-link {
+  text-align: right;
 }
