@@ -28,13 +28,25 @@ class UserProfile(models.Model):
         return str(self.headline)
 
     def get_absolute_url(self):
-        return reverse('user-profile', kwargs={'pk': self.user.pk})
+        return reverse("user-profile", kwargs={"pk": self.user.pk})
 
 
 # ------------- POSTS -------------- #
 
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Challenges(models.Model):
+    name = models.CharField(max_length=100)
+    link = models.URLField(blank=True, null=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -80,8 +92,12 @@ class Post(models.Model):
     tags = ArrayField(models.CharField(max_length=255), default=list)
     link = models.URLField(blank=True, null=True)
     author = models.CharField(max_length=255, blank=True, null=True)
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, blank=True, null=True)
-    podcast = models.ForeignKey(Podcast, on_delete=models.CASCADE, blank=True, null=True)
+    channel = models.ForeignKey(
+        Channel, on_delete=models.CASCADE, blank=True, null=True
+    )
+    podcast = models.ForeignKey(
+        Podcast, on_delete=models.CASCADE, blank=True, null=True
+    )
     published_at = models.DateTimeField(blank=True, null=True)
     approved_at = models.DateTimeField(blank=True, null=True)
     created_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -100,8 +116,9 @@ class Post(models.Model):
         voted = self.postvote_set.filter(created_user=user).exists()
         return voted
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
         from django.utils import timezone
 
         if self.pk:
@@ -111,7 +128,9 @@ class Post(models.Model):
         else:
             self.published_at = timezone.now()
 
-        return super().save(force_insert=False, force_update=False, using=None, update_fields=None)
+        return super().save(
+            force_insert=False, force_update=False, using=None, update_fields=None
+        )
 
 
 class PostVote(models.Model):
@@ -191,7 +210,9 @@ class TutorialManager(models.Manager):
 
 class PodcastManager(models.Manager):
     def get_queryset(self):
-        return PostQuerySet(self.model, using=self._db).filter(post_type=PostType.PODCAST)
+        return PostQuerySet(self.model, using=self._db).filter(
+            post_type=PostType.PODCAST
+        )
 
 
 class Book(Post):
