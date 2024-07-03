@@ -27,6 +27,7 @@ from .models import (
     UserProfile,
     Book,
     Category,
+    Challenges,
     PodcastEpisode,
     Post,
     PostType,
@@ -404,6 +405,12 @@ def category(request):
     return render(request, "dshunt/category.html", context)
 
 
+def challenges(request):
+    challenges = Challenges.objects.all()
+    context = {"challenges": challenges}
+    return render(request, "dshunt/challenges.html", context)
+
+
 # Collections
 
 
@@ -434,6 +441,7 @@ def collection_list_view(request):
     is_paginated = True
 
     collections = Collection.objects.filter(created_user=request.user)
+    collections = Collection.objects.order_by("title")
     paginator = Paginator(collections, int(per_page))
     page_obj = paginator.page(int(page))
     context = dict()
@@ -512,6 +520,7 @@ def staff_pick_collection_list(request):
         is_staffpick=True, created_user=request.user
     )
 
+    collections = Collection.objects.order_by("title")
     paginator = Paginator(collections, int(per_page))
     page_obj = paginator.page(int(page))
     context = dict()
